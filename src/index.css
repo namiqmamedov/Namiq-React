@@ -27,8 +27,8 @@ a{
   line-height: 1.5;
 }
 
-.MuiListItem-root a{
-  width: 100%;
+.categories a{
+  cursor: pointer;
 }
 
 .card-image img{
@@ -38,4 +38,20 @@ a{
 
 .card-image img:hover{
   opacity: 0.8;
+}
+
+.tags a {
+  cursor: pointer;
+  padding-bottom: 0;
+}
+
+.navbar{
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
 }

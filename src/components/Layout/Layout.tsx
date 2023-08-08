@@ -1,12 +1,14 @@
 import { Fragment } from 'react'
 import Header from './Header/Header'
-import Home from '../../pages/Home'
+import Routers from '../../routes/Routers'
 
 const Layout = () => {
   return (
     <Fragment>
         <Header/>
-        <Home/>
+        <Fragment>
+          <Routers/>
+        </Fragment>
     </Fragment>
   )
 }
