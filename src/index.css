@@ -8,9 +8,34 @@
   box-sizing: border-box;
 }
 
+body{
+  background: #F2F2F2 !important;
+}
+
 a{
   text-decoration: none !important;
   color: #878383 !important;
   padding-bottom: 20px;
 }
 
+.text-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow : hidden;
+  line-height: 1.5;
+}
+
+.MuiListItem-root a{
+  width: 100%;
+}
+
+.card-image img{
+  transition: .3s ease-in-out;
+  cursor: pointer;
+}
+
+.card-image img:hover{
+  opacity: 0.8;
+}
