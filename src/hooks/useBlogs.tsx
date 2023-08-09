@@ -4,16 +4,16 @@ import { blogSelectors, fetchBlogsAsync } from "../store/slice/blogSlice"
 
 const useBlogs = () => {
     const blogs = useAppSelector(blogSelectors.selectAll);
-    const {blogsLoaded} = useAppSelector(state => state.blog)
+    const {blogsLoaded,metaData} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
     
   
     useEffect(() => {
       if(!blogsLoaded) dispatch(fetchBlogsAsync());
-    }, [blogsLoaded,dispatch]) // [] that meaning endless loop blocking
+    }, [blogsLoaded,dispatch]) 
 
   return (
-    {blogs,blogsLoaded}
+    {blogs,blogsLoaded,metaData}
   )
 }
 

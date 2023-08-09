@@ -3,3 +3,8 @@ export interface Blog {
     name: string;
     pictureUrl: string;
 }
+
+export interface BlogParams {
+    pageNumber: number;
+    pageSize: number;
+}
