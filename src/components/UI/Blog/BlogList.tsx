@@ -3,9 +3,12 @@ import main01 from "../../../assets/images/main01.png";
 import { FaRegComment } from "react-icons/fa";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { BiSolidUser } from "react-icons/bi";
-import { useAppSelector } from "../../../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import { Blog } from "../../../models/blog";
 import BlogCardSkeleton from "../BlogCardSkeleton/BlogCardSkeleton";
+import AppPagination from "../AppPagination/AppPagination";
+import useBlogs from "../../../hooks/useBlogs";
+import { setPageNumber } from "../../../store/slice/blogSlice";
 
 interface Props {
   blogs?: Blog[];
@@ -13,10 +16,13 @@ interface Props {
 
 const BlogList = ({blogs}: Props) => {
    const {blogsLoaded} = useAppSelector(state => state.blog)
+   const {metaData} = useBlogs()
+   const dispatch = useAppDispatch();
+ 
   return (
     <Fragment>
       {blogs?.map(blog => (
-        <Fragment>
+        <Fragment key={blog.id}>
           {!blogsLoaded ? (
             <BlogCardSkeleton/>
           ): (
@@ -72,43 +78,12 @@ const BlogList = ({blogs}: Props) => {
           )} 
         </Fragment>
       ))}
-      <ul className="pagination pagination-sm flex justify-center mt-4">
-        <li className="page-item disabled">
-          <a className="page-link" href="#">
-            &laquo;
-          </a>
-        </li>
-        <li className="page-item active">
-          <a className="page-link" href="#">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            &raquo;
-          </a>
-        </li>
-      </ul>
+      {metaData && 
+      <AppPagination
+        metaData={metaData}
+        onPageChange={(page: number) =>
+        dispatch(setPageNumber({pageNumber: page}))}
+      />}
     </Fragment>
   );
 };

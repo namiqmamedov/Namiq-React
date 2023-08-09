@@ -9,7 +9,7 @@ export class PagenatedResponse<T> {
     items: T;
     metaData: MetaData;
 
-    constructor(items: T,metaData: MetaData) {
+    constructor(items: T, metaData: MetaData) {
         this.items = items;
         this.metaData = metaData;
     }

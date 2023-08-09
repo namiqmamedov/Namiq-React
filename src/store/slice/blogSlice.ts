@@ -17,17 +17,18 @@ function getAxiosParams(blogParams: BlogParams) {
     const params = new URLSearchParams();
     params.append('pageNumber',blogParams.pageNumber.toString());
     params.append('pageSize',blogParams.pageSize.toString());
+
     return params;
 }
 
 export const fetchBlogsAsync = createAsyncThunk<Blog[], void, {state: RootState}>(
     'blog/fetchBlogsAsync',
     async (_,thunkAPI) => {
-        debugger;
+        const params = getAxiosParams(thunkAPI.getState().blog.blogParams);
         try {
-            const response = await agent.Blog.list();
+            const response = await agent.Blog.list(params);
             thunkAPI.dispatch(setMetaData(response.metaData))
-            return response
+            return response.items;
         } catch (error: any) {
             return thunkAPI.rejectWithValue({error: error.data})
         }
