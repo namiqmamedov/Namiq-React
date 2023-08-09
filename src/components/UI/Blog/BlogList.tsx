@@ -25,13 +25,10 @@ const BlogList = ({blogs}: Props) => {
         <Fragment key={blog.id}>
           {!blogsLoaded ? (
             <BlogCardSkeleton/>
-          ): (
+          ) : (
             <div className="card border-primary mb-12">
             <div className="card-header">
-              {/* Advisory | GLPI Service Management Software Multiple Vulnerabilities
-              and Remote Code Execution */}
-              {/* <p>{blog?.name}</p> */}
-              <h1>{blog.name}</h1>
+              {blog.name}
             </div>
             <div className="card-image">
               <img

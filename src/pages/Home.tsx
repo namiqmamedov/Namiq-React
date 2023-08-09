@@ -5,9 +5,9 @@ import useBlogs from "../hooks/useBlogs"
 import Loading from "../common/Loading"
 
 const Home = () => {
-  const {blogs,blogsLoaded} = useBlogs()
+  const {blogs,filtersLoaded} = useBlogs()
 
-   if(!blogsLoaded) return <Loading/>
+  if(!filtersLoaded) return <Loading/>
 
   return (
         <div className='card__item'>

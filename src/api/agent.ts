@@ -57,7 +57,8 @@ const requests = {
 
 const Blog = {
     list: (params: URLSearchParams) => requests.get('blog/list', params),
-    details: (id: number) => requests.get(`blog/${id}`)
+    details: (id: number) => requests.get(`blog/${id}`),
+    fetchFilters: () => requests.get('blog/filters')
 }
 
 const agent = {

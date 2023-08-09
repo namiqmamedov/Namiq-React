@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
-import { blogSelectors, fetchBlogsAsync } from "../store/slice/blogSlice"
+import { blogSelectors, fetchBlogsAsync, fetchFilters } from "../store/slice/blogSlice"
 
 const useBlogs = () => {
     const blogs = useAppSelector(blogSelectors.selectAll);
-    const {blogsLoaded,metaData} = useAppSelector(state => state.blog)
+    const {blogsLoaded,filtersLoaded,metaData,category} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
     
   
@@ -12,9 +12,14 @@ const useBlogs = () => {
       if(!blogsLoaded) dispatch(fetchBlogsAsync());
     }, [blogsLoaded,dispatch]) 
 
+    useEffect(() => {
+      if(!filtersLoaded) dispatch(fetchFilters());
+    }, [filtersLoaded,dispatch]) 
+
   return (
-    {blogs,blogsLoaded,metaData}
+    {blogs,blogsLoaded,filtersLoaded,metaData,category}
   )
 }
 
 export default useBlogs
+

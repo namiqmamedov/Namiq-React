@@ -1,8 +1,17 @@
 import { List, ListItem } from '@mui/material'
 import { FaRegComment } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import CategoryList from '../CategoryList/CategoryList'
+import useBlogs from '../../../hooks/useBlogs'
+import { useAppDispatch, useAppSelector } from '../../../store/configureStore'
+import { setBlogParams } from '../../../store/slice/blogSlice'
 
 const BlogGrid = () => {
+
+    const {category} = useBlogs()
+    const {blogParams} = useAppSelector(state => state.blog)
+    const dispatch = useAppDispatch();
+
   return (
     <div className="card border-primary mb-3" >
     <div className="card-body">
@@ -61,17 +70,11 @@ const BlogGrid = () => {
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Categories</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 categories">
-           <div className="category__item flex flex-column">
-           <Link to={''}>
-            Hacking
-            </Link>
-            <Link to={''}>
-            Humour
-            </Link>
-            <Link to={''}>
-            Lockpicking
-            </Link>
-           </div>
+            <CategoryList
+              items={category}
+              checked={blogParams.category}
+              onChange={(items: string[]) => dispatch(setBlogParams({category: items}))}
+            />
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Tags</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 tags gap-2">
