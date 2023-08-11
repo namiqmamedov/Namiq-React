@@ -4,7 +4,7 @@ import { blogSelectors, fetchBlogsAsync, fetchFilters } from "../store/slice/blo
 
 const useBlogs = () => {
     const blogs = useAppSelector(blogSelectors.selectAll);
-    const {blogsLoaded,filtersLoaded,metaData,category} = useAppSelector(state => state.blog)
+    const {blogsLoaded,filtersLoaded,metaData,category,tags} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
     
   
@@ -17,7 +17,7 @@ const useBlogs = () => {
     }, [filtersLoaded,dispatch]) 
 
   return (
-    {blogs,blogsLoaded,filtersLoaded,metaData,category}
+    {blogs,blogsLoaded,filtersLoaded,metaData,category,tags}
   )
 }
 

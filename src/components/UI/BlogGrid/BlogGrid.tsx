@@ -5,10 +5,11 @@ import CategoryList from '../CategoryList/CategoryList'
 import useBlogs from '../../../hooks/useBlogs'
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore'
 import { setBlogParams } from '../../../store/slice/blogSlice'
+import TagList from '../TagList/TagList'
 
 const BlogGrid = () => {
 
-    const {category} = useBlogs()
+    const {category,tags} = useBlogs()
     const {blogParams} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
 
@@ -76,27 +77,11 @@ const BlogGrid = () => {
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Tags</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 tags gap-2">
-            <Link to={''}>
-            <span className="badge bg-dark">CTF</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">burp</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">application</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">reversing</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">reversing</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">reversing</span>
-            </Link>
-            <Link to={''}>
-            <span className="badge bg-dark">reversing</span>
-            </Link>
+            <TagList
+                 items={tags}
+                 checked={blogParams.tags}
+                 onChange={(items: string[]) => dispatch(setBlogParams({tags: items}))}
+            />
         </ListItem>
         </List>
     </div>

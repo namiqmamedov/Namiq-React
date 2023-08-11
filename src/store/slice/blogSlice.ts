@@ -11,6 +11,7 @@ interface BlogState {
     category: string[];
     tags: string[];
     categoryID: number | null;
+    tagID: number | null;
     blogParams: BlogParams;
     metaData: MetaData | null;
 }
@@ -21,7 +22,9 @@ function getAxiosParams(blogParams: BlogParams) {
     const params = new URLSearchParams();
     params.append('pageNumber',blogParams.pageNumber.toString());
     params.append('pageSize',blogParams.pageSize.toString());
+    if(blogParams.searchTerm) params.append('searchTerm',blogParams.searchTerm)
     if(blogParams.category.length > 0) params.append('category',blogParams.category.toString())
+    if(blogParams.tags.length > 0) params.append('tags',blogParams.tags.toString())
 
     return params;
 }
@@ -45,7 +48,6 @@ export const fetchFilters = createAsyncThunk(
     async(_,thunkAPI) => {
         try {
             return agent.Blog.fetchFilters();
-
         } catch (error:any) {
             return thunkAPI.rejectWithValue({error: error.data});
         }
@@ -57,6 +59,7 @@ function initParams() {
         pageNumber: 1,
         pageSize: 6,
         category: [],
+        tags: []
     }
 }
 
@@ -68,6 +71,7 @@ export const blogSlice = createSlice({
         status: 'idle',
         metaData: null,
         categoryID: null,
+        tagID: null,
         blogParams: initParams(),
         category: [],
         tags: []
@@ -103,22 +107,12 @@ export const blogSlice = createSlice({
         })
         builder.addCase(fetchFilters.fulfilled, (state,action) => {
             state.category = action.payload.category;
-
-            state.filtersLoaded = true;
-        })
-        builder.addCase(fetchFilters.rejected, (state) => {
-            state.status = 'idle';
-        })
-        builder.addCase(fetchFilters.pending, (state) => {
-            state.status = 'pendingFetchFilters'
-        })
-        builder.addCase(fetchFilters.fulfilled, (state,action) => {
             state.tags = action.payload.tags;
 
             state.filtersLoaded = true;
         })
         builder.addCase(fetchFilters.rejected, (state) => {
-            state.status = 'idle'
+            state.status = 'idle';
         })
     })
 })
