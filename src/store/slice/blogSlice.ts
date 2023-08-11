@@ -9,6 +9,7 @@ interface BlogState {
     filtersLoaded: boolean;
     status: string;
     category: string[];
+    tags: string[];
     categoryID: number | null;
     blogParams: BlogParams;
     metaData: MetaData | null;
@@ -44,6 +45,7 @@ export const fetchFilters = createAsyncThunk(
     async(_,thunkAPI) => {
         try {
             return agent.Blog.fetchFilters();
+
         } catch (error:any) {
             return thunkAPI.rejectWithValue({error: error.data});
         }
@@ -68,6 +70,7 @@ export const blogSlice = createSlice({
         categoryID: null,
         blogParams: initParams(),
         category: [],
+        tags: []
     }),
     reducers: {
         setBlogParams: (state,action) => {
@@ -88,11 +91,11 @@ export const blogSlice = createSlice({
         })
         builder.addCase(fetchBlogsAsync.fulfilled, (state,action) => {
             blogsAdapter.setAll(state,action.payload);
+            
             state.status = 'idle';
             state.blogsLoaded = true;
         })
-        builder.addCase(fetchBlogsAsync.rejected, (state,action) => {
-            console.log(action.payload)
+        builder.addCase(fetchBlogsAsync.rejected, (state) => {
             state.status = 'idle';
         })
         builder.addCase(fetchFilters.pending, (state) => {
@@ -100,14 +103,22 @@ export const blogSlice = createSlice({
         })
         builder.addCase(fetchFilters.fulfilled, (state,action) => {
             state.category = action.payload.category;
-             const category = state.categoryID = action.payload.category.id;
-                console.log(category);
-                
+
             state.filtersLoaded = true;
         })
-        builder.addCase(fetchFilters.rejected, (state,action) => {
+        builder.addCase(fetchFilters.rejected, (state) => {
             state.status = 'idle';
-            console.log(action.payload);
+        })
+        builder.addCase(fetchFilters.pending, (state) => {
+            state.status = 'pendingFetchFilters'
+        })
+        builder.addCase(fetchFilters.fulfilled, (state,action) => {
+            state.tags = action.payload.tags;
+
+            state.filtersLoaded = true;
+        })
+        builder.addCase(fetchFilters.rejected, (state) => {
+            state.status = 'idle'
         })
     })
 })
