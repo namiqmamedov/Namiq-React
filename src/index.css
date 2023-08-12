@@ -18,6 +18,10 @@ a{
   padding-bottom: 20px;
 }
 
+p{
+  font-family: 'Neucha',sans-serif;
+}
+
 .text-ellipsis {
   display: -webkit-box;
   -webkit-line-clamp: 4;

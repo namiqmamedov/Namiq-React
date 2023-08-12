@@ -17,6 +17,7 @@ interface SearchResult {
 interface BlogState {
     blogsLoaded: boolean;
     filtersLoaded: boolean;
+    hasSubmitted: boolean;
     status: string;
     category: string[];
     tags: string[];
@@ -73,7 +74,8 @@ function initParams() {
         category: [],
         tags: [],
         searchResults: [],
-        searchResultsCount: 0
+        searchResultsCount: 0,
+        hasSubmitted: false, // Initial value for hasSubmitted
     }
 }
 
@@ -82,6 +84,7 @@ export const blogSlice = createSlice({
     initialState: blogsAdapter.getInitialState<BlogState>({
         blogsLoaded: false,
         filtersLoaded: false,
+        hasSubmitted: false,
         status: 'idle',
         metaData: null,
         categoryID: null,
@@ -107,8 +110,11 @@ export const blogSlice = createSlice({
         setSearchResults: (state, action: PayloadAction<SearchResult[]>) => {
             state.searchResults = action.payload;
           },
-          setSearchResultsCount: (state, action: PayloadAction<number>) => {
-            state.searchResultsCount = action.payload;
+        setSearchResultsCount: (state, action: PayloadAction<number>) => {
+          state.searchResultsCount = action.payload;
+        },
+        setHasSubmitted: (state, action: PayloadAction<boolean>) => {
+            state.hasSubmitted = action.payload;
           },
     },
     extraReducers: (builder => {
@@ -141,6 +147,6 @@ export const blogSlice = createSlice({
 
 export const blogSelectors = blogsAdapter.getSelectors((state: RootState) => state.blog)
 
-export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount} = blogSlice.actions;
+export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount,setHasSubmitted} = blogSlice.actions;
 
 
