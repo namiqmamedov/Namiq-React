@@ -1,8 +1,18 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { Blog, BlogParams } from "../../models/blog";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
 import { MetaData } from "../../models/pagination";
+
+
+interface SearchResult {
+    blogTags: null | any; 
+    category: null | any;
+    categoryID: number;
+    id: number;
+    name: string;
+    pictureUrl: string;
+}
 
 interface BlogState {
     blogsLoaded: boolean;
@@ -10,6 +20,8 @@ interface BlogState {
     status: string;
     category: string[];
     tags: string[];
+    searchResults: SearchResult[];
+    searchResultsCount: number;
     categoryID: number | null;
     tagID: number | null;
     blogParams: BlogParams;
@@ -59,7 +71,9 @@ function initParams() {
         pageNumber: 1,
         pageSize: 6,
         category: [],
-        tags: []
+        tags: [],
+        searchResults: [],
+        searchResultsCount: 0
     }
 }
 
@@ -74,7 +88,9 @@ export const blogSlice = createSlice({
         tagID: null,
         blogParams: initParams(),
         category: [],
-        tags: []
+        tags: [],
+        searchResults: [],
+        searchResultsCount: 0,
     }),
     reducers: {
         setBlogParams: (state,action) => {
@@ -87,7 +103,13 @@ export const blogSlice = createSlice({
         },
         setMetaData: (state,action) => {
             state.metaData = action.payload;
-        }
+        },
+        setSearchResults: (state, action: PayloadAction<SearchResult[]>) => {
+            state.searchResults = action.payload;
+          },
+          setSearchResultsCount: (state, action: PayloadAction<number>) => {
+            state.searchResultsCount = action.payload;
+          },
     },
     extraReducers: (builder => {
         builder.addCase(fetchBlogsAsync.pending, (state) => {
@@ -119,6 +141,6 @@ export const blogSlice = createSlice({
 
 export const blogSelectors = blogsAdapter.getSelectors((state: RootState) => state.blog)
 
-export const {setBlogParams,setPageNumber,setMetaData} = blogSlice.actions;
+export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount} = blogSlice.actions;
 
 
