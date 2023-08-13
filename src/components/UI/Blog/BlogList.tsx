@@ -15,8 +15,8 @@ interface Props {
 }
 
 const BlogList = ({blogs}: Props) => {
-   const {blogsLoaded} = useAppSelector(state => state.blog)
-   const {metaData} = useBlogs()
+  const { blogsLoaded, blogParams } = useAppSelector(state => state.blog); // Assuming you have a blogParams slice in your store
+  const {metaData} = useBlogs()
    const dispatch = useAppDispatch();
  
   return (
@@ -76,11 +76,12 @@ const BlogList = ({blogs}: Props) => {
         </Fragment>
       ))}
       {metaData && 
-      <AppPagination
-        metaData={metaData}
-        onPageChange={(page: number) =>
-        dispatch(setPageNumber({pageNumber: page}))}
-      />}
+                <AppPagination
+                metaData={metaData}
+                onPageChange={(page: number) =>
+                dispatch(setPageNumber({ pageNumber: page }))}
+                searchTerm={blogParams.searchTerm} 
+            />}
     </Fragment>
   );
 };

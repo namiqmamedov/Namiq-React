@@ -27,6 +27,7 @@ interface BlogState {
     tagID: number | null;
     blogParams: BlogParams;
     metaData: MetaData | null;
+    totalResults: number;
 }
 
 const blogsAdapter = createEntityAdapter<Blog>()
@@ -94,6 +95,7 @@ export const blogSlice = createSlice({
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
+        totalResults: 0,
     }),
     reducers: {
         setBlogParams: (state,action) => {
@@ -115,7 +117,10 @@ export const blogSlice = createSlice({
         },
         setHasSubmitted: (state, action: PayloadAction<boolean>) => {
             state.hasSubmitted = action.payload;
-          },
+        },
+        setTotalResults: (state, action: PayloadAction<number>) => {
+            state.totalResults = action.payload;
+        },
     },
     extraReducers: (builder => {
         builder.addCase(fetchBlogsAsync.pending, (state) => {
@@ -147,6 +152,6 @@ export const blogSlice = createSlice({
 
 export const blogSelectors = blogsAdapter.getSelectors((state: RootState) => state.blog)
 
-export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount,setHasSubmitted} = blogSlice.actions;
+export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount,setHasSubmitted,setTotalResults} = blogSlice.actions;
 
 

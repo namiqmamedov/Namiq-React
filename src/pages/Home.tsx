@@ -4,7 +4,8 @@ import BlogList from "../components/UI/Blog/BlogList"
 import useBlogs from "../hooks/useBlogs"
 import Loading from "../common/Loading"
 import { useSelector } from "react-redux"
-import { RootState } from "../store/configureStore"
+import { RootState, useAppSelector } from "../store/configureStore"
+import { Fragment } from "react"
 
 const Home = () => {
   const {blogs,filtersLoaded} = useBlogs()
@@ -12,8 +13,9 @@ const Home = () => {
   const searchResults = useSelector((state: RootState) => state.blog.searchResults);
   const searchResultsCount = useSelector((state: RootState) => state.blog.searchResultsCount);  
   const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted); // Get hasSubmitted from Redux state
-  
+  const totalResults = useAppSelector(state => state.blog.totalResults);
 
+  
   if(!filtersLoaded) return <Loading/>
 
   return (
@@ -22,15 +24,20 @@ const Home = () => {
             <div className="mt-4">
             {searchResults.length > 0 && (
                 <p className="text-[22px]">
-                    <small>{searchResults.length} Results for </small> “{searchResults[0]?.name}”
+                    <small>{totalResults} Results for </small> “{searchResults[0]?.name}”
                 </p>
             )}
-            {hasSubmitted && searchResultsCount > 0 ? <p>hello</p>: null }
 
               </div>
                     <Grid container spacing={2} className="!mt-6" >
-                            <Grid item lg={8} sm={12} md={8}>
-                            <BlogList blogs={blogs} />
+                        <Grid item lg={8} sm={12} md={8}>
+                        {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 
+                        ? <Fragment>
+                            <p className="font-bold text-[32px]">Not found</p>
+                            <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+                        </Fragment>
+                        : <BlogList blogs={blogs}
+                        /> }
                         </Grid>
                         <Grid item lg={4} sm={12} md={4}>
                             <BlogGrid/>
