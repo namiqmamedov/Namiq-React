@@ -50,6 +50,8 @@ export const fetchBlogsAsync = createAsyncThunk<Blog[], void, {state: RootState}
         try {
             const response = await agent.Blog.list(params);
             thunkAPI.dispatch(setMetaData(response.metaData))
+            thunkAPI.dispatch(setTotalResults(response.metaData.totalCount))
+
             return response.items;
         } catch (error: any) {
             return thunkAPI.rejectWithValue({error: error.data})
@@ -76,7 +78,7 @@ function initParams() {
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
-        hasSubmitted: false, // Initial value for hasSubmitted
+        hasSubmitted: false,
     }
 }
 
@@ -118,7 +120,7 @@ export const blogSlice = createSlice({
         setHasSubmitted: (state, action: PayloadAction<boolean>) => {
             state.hasSubmitted = action.payload;
         },
-        setTotalResults: (state, action: PayloadAction<number>) => {
+        setTotalResults: (state, action) => {
             state.totalResults = action.payload;
         },
     },

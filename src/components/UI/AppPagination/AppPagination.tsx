@@ -28,6 +28,7 @@ const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
 
       dispatch(setTotalResults(totalCount));
 
+
       // Call the onPageChange callback with the page number and search term
       onPageChange(page, querySearchTerm || undefined);
 

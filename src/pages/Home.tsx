@@ -6,6 +6,7 @@ import Loading from "../common/Loading"
 import { useSelector } from "react-redux"
 import { RootState, useAppSelector } from "../store/configureStore"
 import { Fragment } from "react"
+import { useSearchParams } from "react-router-dom"
 
 const Home = () => {
   const {blogs,filtersLoaded} = useBlogs()
@@ -15,19 +16,23 @@ const Home = () => {
   const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted); // Get hasSubmitted from Redux state
   const totalResults = useAppSelector(state => state.blog.totalResults);
 
-  
+  const [searchParams] = useSearchParams();
+
+  const searchQuery = searchParams.get("q");
+
+  console.log("Total Results from Redux:", totalResults);
+
   if(!filtersLoaded) return <Loading/>
 
   return (
         <div className='card__item'>
             <Container>
             <div className="mt-4">
-            {searchResults.length > 0 && (
+            {searchQuery && (
                 <p className="text-[22px]">
-                    <small>{totalResults} Results for </small> “{searchResults[0]?.name}”
+                    <small>{totalResults} Results for </small> “{searchQuery}”
                 </p>
             )}
-
               </div>
                     <Grid container spacing={2} className="!mt-6" >
                         <Grid item lg={8} sm={12} md={8}>
