@@ -43,21 +43,23 @@ function getAxiosParams(blogParams: BlogParams) {
     return params;
 }
 
-export const fetchBlogsAsync = createAsyncThunk<Blog[], void, {state: RootState}>(
-    'blog/fetchBlogsAsync',
-    async (_,thunkAPI) => {
-        const params = getAxiosParams(thunkAPI.getState().blog.blogParams);
-        try {
-            const response = await agent.Blog.list(params);
-            thunkAPI.dispatch(setMetaData(response.metaData))
-            thunkAPI.dispatch(setTotalResults(response.metaData.totalCount))
+export const fetchBlogsAsync = createAsyncThunk<
+  Blog[],
+  void,
+  { state: RootState }
+>('blog/fetchBlogsAsync', async (_, thunkAPI) => {
+  const params = getAxiosParams(thunkAPI.getState().blog.blogParams);
+  try {
+    const response = await agent.Blog.list(params);
+    thunkAPI.dispatch(setMetaData(response.metaData));
+    thunkAPI.dispatch(setTotalResults(response.metaData.totalCount));
 
-            return response.items;
-        } catch (error: any) {
-            return thunkAPI.rejectWithValue({error: error.data})
-        }
-    }
-)
+    return response.items;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({ error: error.data });
+  }
+});
+
 
 export const fetchFilters = createAsyncThunk(
     'blog/fetchFilters',

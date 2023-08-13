@@ -3,24 +3,33 @@ import BlogGrid from "../components/UI/BlogGrid/BlogGrid"
 import BlogList from "../components/UI/Blog/BlogList"
 import useBlogs from "../hooks/useBlogs"
 import Loading from "../common/Loading"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState, useAppSelector } from "../store/configureStore"
-import { Fragment } from "react"
-import { useSearchParams } from "react-router-dom"
+import { Fragment, useEffect } from "react"
+import { useLocation} from "react-router-dom"
+import { fetchBlogsAsync, setBlogParams } from "../store/slice/blogSlice"
 
 const Home = () => {
   const {blogs,filtersLoaded} = useBlogs()
   
-  const searchResults = useSelector((state: RootState) => state.blog.searchResults);
   const searchResultsCount = useSelector((state: RootState) => state.blog.searchResultsCount);  
   const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted); // Get hasSubmitted from Redux state
   const totalResults = useAppSelector(state => state.blog.totalResults);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
-  const [searchParams] = useSearchParams();
 
   const searchQuery = searchParams.get("q");
 
-  console.log("Total Results from Redux:", totalResults);
+  const page = parseInt(searchParams.get('page') || '1', 10); // Default to page 1 if not provided
+
+  useEffect(() => {
+    if (searchQuery) {
+      dispatch(setBlogParams({ searchTerm: searchQuery, pageNumber: page }));
+      dispatch(fetchBlogsAsync() as any);
+    }
+  }, [searchQuery, page, dispatch]);
 
   if(!filtersLoaded) return <Loading/>
 

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MetaData } from "../../../models/pagination"
 import { Box, Typography, Pagination } from "@mui/material";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setTotalResults } from "../../../store/slice/blogSlice";
 
@@ -19,26 +19,33 @@ const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
     const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
-    const handlePageChange = (page: number) => {
+    const page = parseInt(searchParams.get('page') || '1', 10);
+
+    useEffect(() => {
+        // Update the pageNumber state with the current page
+        setPageNumber(page);
+    }, [page]);
+
+    const handlePageChange = (newPage: number) => {
       // Update the page number state
-      setPageNumber(page);
+      setPageNumber(newPage);
 
       // Get the current search term from the query parameters
       const querySearchTerm = searchParams.get('q');
 
       dispatch(setTotalResults(totalCount));
 
-
       // Call the onPageChange callback with the page number and search term
-      onPageChange(page, querySearchTerm || undefined);
+      onPageChange(newPage, querySearchTerm || undefined);
 
       // Update the search parameters with the new page number and search term
-      searchParams.set('page', page.toString());
+      searchParams.set('page', newPage.toString());
       searchParams.set('q', searchTerm || '');
 
       // Navigate to the new URL
       navigate(`?${searchParams.toString()}`);
   }
+
 
   return (
     // <ul className="pagination pagination-sm flex justify-center mt-4">
@@ -60,16 +67,17 @@ const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
     // </ul>
     <Box display='flex' justifyContent='space-between' alignItems='center' >
     <Typography>
-      Displaying {(currentPage-1)*pageSize+1} 
+      Displaying {(pageNumber-1)*pageSize+1} 
       - 
-      {currentPage*pageSize > totalCount ? totalCount : currentPage * pageSize} of {totalCount} items
+      {pageNumber*pageSize > totalCount ? totalCount : pageNumber * pageSize} of {totalCount} items
     </Typography>
     <Pagination
     color='secondary'
     size='large'
     count={totalPages}
     page={pageNumber}
-    onChange={(_e, page) => handlePageChange(page)}
+
+    onChange={(_e, newPage) => handlePageChange(newPage)}
     />
 </Box>
   )
