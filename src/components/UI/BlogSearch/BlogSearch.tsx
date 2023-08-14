@@ -2,14 +2,27 @@ import { debounce } from '@mui/material';
 import {  useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../../store/configureStore';
 import { setBlogParams,setHasSubmitted,setSearchResults, setSearchResultsCount } from '../../../store/slice/blogSlice';
-import { useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const BlogSearch = () => {
     const { blogParams } = useAppSelector(state => state.blog);
     const [searchTerm, setSearchTerm] = useState(blogParams.searchTerm);
-    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+    const navigate = useNavigate(); 
     const dispatch = useAppDispatch();
+    const location = useLocation(); // Get the current location object
+
+
+    const searchParams = new URLSearchParams(location.search);
+   // Check if categoryID exists in the URL
+   const categoryIDExists = searchParams.has('categoryID');
+    
+   // Get the categoryID value from the URL
+   const categoryID = categoryIDExists ? searchParams.get('categoryID') : null;
+
+   const tagIDExists = searchParams.has('tagID');
+    
+   // Get the categoryID value from the URL
+   const tagID = tagIDExists ? searchParams.get('tagID') : null;
 
     const debouncedSearch = debounce(async (value: string) => {
         dispatch(setBlogParams({ searchTerm: value }));
@@ -21,7 +34,8 @@ const BlogSearch = () => {
                 return;
             }
             
-            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}`);
+            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}&categoryID=${encodeURIComponent(categoryID || '')}&tagID=${encodeURIComponent(tagID || '')}`);
+            
             const data = await response.json();
             
             if (data) {
@@ -41,8 +55,8 @@ const BlogSearch = () => {
         event.preventDefault();
         dispatch(setHasSubmitted(true));
         debouncedSearch(searchTerm!);
-        navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1`); // Navigate to the search results page with page 1
 
+        navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1${categoryID !== null ? `&categoryID=${encodeURIComponent(categoryID)}` : ''}${tagID !== null ? `&tagID=${encodeURIComponent(tagID)}` : ''}`);
     };
 
     return (

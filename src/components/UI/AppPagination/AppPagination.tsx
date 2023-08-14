@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MetaData } from "../../../models/pagination"
 import { Box, Typography, Pagination } from "@mui/material";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setTotalResults } from "../../../store/slice/blogSlice";
 
@@ -9,10 +9,12 @@ interface Props {
     metaData: MetaData;
     onPageChange: (page: number, searchTerm?: string) => void;
     searchTerm?: string;
+    categoryID?: string; 
+    tagID?: string; 
 }
 
 
-const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
+const AppPagination = ({metaData,onPageChange,searchTerm,categoryID,tagID}:Props) => {
     const {currentPage,totalCount,totalPages,pageSize} = metaData;
     const [pageNumber,setPageNumber] = useState(currentPage);
     const navigate = useNavigate();
@@ -40,7 +42,18 @@ const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
 
       // Update the search parameters with the new page number and search term
       searchParams.set('page', newPage.toString());
-      searchParams.set('q', searchTerm || '');
+     
+      if(searchTerm) {
+        searchParams.set('q', searchTerm || '');
+      }
+
+      if (categoryID) {
+        searchParams.set('categoryID', categoryID);
+      }
+
+      if (tagID) {
+        searchParams.set('tagID', tagID);
+      }
 
       // Navigate to the new URL
       navigate(`?${searchParams.toString()}`);
@@ -72,12 +85,11 @@ const AppPagination = ({metaData,onPageChange,searchTerm}:Props) => {
       {pageNumber*pageSize > totalCount ? totalCount : pageNumber * pageSize} of {totalCount} items
     </Typography>
     <Pagination
-    color='secondary'
-    size='large'
-    count={totalPages}
-    page={pageNumber}
-
-    onChange={(_e, newPage) => handlePageChange(newPage)}
+      color='secondary'
+      size='large'
+      count={totalPages}
+      page={pageNumber}
+      onChange={(_e, newPage) => handlePageChange(newPage)}
     />
 </Box>
   )

@@ -1,5 +1,6 @@
 import { Link } from '@mui/material'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface Props {
     items: string[];
@@ -11,18 +12,35 @@ const TagList = ({items,checked,onChange}: Props) => {
 
     const [checkedItems,setCheckedItems] = useState(checked || [])
 
-    function handleChecked(value: string) {
-      const currentIndex = checkedItems.findIndex((item: any) => item.tagID === value);
-      let newChecked: string[];
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      const urlParams = new URLSearchParams(location.search);
+      const tagIDs = urlParams.getAll('tagID');
   
+      setCheckedItems(tagIDs);
+    }, [location]);
+
+    function handleChecked(value: string) {
+      const currentIndex = checkedItems.indexOf(value);
+      let newChecked: string[];
+    
       if (currentIndex === -1) {
-          // If the clicked item is not already in checkedItems, replace the array with the new value
-          newChecked = [value];
+        newChecked = [value];
       } else {
-          // If the clicked item is already in checkedItems, remove it from the array
-          newChecked = [];
+        newChecked = [value];
       }
   
+      const urlParams = new URLSearchParams(location.search);
+  
+      // Remove any existing categoryID before adding the updated one
+      urlParams.delete('tagID');
+      
+      newChecked.forEach((item) => urlParams.append('tagID', item));
+    
+      navigate({ search: urlParams.toString() });
+    
       setCheckedItems(newChecked);
       onChange(newChecked);
   }
