@@ -22,11 +22,12 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
+  CardHeader,
+  SelectChangeEvent
 } from '@mui/material';
 
-import Label from 'src/components/Label';
-import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
+import Label from '../../../components/Label';
+import { CryptoOrder, CryptoOrderStatus } from '../../../models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
@@ -37,7 +38,7 @@ interface RecentOrdersTableProps {
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  status?: CryptoOrderStatus | null;
 }
 
 const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
@@ -92,7 +93,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null 
   });
 
   const statusOptions = [
@@ -114,16 +115,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     }
   ];
 
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
+  const handleStatusChange = (event: SelectChangeEvent<"all" | "completed" | "pending" | "failed">): void => {
+    const value = event.target.value;
 
-    if (e.target.value !== 'all') {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
+    setFilters((prevFilters:any) => ({
       ...prevFilters,
-      status: value
+      status: value === 'all' ? undefined : value,
     }));
   };
 
@@ -138,7 +135,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   };
 
   const handleSelectOneCryptoOrder = (
-    event: ChangeEvent<HTMLInputElement>,
+    _event: ChangeEvent<HTMLInputElement>,
     cryptoOrderId: string
   ): void => {
     if (!selectedCryptoOrders.includes(cryptoOrderId)) {
@@ -153,7 +150,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     }
   };
 
-  const handlePageChange = (event: any, newPage: number): void => {
+  const handlePageChange = (_event: any, newPage: number): void => {
     setPage(newPage);
   };
 

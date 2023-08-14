@@ -18,8 +18,6 @@ const TypographyH2 = styled(Typography)(
 
 const LabelWrapper = styled(Box)(
   ({ theme }) => `
-    background-color: ${theme.colors.success.main};
-    color: ${theme.palette.success.contrastText};
     font-weight: bold;
     border-radius: 30px;
     text-transform: uppercase;
@@ -34,7 +32,6 @@ const MuiAvatar = styled(Box)(
   ({ theme }) => `
     width: ${theme.spacing(8)};
     height: ${theme.spacing(8)};
-    border-radius: ${theme.general.borderRadius};
     background-color: #e5f7ff;
     flex-shrink: 0;
     display: flex;
@@ -54,7 +51,6 @@ const TsAvatar = styled(Box)(
   ({ theme }) => `
     width: ${theme.spacing(8)};
     height: ${theme.spacing(8)};
-    border-radius: ${theme.general.borderRadius};
     background-color: #dfebf6;
     flex-shrink: 0;
     display: flex;

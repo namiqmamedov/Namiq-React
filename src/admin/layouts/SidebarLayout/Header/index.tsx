@@ -12,7 +12,7 @@ import {
   useTheme
 } from '@mui/material';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import { SidebarContext } from 'src/contexts/SidebarContext';
+import { SidebarContext} from '../../../contexts/SidebarContext' 
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 
 import HeaderButtons from './Buttons';
@@ -26,7 +26,7 @@ const HeaderWrapper = styled(Box)(
         padding: ${theme.spacing(0, 2)};
         right: 0;
         z-index: 6;
-        background-color: ${alpha(theme.header.background, 0.95)};
+        background-color: ${alpha(theme.header.background!, 0.95)};
         backdrop-filter: blur(3px);
         position: fixed;
         justify-content: space-between;

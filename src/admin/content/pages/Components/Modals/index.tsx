@@ -2,8 +2,8 @@ import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-import PageTitle from 'src/components/PageTitle';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageTitle from '../../../../components/PageTitle';
+import PageTitleWrapper from '../../../../components/PageTitleWrapper';
 import {
   Container,
   Grid,
@@ -24,18 +24,18 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
+import Footer from '../../../../components/Footer';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function SimpleDialog(props) {
+function SimpleDialog(props:any) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value) => {
+  const handleListItemClick = (value:any) => {
     onClose(value);
   };
 
@@ -89,7 +89,7 @@ function Modals() {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = (value:any) => {
     setOpen(false);
     setSelectedValue(value);
   };
