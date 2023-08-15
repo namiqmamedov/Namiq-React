@@ -6,17 +6,13 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../store/configureStore';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
+import { signInUser } from '../store/slice/accountSlice';
 
-
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate();
@@ -26,14 +22,14 @@ export default function Login() {
         mode: 'onTouched'
     })
 
-    // async function submitForm(data: FieldValues){
-    //   try {
-    //     await dispatch(signInUser(data))
-    //     navigate(location.state?.from || '/product');
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+    async function submitForm(data: FieldValues){
+      try {
+        await dispatch(signInUser(data))
+        navigate(location.state?.from || '/home');
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
   return (
       <Container 
@@ -69,7 +65,7 @@ export default function Login() {
               label="Remember me"
             />
             <LoadingButton loading={isSubmitting}
-                disabled={!isValid}
+              disabled={!isValid}
               type="submit"
               fullWidth
               variant="contained"
