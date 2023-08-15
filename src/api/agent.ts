@@ -61,8 +61,13 @@ const Blog = {
     fetchFilters: () => requests.get('blog/filters')
 }
 
+const Account = {
+    login: (values: any) => requests.post('account/login', values),
+    currentUser: () => requests.get('account/current-user')
+}
+
 const agent = {
-    Blog
+    Blog,Account
 }
 
 export default agent;
