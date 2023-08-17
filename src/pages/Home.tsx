@@ -50,10 +50,6 @@ const Home = () => {
 
   if(!filtersLoaded) return <Loading/>
 
-  console.log(tagID);
-
-  console.log(categoryID);
-
   return (
         <div className='card__item'>
             <Container>

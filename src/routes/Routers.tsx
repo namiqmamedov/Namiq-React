@@ -1,10 +1,9 @@
 import {Routes,Route,Navigate} from 'react-router-dom'
 import Home from '../pages/Home'
 import BlogDetail from '../pages/BlogDetail'
-import Dashboard from '../admin/components/Sidebar/Dashboard'
 import Login from '../pages/Login'
-import DashboardMain from '../admin/components/DashboardMain/DashboardMain'
-
+import Dashboard from '../admin/components/Dashboard/Dashboard'
+import Blog from '../admin/components/Blog/Blog'
 
 const Routers = () => {
   return (
@@ -17,8 +16,8 @@ const Routers = () => {
         {/* ADMIN ROUTES */}
 
         <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='/dashboardmain' element={<DashboardMain/>} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/dashboard/test' element={<Blog/>} />
 
     </Routes>
   )
