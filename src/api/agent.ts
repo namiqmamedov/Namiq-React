@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosResponse } from "axios"
 import { toast } from "react-toastify";
 import { router } from "../main";
 import { PagenatedResponse } from "../models/pagination";
-import { request } from "http";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 

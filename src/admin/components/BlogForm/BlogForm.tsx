@@ -4,24 +4,37 @@ import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import agent from "../../../api/agent";
 import { Blog } from "../../../models/blog";
-import useBlogs from "../../../hooks/useBlogs";
+// import useBlogs from "../../../hooks/useBlogs";
 import { useAppDispatch } from "../../../store/configureStore";
-import AppSelectList from "../AppSelectList/AppSelectList";
+// import AppSelectList from "../AppSelectList/AppSelectList";
 import AppDropzone from "../AppDropzone/AppDropzone";
 import AppTextInput from "../AppTextInput/AppTextInput";
 import { validationSchema } from "../../../validation/blogValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { setBlog } from "../../../store/slice/blogSlice";
+import AppSelectList from "../AppSelectList/AppSelectList";
+import useBlogs from "../../../hooks/useBlogs";
 
 interface Props {
     blog?: Blog;
     cancelEdit: () => void;
+    categoryName: string;
+    tagName: string;
 }
 
 export default function BlogForm({ blog, cancelEdit }: Props) {
     const { control, reset, handleSubmit, watch, formState: { isDirty, isSubmitting }} = useForm({
-         resolver: yupResolver(validationSchema)
+          resolver: yupResolver(validationSchema)
     });
-    const { brands, types } = useBlogs();
+    const {category, tags} = useBlogs();
+    const categoryNamesAndIDs: { id: string, name: string }[] = Object.values(category).map((cat: any) => ({
+        id: cat.categoryID,
+        name: cat.categoryName
+    }));
+    const tagNamesAndIDs: { id: string, name: string }[] = Object.values(tags).map((tag: any) => ({
+        id: tag.tagID,
+        name: tag.tagName
+    }));
     const watchFile = watch('file', null);
     const dispatch = useAppDispatch();
 
@@ -37,11 +50,11 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
         try {
             let response: Blog;
             if(blog) {
-                response = await agent.Admin.updateProduct(data);   
+                response = await agent.Admin.updateBlog(data);   
             } else {
-                response = await agent.Admin.createProduct(data);
+                response = await agent.Admin.createBlog(data);
             }
-            dispatch(setProduct(response));
+            dispatch(setBlog(response));
             cancelEdit();
         } catch (error) {
             console.log(error);
@@ -56,13 +69,16 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12}>
-                        <AppTextInput control={control} name='name' label='Product name' />
+                        <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <AppSelectList control={control} items={brands} name='brand' label='Brand' />
+                        <AppSelectList control={control} items={categoryNamesAndIDs} name='categoryID' label='Category' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <AppSelectList control={control} items={types} name='type' label='Type' />
+                        <AppSelectList control={control} items={tagNamesAndIDs} name='tagID' label='Tag' />
+                    </Grid>
+                    {/* <Grid item xs={12} sm={6}>
+                        <AppSelectList control={control} items={tags} name='category' label='Category' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <AppTextInput type='number' control={control} name='price' label='Price' />
@@ -72,7 +88,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     </Grid>
                     <Grid item xs={12}>
                         <AppTextInput control={control} multiline={true} rows={4} name='description' label='Description' />
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <Box display='flex' justifyContent='space-between' alignItems='center'>
                             <AppDropzone control={control} name='file' />

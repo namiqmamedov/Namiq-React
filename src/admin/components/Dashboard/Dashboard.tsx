@@ -21,10 +21,14 @@ import { mainListItems, secondaryListItems } from '../ListItem/ListItem';
 import useBlogs from '../../../hooks/useBlogs';
 import { TableRow, TableCell, Button, Table, TableBody, TableContainer, TableHead } from '@mui/material';
 import AppPagination from '../../../components/UI/AppPagination/AppPagination';
-import { setPageNumber } from '../../../store/slice/blogSlice';
+import { removeBlog, setPageNumber } from '../../../store/slice/blogSlice';
 import { useAppDispatch } from '../../../store/configureStore';
 import { useState } from 'react';
-import Blog from '../Blog/Blog';
+import { LoadingButton } from '@mui/lab';
+import {Blog}  from '../../../models/blog';
+import agent from '../../../api/agent';
+import BlogForm from '../BlogForm/BlogForm';
+import { Delete, Edit } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (
@@ -97,11 +101,35 @@ export default function Dashboard() {
   const [editMode,setEditMode] = useState(false)
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+  const [target, setTarget] = useState(0);
+
+  function handleSelectBlog(blog: Blog) {
+    setSelectedBlog(blog);
+    setEditMode(true);
+  }
+
+  function handleDeleteBlog(id: number) {
+    setLoading(true);
+    setTarget(id);
+    agent.Admin.deleteBlog(id)
+      .then(() => dispatch(removeBlog(id)))
+      .catch(error => console.log(error))
+      .finally(() => setLoading(false));
+  }
+
+  function cancelEdit() {
+    if (selectedBlog) setSelectedBlog(undefined);
+    setEditMode(false);
+  }
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  if(editMode) return <Blog />  
+  if (editMode) return <BlogForm blog={selectedBlog} cancelEdit={cancelEdit} />
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -178,7 +206,7 @@ export default function Dashboard() {
             <Grid className='!flex-col' container spacing={3}>
             <Box display='flex' justifyContent='space-between'>
                 <Typography sx={{ p: 2 }} variant='h4'>Blog</Typography>
-                <Button sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
+                <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -186,39 +214,41 @@ export default function Dashboard() {
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="left">Name</TableCell>
-                            <TableCell align="right">Category</TableCell>
+                            <TableCell align="center">Category</TableCell>
                             <TableCell align="center">Tag</TableCell>
                             <TableCell align="center">Comment</TableCell>
                             <TableCell align="center">Settings</TableCell>
-                            <TableCell align="right"></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-               {blogs.map((blog) => (
-                              <TableRow
-                                  key={blog.id}
-                                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                              >
-                                  <TableCell component="th" scope="row">
-                                      {blog.id}
-                                  </TableCell>
-                                  <TableCell align="left">
-                                      <Box display='flex' alignItems='center'>
-                                          <img src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
-                                          <span>{blog.name}</span>
-                                      </Box>
-                                  </TableCell>
-                                  <TableCell align="center">{blog.categoryID}</TableCell>
-                                  <TableCell align="center">{blog.tagID}</TableCell>
-                                  <TableCell align="right">
-                                       <Button /> 
-                                      {/* <LoadingButton 
-                                          loading={loading && target === blog.id} 
-                                          onClick={() => handleDeleteProduct(blog.id)} 
-                                          startIcon={<Delete />} color='error' />  */}
-                                  </TableCell>
-                              </TableRow>
-              ))}
+              {blogs.map((blog) => {
+                return (
+                  <TableRow
+                    key={blog.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {blog.id}
+                    </TableCell>
+                    <TableCell align="left">
+                      <Box display='flex' alignItems='center'>
+                        <img src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
+                        <span>{blog.name}</span>
+                      </Box>
+                    </TableCell>
+                    <TableCell align="center">{blog.categoryID}</TableCell>
+                    <TableCell align="center">{blog.categoryID}</TableCell>
+                    <TableCell align="center">{blog.categoryID}</TableCell>
+                    <TableCell align="center">
+                      <Button onClick={() => handleSelectBlog(blog)} startIcon={<Edit />} />
+                      <LoadingButton
+                        loading={loading && target === blog.id}
+                        onClick={() => handleDeleteBlog(blog.id)}
+                        startIcon={<Delete />} color='error' />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
                 </TableBody>
                 </Table>
             </TableContainer>

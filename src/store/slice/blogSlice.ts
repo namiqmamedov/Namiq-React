@@ -125,6 +125,15 @@ export const blogSlice = createSlice({
         setTotalResults: (state, action) => {
             state.totalResults = action.payload;
         },
+        setBlog: (state,action) => {
+            blogsAdapter.upsertOne(state, action.payload);
+
+            state.blogsLoaded = false;
+        },
+        removeBlog: (state,action) => {
+            blogsAdapter.removeOne(state, action.payload);
+            state.blogsLoaded = false;
+        }
     },
     extraReducers: (builder => {
         builder.addCase(fetchBlogsAsync.pending, (state) => {
@@ -132,7 +141,7 @@ export const blogSlice = createSlice({
         })
         builder.addCase(fetchBlogsAsync.fulfilled, (state,action) => {
             blogsAdapter.setAll(state,action.payload);
-            
+
             state.status = 'idle';
             state.blogsLoaded = true;
         })
@@ -156,6 +165,6 @@ export const blogSlice = createSlice({
 
 export const blogSelectors = blogsAdapter.getSelectors((state: RootState) => state.blog)
 
-export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount,setHasSubmitted,setTotalResults} = blogSlice.actions;
+export const {setBlogParams,setPageNumber,setMetaData,setSearchResults,setSearchResultsCount,setHasSubmitted,setTotalResults,setBlog,removeBlog} = blogSlice.actions;
 
 
