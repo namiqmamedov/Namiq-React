@@ -9,6 +9,8 @@ import { useAppDispatch } from "../../../store/configureStore";
 import AppSelectList from "../AppSelectList/AppSelectList";
 import AppDropzone from "../AppDropzone/AppDropzone";
 import AppTextInput from "../AppTextInput/AppTextInput";
+import { validationSchema } from "../../../validation/blogValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface Props {
     blog?: Blog;
@@ -17,7 +19,7 @@ interface Props {
 
 export default function BlogForm({ blog, cancelEdit }: Props) {
     const { control, reset, handleSubmit, watch, formState: { isDirty, isSubmitting }} = useForm({
-        // resolver: yupResolver(validationSchema)
+         resolver: yupResolver(validationSchema)
     });
     const { brands, types } = useBlogs();
     const watchFile = watch('file', null);
@@ -77,7 +79,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             {watchFile ? (
                                 <img src={watchFile.preview} alt="preview" style={{ maxHeight: 200 }} />
                             ) : (
-                                <img src={product?.pictureURL} alt={product?.name} style={{ maxHeight: 200 }} />
+                                <img src={blog?.pictureUrl} alt={blog?.name} style={{ maxHeight: 200 }} />
                             )}
                         </Box>
 

@@ -37,6 +37,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^2.9.10",
     "@types/node": "^20.5.0",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.2.15",

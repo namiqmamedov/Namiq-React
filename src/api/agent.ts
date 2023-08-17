@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios"
 import { toast } from "react-toastify";
 import { router } from "../main";
 import { PagenatedResponse } from "../models/pagination";
+import { request } from "http";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
@@ -53,6 +54,26 @@ const requests = {
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
+    postForm: (url: string,data: FormData) => axios.post(url,data, {
+        headers: {'Content-Type': 'multipart/form-data'}
+    }).then(responseBody),
+    putForm: (url: string,data: FormData) => axios.put(url,data, {
+        headers: {'Content-Type': 'multipart/form-data'}
+    }).then(responseBody)
+}
+
+function createFormData(item:any){
+    let formData = new FormData();
+    for(const key in item){
+        formData.append(key, item[key])
+    }
+    return formData;
+}
+
+const Admin = {
+    createBlog: (blog:any) => requests.postForm('blog',createFormData(blog)),
+    updateBlog: (blog:any) => requests.putForm('blog',createFormData(blog)),
+    deleteBlog: (id: number) => requests.delete(`blog/${id}`)
 }
 
 const Blog = {
@@ -67,7 +88,9 @@ const Account = {
 }
 
 const agent = {
-    Blog,Account
+    Blog,
+    Account,
+    Admin
 }
 
 export default agent;
