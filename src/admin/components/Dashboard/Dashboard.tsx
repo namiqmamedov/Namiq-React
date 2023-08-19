@@ -129,7 +129,10 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
-  if (editMode) return <BlogForm blog={selectedBlog} cancelEdit={cancelEdit} />
+  if (editMode) return <BlogForm blog={selectedBlog} 
+  categoryName={selectedBlog?.categoryName || ''} 
+  tagName={selectedBlog?.tagName || ''}
+  cancelEdit={cancelEdit} />
 
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -1,28 +1,33 @@
 import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/material";
 import { useController, UseControllerProps } from "react-hook-form";
 
-interface Props extends UseControllerProps {
+interface AppSelectListProps {
     label: string;
-    items: { id: string; name: string }[];
+    value: number[]; // Etiket ID'lerini içeren dizi
+    options: { id: number; name: string }[]; // Etiket seçeneklerini içeren dizi
+    onChange: (value: number[]) => void; // Değişiklik olduğunda çağrılacak işlev
 }
 
-export default function AppSelectList(props: Props) {
-    const {fieldState, field} = useController({...props, defaultValue: ''})
-
-    
+export default function AppSelectList(props: AppSelectListProps) {
     return (
-               <FormControl fullWidth error={!!fieldState.error}>
-                    <InputLabel>{props.label}</InputLabel>
-                    <Select
-                        value={field.value}
-                        label={props.label}
-                        onChange={field.onChange}
-                    >
-                        {props.items.map((item, index) => (
-                            <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
-                        ))}
-                    </Select>
-                    <FormHelperText>{fieldState.error?.message}</FormHelperText>
-                </FormControl>
-    )
+        <FormControl fullWidth>
+            <InputLabel>{props.label}</InputLabel>
+            <Select
+                multiple
+                value={props.value}
+                label={props.label}
+                onChange={(event) => {
+                    const selectedValues = event.target.value as number[];
+                    console.log("Selected Values:", selectedValues); // Konsola seçili değerleri yazdır
+                    props.onChange(selectedValues);
+                }}
+            >
+                {props.options.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+    );
 }

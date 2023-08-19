@@ -4,6 +4,8 @@ export interface Blog {
     pictureUrl: string;
     categoryID: number;
     tagID: number;
+    categoryName: string | undefined;
+    tagName: string | undefined;
 }
 
 export interface BlogParams {

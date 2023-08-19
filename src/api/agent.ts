@@ -61,10 +61,17 @@ const requests = {
     }).then(responseBody)
 }
 
-function createFormData(item:any){
+function createFormData(item: any) {
     let formData = new FormData();
-    for(const key in item){
-        formData.append(key, item[key])
+    for (const key in item) {
+        debugger;
+        if (Array.isArray(item[key])) {
+            formData.append(key, item[key]);
+          } else if (typeof item[key] === 'string') {
+            formData.append(key, item[key].split(','));
+          } else {
+            formData.append(key, item[key]);
+          }
     }
     return formData;
 }

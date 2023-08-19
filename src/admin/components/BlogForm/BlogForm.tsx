@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default function BlogForm({ blog, cancelEdit }: Props) {
-    const { control, reset, handleSubmit, watch, formState: { isDirty, isSubmitting }} = useForm({
+    const { control, reset, handleSubmit, watch, setValue, formState: { isDirty, isSubmitting }} = useForm({
           resolver: yupResolver(validationSchema)
     });
     const {category, tags} = useBlogs();
@@ -38,12 +38,31 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
     const watchFile = watch('file', null);
     const dispatch = useAppDispatch();
 
+    const handleCategoryChange = (selectedCategoryIDs: number[]) => {
+        setValue('categoryID', selectedCategoryIDs);
+    };
+
+    const handleTagChange = (selectedTagIDs: number[]) => {
+        setValue('tagID', selectedTagIDs);
+    };
+
+    const categoryOptions = categoryNamesAndIDs.map(item => ({
+        id: parseInt(item.id),
+        name: item.name
+    }));
+
+    const tagOptions = tagNamesAndIDs.map(item => ({
+        id: parseInt(item.id),
+        name: item.name
+    }));
+
     useEffect(() => {
         if (blog && !watchFile && !isDirty) reset(blog);
         return () => {
             if (watchFile) URL.revokeObjectURL(watchFile.preview);
         }
     }, [blog, reset, watchFile, isDirty])
+
 
     async function handleSubmitData(data: FieldValues)
     {
@@ -72,23 +91,21 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                         <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <AppSelectList control={control} items={categoryNamesAndIDs} name='categoryID' label='Category' />
+                        <AppSelectList
+                            label='Category'
+                            value={watch('categoryID', [])} // watch ile seçili kategorileri izleyin
+                            options={categoryOptions}
+                            onChange={handleCategoryChange}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <AppSelectList control={control} items={tagNamesAndIDs} name='tagID' label='Tag' />
+                        <AppSelectList
+                            label='Tag'
+                            value={watch('tagID', [])} // watch ile seçili etiketleri izleyin
+                            options={tagOptions}
+                            onChange={handleTagChange}
+                        />
                     </Grid>
-                    {/* <Grid item xs={12} sm={6}>
-                        <AppSelectList control={control} items={tags} name='category' label='Category' />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <AppTextInput type='number' control={control} name='price' label='Price' />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <AppTextInput type='number' control={control} name='quantityInStock' label='Quantity in Stock' />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <AppTextInput control={control} multiline={true} rows={4} name='description' label='Description' />
-                    </Grid> */}
                     <Grid item xs={12}>
                         <Box display='flex' justifyContent='space-between' alignItems='center'>
                             <AppDropzone control={control} name='file' />
