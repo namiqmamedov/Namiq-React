@@ -59,3 +59,31 @@ p{
   height: 100%;
   z-index: 999999;
 }
+
+
+.tox.tox-tinymce{
+  margin: 0 auto !important;
+  margin-top: 20px !important;
+}
+
+.react-summernote{
+    margin: 0 auto;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.note-tooltip.bottom{
+  width: 400px !important;
+  padding: 100px 100px !important;
+}
+
+.note-tooltip-content{
+  max-width: 500px;
+  width: 100%;
+  padding: 20px 40px;
+  text-align: left;
+}
+
+.note-color.dropdown-toggle{
+  width: 100%;
+}

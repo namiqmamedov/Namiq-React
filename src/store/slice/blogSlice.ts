@@ -20,6 +20,7 @@ interface BlogState {
     hasSubmitted: boolean;
     status: string;
     category: string[];
+    description: string[];
     tags: string[];
     searchResults: SearchResult[];
     searchResultsCount: number;
@@ -96,6 +97,7 @@ export const blogSlice = createSlice({
         tagID: null,
         blogParams: initParams(),
         category: [],
+        description: [],
         tags: [],
         searchResults: [],
         searchResultsCount: 0,

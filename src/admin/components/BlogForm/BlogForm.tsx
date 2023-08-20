@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, Grid, Button } from "@mui/material";
+import { Box, Paper, Typography, Grid, Button, Container } from "@mui/material";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { setBlog } from "../../../store/slice/blogSlice";
 import AppSelectList from "../AppSelectList/AppSelectList";
 import useBlogs from "../../../hooks/useBlogs";
+import AppEditor from "../AppEditor/AppEditor";
 
 interface Props {
     blog?: Blog;
@@ -81,9 +82,10 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
     }
 
     return (
-        <Box component={Paper} sx={{ p: 4 }}>
+        <Container>
+            <Box component={Paper} sx={{ p: 4 }}>
             <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-                Product Details
+                Create blog
                 </Typography>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>
@@ -115,8 +117,8 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                                 <img src={blog?.pictureUrl} alt={blog?.name} style={{ maxHeight: 200 }} />
                             )}
                         </Box>
-
                     </Grid>
+                    <AppEditor/>
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
@@ -124,5 +126,6 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                 </Box>
             </form>
         </Box>
+        </Container>
     )
 }
