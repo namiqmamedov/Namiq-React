@@ -3,7 +3,6 @@ import Home from '../pages/Home'
 import BlogDetail from '../pages/BlogDetail'
 import Login from '../pages/Login'
 import Dashboard from '../admin/components/Dashboard/Dashboard'
-import Blog from '../admin/components/Blog/Blog'
 
 const Routers = () => {
   return (
@@ -17,8 +16,6 @@ const Routers = () => {
 
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/login' element={<Login/>} />
-        <Route path='/dashboard/test' element={<Blog/>} />
-
     </Routes>
   )
 }

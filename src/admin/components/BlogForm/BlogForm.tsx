@@ -92,22 +92,23 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     <Grid item xs={12} sm={12}>
                         <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                 <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Category'
-                            value={watch('categoryID', [])} // watch ile seçili kategorileri izleyin
+                            value={watch('categoryID')} // watch ile seçili kategorileri izleyin
                             options={categoryOptions}
                             onChange={handleCategoryChange}
-                        />
-                    </Grid>
+                            />
+                    </Grid> 
                     <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Tag'
-                            value={watch('tagID', [])} // watch ile seçili etiketleri izleyin
+                            value={watch('tagID' || [], [])} // watch ile seçili etiketleri izleyin
                             options={tagOptions}
                             onChange={handleTagChange}
+                            multiple={true}
                         />
-                    </Grid>
+                    </Grid> 
                     <Grid item xs={12}>
                         <Box display='flex' justifyContent='space-between' alignItems='center'>
                             <AppDropzone control={control} name='file' />
@@ -118,7 +119,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                    <AppEditor/>
+                     <AppEditor control={control} name='description' /> 
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>

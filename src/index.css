@@ -87,3 +87,8 @@ p{
 .note-color.dropdown-toggle{
   width: 100%;
 }
+.editor-form{
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 23px;
+}

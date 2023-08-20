@@ -20,7 +20,7 @@ interface BlogState {
     hasSubmitted: boolean;
     status: string;
     category: string[];
-    description: string[];
+    description: string;
     tags: string[];
     searchResults: SearchResult[];
     searchResultsCount: number;
@@ -78,6 +78,7 @@ function initParams() {
         pageNumber: 1,
         pageSize: 6,
         category: [],
+        description: [],
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
@@ -97,7 +98,7 @@ export const blogSlice = createSlice({
         tagID: null,
         blogParams: initParams(),
         category: [],
-        description: [],
+        description: '',
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
@@ -131,6 +132,7 @@ export const blogSlice = createSlice({
             blogsAdapter.upsertOne(state, action.payload);
 
             state.blogsLoaded = false;
+            state.description = action.payload.description;
         },
         removeBlog: (state,action) => {
             blogsAdapter.removeOne(state, action.payload);

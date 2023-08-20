@@ -13,7 +13,6 @@ import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -29,12 +28,14 @@ import {Blog}  from '../../../models/blog';
 import agent from '../../../api/agent';
 import BlogForm from '../BlogForm/BlogForm';
 import { Delete, Edit } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link to={'https://mui.com'} color="inherit">
         Namiq
       </Link>{' '}
       {new Date().getFullYear()}
@@ -141,7 +142,7 @@ export default function Dashboard() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px', 
             }}
           >
             <IconButton
@@ -210,6 +211,7 @@ export default function Dashboard() {
             <Box display='flex' justifyContent='space-between'>
                 <Typography sx={{ p: 2 }} variant='h4'>Blog</Typography>
                 <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
+              <Link to='/dashboard/createBlog'>HREF</Link>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

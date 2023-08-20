@@ -1,11 +1,11 @@
-import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/material";
-import { useController, UseControllerProps } from "react-hook-form";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 interface AppSelectListProps {
     label: string;
-    value: number[]; // Etiket ID'lerini içeren dizi
-    options: { id: number; name: string }[]; // Etiket seçeneklerini içeren dizi
-    onChange: (value: number[]) => void; // Değişiklik olduğunda çağrılacak işlev
+    value: number[];
+    options: { id: number; name: string }[];
+    onChange: (value: number[]) => void;
+    multiple?: boolean;
 }
 
 export default function AppSelectList(props: AppSelectListProps) {
@@ -13,12 +13,11 @@ export default function AppSelectList(props: AppSelectListProps) {
         <FormControl fullWidth>
             <InputLabel>{props.label}</InputLabel>
             <Select
-                multiple
+                multiple={props.multiple} 
                 value={props.value}
                 label={props.label}
                 onChange={(event) => {
                     const selectedValues = event.target.value as number[];
-                    console.log("Selected Values:", selectedValues); // Konsola seçili değerleri yazdır
                     props.onChange(selectedValues);
                 }}
             >

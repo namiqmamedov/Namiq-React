@@ -6,7 +6,7 @@ export interface Blog {
     tagID: number;
     categoryName: string | undefined;
     tagName: string | undefined;
-    text: string | undefined;
+    description: BlogDescription;
 }
 
 export interface BlogParams {
@@ -15,5 +15,9 @@ export interface BlogParams {
     pageSize: number;
     category: string[];
     tags: string[];
+}
+
+export interface BlogDescription {
+    text: string;
 }
 

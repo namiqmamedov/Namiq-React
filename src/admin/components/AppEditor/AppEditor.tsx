@@ -1,17 +1,31 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { FormControl, FormHelperText } from '@mui/material';
+import { UseControllerProps,useController } from 'react-hook-form';
 
 
-const AppEditor = () => {
+interface Props extends UseControllerProps {
+    multiline?: boolean;
+    rows?: number;
+    type?: string;
+}
+
+const AppEditor = (props: Props) => {
+    const {fieldState, field} = useController({...props,defaultValue: ''})
+
     const editorRef = useRef<TinyMCEEditor | null>(null);
-    const log = () => {
-      if (editorRef.current) {
-        console.log(editorRef.current.getContent());
-      }
-    }
+    
+    useEffect(() => {
+        if (editorRef.current) {
+            const editorContent = editorRef.current.getContent();
+            field.onChange(editorContent); // Form kontrolünün değerini güncelle
+            console.log(editorRef.current.getContent());
+        }
+    }, [editorRef.current]);
+    
   return (
-    <>
+    <FormControl className='form-editor'>
     <Editor
       apiKey={import.meta.env.VITE_REACT_APP_TINYCME_KEY}
       onInit={(_evt, editor) => editorRef.current = editor}
@@ -32,8 +46,9 @@ const AppEditor = () => {
       spellchecker_active: true,
    }} 
     />
-    <button onClick={log}>Log editor content</button>
-  </>
+ {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
+    {/* <button onClick={log}>Log editor content</button> */}
+  </FormControl>
   )
 }
 
