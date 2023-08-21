@@ -7,6 +7,7 @@ export interface Blog {
     categoryName: string | undefined;
     tagName: string | undefined;
     description: BlogDescription;
+    blogTags: BlogTag[];
 }
 
 export interface BlogParams {
@@ -19,5 +20,11 @@ export interface BlogParams {
 
 export interface BlogDescription {
     text: string;
+}
+
+export interface BlogTag {
+    id: number;
+    blogID: number;
+    tagID: number;
 }
 

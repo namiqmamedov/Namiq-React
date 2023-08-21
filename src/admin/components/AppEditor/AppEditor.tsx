@@ -29,7 +29,7 @@ const AppEditor = (props: Props) => {
     <Editor
       apiKey={import.meta.env.VITE_REACT_APP_TINYCME_KEY}
       onInit={(_evt, editor) => editorRef.current = editor}
-      initialValue="<p>This is the initial content of the editor.</p>"
+      initialValue={field.value.text}
       init={{
         height: 500, 
         //menubar: false,

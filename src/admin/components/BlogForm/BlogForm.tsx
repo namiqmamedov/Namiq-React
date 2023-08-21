@@ -1,12 +1,10 @@
 import { Box, Paper, Typography, Grid, Button, Container } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import agent from "../../../api/agent";
 import { Blog } from "../../../models/blog";
-// import useBlogs from "../../../hooks/useBlogs";
 import { useAppDispatch } from "../../../store/configureStore";
-// import AppSelectList from "../AppSelectList/AppSelectList";
 import AppDropzone from "../AppDropzone/AppDropzone";
 import AppTextInput from "../AppTextInput/AppTextInput";
 import { validationSchema } from "../../../validation/blogValidation";
@@ -21,6 +19,8 @@ interface Props {
     cancelEdit: () => void;
     categoryName: string;
     tagName: string;
+    selectedCategoryID: number[];
+    selectedTagIDs: number[];
 }
 
 export default function BlogForm({ blog, cancelEdit }: Props) {
@@ -36,15 +36,18 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
         id: tag.tagID,
         name: tag.tagName
     }));
+
     const watchFile = watch('file', null);
     const dispatch = useAppDispatch();
 
-    const handleCategoryChange = (selectedCategoryIDs: number[]) => {
-        setValue('categoryID', selectedCategoryIDs);
+    const handleCategoryChange = (selectedCategoryID: number[]) => {
+        setSelectedCategory(selectedCategoryID);
+        setValue('categoryID', selectedCategoryID);
     };
-
-    const handleTagChange = (selectedTagIDs: number[]) => {
-        setValue('tagID', selectedTagIDs);
+    
+    const handleTagChange = (newSelectedTagIDs: number[]) => {
+        setSelectedTags(newSelectedTagIDs);
+        setValue('tagID', newSelectedTagIDs);
     };
 
     const categoryOptions = categoryNamesAndIDs.map(item => ({
@@ -56,6 +59,15 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
         id: parseInt(item.id),
         name: item.name
     }));
+
+    const selectedCategoryID: number[] = blog ? [blog.categoryID] : [];
+
+    const selectedTagIDs: number[] = blog?.blogTags.map(tag => tag.tagID) || [];
+
+    const [selectedCategory, setSelectedCategory] = useState<number[]>(selectedCategoryID);
+
+    const [selectedTags, setSelectedTags] = useState<number[]>(selectedTagIDs);
+
 
     useEffect(() => {
         if (blog && !watchFile && !isDirty) reset(blog);
@@ -95,15 +107,16 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                  <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Category'
-                            value={watch('categoryID')} // watch ile seçili kategorileri izleyin
+                            value={selectedCategory}
                             options={categoryOptions}
                             onChange={handleCategoryChange}
+                            multiple={false}
                             />
                     </Grid> 
                     <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Tag'
-                            value={watch('tagID' || [], [])} // watch ile seçili etiketleri izleyin
+                            value={[...selectedTags]}
                             options={tagOptions}
                             onChange={handleTagChange}
                             multiple={true}
@@ -119,7 +132,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                     <AppEditor control={control} name='description' /> 
+                     {/* <AppEditor control={control} name='description' />  */}
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>

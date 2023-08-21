@@ -1,15 +1,15 @@
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
 
-interface AppSelectListProps {
-    label: string;
-    value: number[];
-    options: { id: number; name: string }[];
-    onChange: (value: number[]) => void;
-    multiple?: boolean;
-}
+    interface AppSelectListProps {
+        label: string;
+        value: number[];
+        options: { id: number; name: string }[];
+        onChange: (value: number[]) => void;
+        multiple?: boolean;
+    }
 
-export default function AppSelectList(props: AppSelectListProps) {
-    return (
+    export default function AppSelectList(props: AppSelectListProps) {
+        return (
         <FormControl fullWidth>
             <InputLabel>{props.label}</InputLabel>
             <Select
@@ -18,6 +18,7 @@ export default function AppSelectList(props: AppSelectListProps) {
                 label={props.label}
                 onChange={(event) => {
                     const selectedValues = event.target.value as number[];
+                    
                     props.onChange(selectedValues);
                 }}
             >

@@ -60,35 +60,13 @@ p{
   z-index: 999999;
 }
 
+.form-editor{
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding-left: 23px !important;
+}
 
 .tox.tox-tinymce{
   margin: 0 auto !important;
   margin-top: 20px !important;
-}
-
-.react-summernote{
-    margin: 0 auto;
-    width: 100%;
-    padding-top: 20px;
-}
-
-.note-tooltip.bottom{
-  width: 400px !important;
-  padding: 100px 100px !important;
-}
-
-.note-tooltip-content{
-  max-width: 500px;
-  width: 100%;
-  padding: 20px 40px;
-  text-align: left;
-}
-
-.note-color.dropdown-toggle{
-  width: 100%;
-}
-.editor-form{
-  width: 100%;
-  margin: 0 auto;
-  padding-left: 23px;
 }

@@ -106,6 +106,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [target, setTarget] = useState(0);
 
+
   function handleSelectBlog(blog: Blog) {
     setSelectedBlog(blog);
     setEditMode(true);
@@ -130,10 +131,22 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
-  if (editMode) return <BlogForm blog={selectedBlog} 
-  categoryName={selectedBlog?.categoryName || ''} 
-  tagName={selectedBlog?.tagName || ''}
-  cancelEdit={cancelEdit} />
+  if (editMode) {
+    const selectedCategoryID = selectedBlog?.categoryID || null;
+
+    const selectedTagIDs = selectedBlog?.blogTags.map(tag => tag.tagID) || [];
+
+    return (
+        <BlogForm
+            blog={selectedBlog}
+            categoryName={selectedBlog?.categoryName || ''}
+            tagName={selectedBlog?.tagName || ''}
+            cancelEdit={cancelEdit}
+            selectedCategoryID={selectedCategoryID !== null ? [selectedCategoryID] : []}
+            selectedTagIDs={selectedTagIDs}
+        />
+    );
+}
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -211,7 +224,6 @@ export default function Dashboard() {
             <Box display='flex' justifyContent='space-between'>
                 <Typography sx={{ p: 2 }} variant='h4'>Blog</Typography>
                 <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
-              <Link to='/dashboard/createBlog'>HREF</Link>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
