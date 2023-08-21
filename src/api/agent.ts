@@ -64,7 +64,6 @@ const requests = {
 function createFormData(item: any) {
     let formData = new FormData();
     for (const key in item) {
-        debugger;
         if (Array.isArray(item[key])) {
             formData.append(key, item[key]);
           } else if (typeof item[key] === 'string') {

@@ -62,7 +62,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
 
     const selectedCategoryID: number[] = blog ? [blog.categoryID] : [];
 
-    const selectedTagIDs: number[] = blog?.blogTags.map(tag => tag.tagID) || [];
+    const selectedTagIDs: number[] = blog?.blogTags.map(tag => tag.tagID)!!;
 
     const [selectedCategory, setSelectedCategory] = useState<number[]>(selectedCategoryID);
 
@@ -132,7 +132,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                     {/* <AppEditor control={control} name='description' />  */}
+                     <AppEditor control={control} name='description' /> 
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
