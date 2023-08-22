@@ -98,13 +98,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
-  const {blogs,metaData} = useBlogs();
+  const {blogs,metaData,tags} = useBlogs();
   const [editMode,setEditMode] = useState(false)
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [target, setTarget] = useState(0);
+
+  const tagNamesAndIDs: { id: string, name: string }[] = Object.values(tags).map((tag: any) => ({
+    id: tag.tagID,
+    name: tag.tagName
+  }));
+
+  const tagIDToNameMapping: { [key: number]: string } = {};
+  tagNamesAndIDs.forEach(item => {
+      tagIDToNameMapping[parseInt(item.id)] = item.name;
+  });
 
 
   function handleSelectBlog(blog: Blog) {
@@ -238,14 +248,20 @@ export default function Dashboard() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-              {blogs.map((blog) => {
-                return (
+              {blogs.map((blog,index) => {
+
+            const currentPage = metaData!!.currentPage;
+            const pageSize = metaData!!.pageSize;
+
+            const startNumber = (currentPage - 1) * pageSize + index + 1;
+
+            return (
                   <TableRow
                     key={blog.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {blog.id}
+                      {startNumber}
                     </TableCell>
                     <TableCell align="left">
                       <Box display='flex' alignItems='center'>
@@ -253,8 +269,18 @@ export default function Dashboard() {
                         <span>{blog.name}</span>
                       </Box>
                     </TableCell>
-                    <TableCell align="center">{blog.categoryID}</TableCell>
-                    <TableCell align="center">{blog.categoryID}</TableCell>
+                    <TableCell align="center">
+                        {blog.category.name}
+                    </TableCell>
+                    <TableCell align="center">
+                    {blog.blogTags.slice(0, 3).map((tag, index) => (
+                        <span key={tag.tagID}>
+                            {tagIDToNameMapping[tag.tagID]}
+                            {index < blog.blogTags.length - 1 && ", "}
+                        </span>
+                    ))}
+                     {blog.blogTags.length > 3 && `${tagIDToNameMapping[blog.blogTags[2].tagID]} ...`}
+                    </TableCell>
                     <TableCell align="center">{blog.categoryID}</TableCell>
                     <TableCell align="center">
                       <Button onClick={() => handleSelectBlog(blog)} startIcon={<Edit />} />

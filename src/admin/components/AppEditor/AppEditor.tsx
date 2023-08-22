@@ -1,6 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { FormControl, FormHelperText } from '@mui/material';
 import { UseControllerProps,useController } from 'react-hook-form';
 
@@ -16,13 +16,9 @@ const AppEditor = (props: Props) => {
 
     const editorRef = useRef<TinyMCEEditor | null>(null);
     
-    useEffect(() => {
-        if (editorRef.current) {
-            const editorContent = editorRef.current.getContent();
-            field.onChange(editorContent); // Form kontrolünün değerini güncelle
-            console.log(editorRef.current.getContent());
-        }
-    }, [editorRef.current]);
+    const handleEditorChange = (content: string) => {
+      field.onChange(content);
+  };
     
   return (
     <FormControl className='form-editor'>
@@ -30,6 +26,7 @@ const AppEditor = (props: Props) => {
       apiKey={import.meta.env.VITE_REACT_APP_TINYCME_KEY}
       onInit={(_evt, editor) => editorRef.current = editor}
       initialValue={field.value.text}
+      onEditorChange={handleEditorChange}
       init={{
         height: 500, 
         //menubar: false,

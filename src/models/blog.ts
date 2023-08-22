@@ -8,6 +8,9 @@ export interface Blog {
     tagName: string | undefined;
     description: BlogDescription;
     blogTags: BlogTag[];
+    category: {
+        name: string;
+    }
 }
 
 export interface BlogParams {

@@ -8,7 +8,11 @@ import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
         multiple?: boolean;
     }
 
+    
+
     export default function AppSelectList(props: AppSelectListProps) {
+    console.log(props.value);
+
         return (
         <FormControl fullWidth>
             <InputLabel>{props.label}</InputLabel>

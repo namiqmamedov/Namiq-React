@@ -66,7 +66,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
 
     const [selectedCategory, setSelectedCategory] = useState<number[]>(selectedCategoryID);
 
-    const [selectedTags, setSelectedTags] = useState<number[]>(selectedTagIDs);
+    const [selectedTags, setSelectedTags] = useState<number[]>(selectedTagIDs || []);
 
 
     useEffect(() => {
@@ -116,7 +116,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Tag'
-                            value={[...selectedTags]}
+                            value={selectedTags}
                             options={tagOptions}
                             onChange={handleTagChange}
                             multiple={true}
