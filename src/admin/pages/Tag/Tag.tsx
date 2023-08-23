@@ -11,17 +11,17 @@ import { LoadingButton } from '@mui/lab';
 import agent from '../../../api/agent';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import useCategory from '../../../hooks/useCategory';
-import { Category } from '../../../models/category';
-import CategoryForm from '../../components/CategoryForm/CategoryForm';
-import { removeCategory, setPageNumber } from '../../../store/slice/categorySlice';
+import useTag from '../../../hooks/useTag';
+import { Tag } from '../../../models/tag';
+import TagForm from '../../components/TagForm/TagForm';
+import { removeTag, setPageNumber } from '../../../store/slice/tagSlice';
 
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link to={'/admin/category'} color="inherit">
+      <Link to={'/admin/tag'} color="inherit">
         Namiq
       </Link>{' '}
       {new Date().getFullYear()}
@@ -30,39 +30,39 @@ function Copyright(props: any) {
   );
 }
 
-export default function CategoryPage() {
-  const {category,metaData} = useCategory();
+export default function TagPage() {
+  const {tag,metaData} = useTag();
   const [editMode,setEditMode] = useState(false)
 
   const dispatch = useAppDispatch();
-  const [selectedCategory, setSelectedCategory] = useState<Category | undefined>(undefined);
+  const [selectedTag, setSelectedTag] = useState<Tag | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [target, setTarget] = useState(0);
 
 
-  function handleSelectCategory(category: Category) {
-    setSelectedCategory(category);
+  function handleSelectTag(tag: Tag) {
+    setSelectedTag(tag);
     setEditMode(true);
   }
 
-  function handleDeleteCategory(id: number) {
+  function handleDeleteTag(id: number) {
     setLoading(true);
     setTarget(id);
-    agent.Admin.deleteCategory(id)
-      .then(() => dispatch(removeCategory(id)))
+    agent.Admin.deleteTag(id)
+      .then(() => dispatch(removeTag(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
   }
 
   function cancelEdit() {
-    if (selectedCategory) setSelectedCategory(undefined);
+    if (selectedTag) setSelectedTag(undefined);
     setEditMode(false);
   }
 
   if (editMode) {
     return (
-        <CategoryForm
-            category={selectedCategory}
+        <TagForm
+            tag={selectedTag}
             cancelEdit={cancelEdit}
         />
     );
@@ -72,7 +72,7 @@ export default function CategoryPage() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid className='!flex-col' container spacing={3}>
             <Box display='flex' justifyContent='space-between'>
-                <Typography sx={{ p: 2 }} variant='h4'>Category</Typography>
+                <Typography sx={{ p: 2 }} variant='h4'>Tag</Typography>
                 <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
             </Box>
             <TableContainer component={Paper}>
@@ -85,7 +85,7 @@ export default function CategoryPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-              {category.map((item,index) => {
+              {tag.map((item,index) => {
 
             const currentPage = metaData!!.currentPage;
             const pageSize = metaData!!.pageSize;
@@ -105,10 +105,10 @@ export default function CategoryPage() {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Button onClick={() => handleSelectCategory(item)} startIcon={<Edit />} />
+                      <Button onClick={() => handleSelectTag(item)} startIcon={<Edit />} />
                       <LoadingButton
                         loading={loading && target === item.id}
-                        onClick={() => handleDeleteCategory(item.id)}
+                        onClick={() => handleDeleteTag(item.id)}
                         startIcon={<Delete />} color='error' />
                     </TableCell>
                   </TableRow>

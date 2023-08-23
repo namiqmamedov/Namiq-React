@@ -1,6 +1,6 @@
 export interface Category {
     id: number,
-    name: string | undefined;
+    name: string;
 }
 
 export interface CategoryParams {

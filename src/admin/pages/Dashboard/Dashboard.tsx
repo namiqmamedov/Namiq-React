@@ -16,12 +16,11 @@ import BlogForm from '../../components/BlogForm/BlogForm';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
-
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link to={'https://mui.com'} color="inherit">
+      <Link to={'/admin/dashboard'} color="inherit">
         Namiq
       </Link>{' '}
       {new Date().getFullYear()}
@@ -29,7 +28,6 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-
 
 export default function Dashboard() {
   const {blogs,metaData,tags} = useBlogs();

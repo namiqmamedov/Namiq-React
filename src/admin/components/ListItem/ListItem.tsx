@@ -29,7 +29,7 @@ export const mainListItems = (
     </ListItemButton>
     </Link>
     <Divider sx={{ my: 1 }} />
-    <Link to={''}>
+    <Link to={'/admin/tag'}>
     <ListItemButton>
       <ListItemIcon>
         <AiFillTags />

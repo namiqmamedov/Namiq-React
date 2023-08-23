@@ -78,7 +78,15 @@ function createFormData(item: any) {
 const Admin = {
     createBlog: (blog:any) => requests.postForm('blog',createFormData(blog)),
     updateBlog: (blog:any) => requests.putForm('blog',createFormData(blog)),
-    deleteBlog: (id: number) => requests.delete(`blog/${id}`)
+    deleteBlog: (id: number) => requests.delete(`blog/${id}`),
+
+    createCategory: (category:any) => requests.postForm('category', createFormData(category)),
+    updateCategory: (category:any) => requests.putForm('category', createFormData(category)),
+    deleteCategory: (id:number) => requests.delete(`category/${id}`),
+
+    createTag: (tag:any) => requests.postForm('tag', createFormData(tag)),
+    updateTag: (tag:any) => requests.putForm('tag', createFormData(tag)),
+    deleteTag: (id:number) => requests.delete(`tag/${id}`)
 }
 
 const Blog = {
@@ -89,8 +97,10 @@ const Blog = {
 
 const Category = {
     list: (params: URLSearchParams) => requests.get('category/list', params),
-    // details: (id: number) => requests.get(`category/${id}`),
-    // fetchFilters: () => requests.get('blog/filters')
+}
+
+const Tag = {
+    list: (params: URLSearchParams) => requests.get('tag/list', params),
 }
 
 
@@ -103,7 +113,8 @@ const agent = {
     Blog,
     Account,
     Admin,
-    Category
+    Category,
+    Tag
 }
 
 export default agent;

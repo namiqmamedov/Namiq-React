@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { blogSlice } from './slice/blogSlice';
 import { accountSlice } from './slice/accountSlice';
 import { categorySlice } from './slice/categorySlice';
+import { tagSlice } from './slice/tagSlice';
 
 export const store = configureStore({
     reducer: {
        blog: blogSlice.reducer,
        category: categorySlice.reducer,
+       tag: tagSlice.reducer,
        account: accountSlice.reducer
     }
 })

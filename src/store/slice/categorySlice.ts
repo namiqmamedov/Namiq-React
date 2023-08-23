@@ -31,13 +31,9 @@ export const fetchCategoryAsync = createAsyncThunk<
 >('category/fetchCategoryAsync', async (_, thunkAPI) => {
     const params = getAxiosParams(thunkAPI.getState().category.categoryParams);
     try {
-        debugger;
         const response = await agent.Category.list(params);
         thunkAPI.dispatch(setMetaData(response.metaData));
         thunkAPI.dispatch(setTotalResults(response.metaData.totalCount));
-
-        console.log(response.items);
-        
 
         return response.items;
     } catch (error:any) {
@@ -97,9 +93,6 @@ export const fetchCategoryAsync = createAsyncThunk<
         })
         builder.addCase(fetchCategoryAsync.fulfilled, (state,action) => {
             categoryAdapter.setAll(state, action.payload);
-
-            console.log(action.payload);
-            
 
             state.status = 'idle';
             state.categoryLoaded = true;
