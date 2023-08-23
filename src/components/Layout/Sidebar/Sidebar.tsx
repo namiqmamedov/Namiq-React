@@ -7,42 +7,20 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from '../ListItem/ListItem';
 import useBlogs from '../../../hooks/useBlogs';
-import { TableRow, TableCell, Button, Table, TableBody, TableContainer, TableHead } from '@mui/material';
-import AppPagination from '../../../components/UI/AppPagination/AppPagination';
-import { removeBlog, setPageNumber } from '../../../store/slice/blogSlice';
 import { useAppDispatch } from '../../../store/configureStore';
 import { useState } from 'react';
-import { LoadingButton } from '@mui/lab';
 import {Blog}  from '../../../models/blog';
-import agent from '../../../api/agent';
-import BlogForm from '../BlogForm/BlogForm';
-import { Delete, Edit } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { mainListItems } from '../../../admin/components/ListItem/ListItem';
+import BlogForm from '../../../admin/components/BlogForm/BlogForm';
+import Routers from '../../../routes/Routers';
 
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link to={'https://mui.com'} color="inherit">
-        Namiq
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth: number = 240;
 
@@ -97,14 +75,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
-  const {blogs,metaData,tags} = useBlogs();
+export default function Sidebar() {
+  const {tags} = useBlogs();
   const [editMode,setEditMode] = useState(false)
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
-  const [target, setTarget] = useState(0);
 
   const tagNamesAndIDs: { id: string, name: string }[] = Object.values(tags).map((tag: any) => ({
     id: tag.tagID,
@@ -117,19 +93,6 @@ export default function Dashboard() {
   });
 
 
-  function handleSelectBlog(blog: Blog) {
-    setSelectedBlog(blog);
-    setEditMode(true);
-  }
-
-  function handleDeleteBlog(id: number) {
-    setLoading(true);
-    setTarget(id);
-    agent.Admin.deleteBlog(id)
-      .then(() => dispatch(removeBlog(id)))
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false));
-  }
 
   function cancelEdit() {
     if (selectedBlog) setSelectedBlog(undefined);
@@ -160,7 +123,7 @@ export default function Dashboard() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }} className='app-box'>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
@@ -209,11 +172,8 @@ export default function Dashboard() {
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
-          <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         <Box
@@ -229,82 +189,11 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid className='!flex-col' container spacing={3}>
-            <Box display='flex' justifyContent='space-between'>
-                <Typography sx={{ p: 2 }} variant='h4'>Blog</Typography>
-                <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
-            </Box>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="center">Category</TableCell>
-                            <TableCell align="center">Tag</TableCell>
-                            <TableCell align="center">Comment</TableCell>
-                            <TableCell align="center">Settings</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-              {blogs.map((blog,index) => {
 
-            const currentPage = metaData!!.currentPage;
-            const pageSize = metaData!!.pageSize;
+        <React.Fragment>
+          <Routers />
+        </React.Fragment>
 
-            const startNumber = (currentPage - 1) * pageSize + index + 1;
-
-            return (
-                  <TableRow
-                    key={blog.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {startNumber}
-                    </TableCell>
-                    <TableCell align="left">
-                      <Box display='flex' alignItems='center'>
-                        <img src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
-                        <span>{blog.name}</span>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="center">
-                        {blog.category.name}
-                    </TableCell>
-                    <TableCell align="center">
-                    {blog.blogTags.slice(0, 3).map((tag, index) => (
-                        <span key={tag.tagID}>
-                            {tagIDToNameMapping[tag.tagID]}
-                            {index < blog.blogTags.length - 1 && ", "}
-                        </span>
-                    ))}
-                     {blog.blogTags.length > 3 && `${tagIDToNameMapping[blog.blogTags[2].tagID]} ...`}
-                    </TableCell>
-                    <TableCell align="center">{blog.categoryID}</TableCell>
-                    <TableCell align="center">
-                      <Button onClick={() => handleSelectBlog(blog)} startIcon={<Edit />} />
-                      <LoadingButton
-                        loading={loading && target === blog.id}
-                        onClick={() => handleDeleteBlog(blog.id)}
-                        startIcon={<Delete />} color='error' />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-                </TableBody>
-                </Table>
-            </TableContainer>
-               {metaData &&  
-                  <Box sx={{pt: 2}}>
-                      <AppPagination 
-                          metaData={metaData} 
-                          onPageChange={(page: number) => dispatch(setPageNumber({pageNumber: page}))} />
-                  </Box>
-               }
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
         </Box>
       </Box>
     </ThemeProvider>

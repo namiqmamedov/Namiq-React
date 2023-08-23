@@ -87,6 +87,13 @@ const Blog = {
     fetchFilters: () => requests.get('blog/filters')
 }
 
+const Category = {
+    list: (params: URLSearchParams) => requests.get('category/list', params),
+    // details: (id: number) => requests.get(`category/${id}`),
+    // fetchFilters: () => requests.get('blog/filters')
+}
+
+
 const Account = {
     login: (values: any) => requests.post('account/login', values),
     currentUser: () => requests.get('account/current-user')
@@ -95,7 +102,8 @@ const Account = {
 const agent = {
     Blog,
     Account,
-    Admin
+    Admin,
+    Category
 }
 
 export default agent;

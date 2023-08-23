@@ -70,3 +70,12 @@ p{
   margin: 0 auto !important;
   margin-top: 20px !important;
 }
+
+.app-box .MuiListItemIcon-root svg{
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.app-box .MuiListItemIcon-root {
+  padding-left: 7px;
+}

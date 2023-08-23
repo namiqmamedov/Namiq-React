@@ -2,7 +2,8 @@ import {Routes,Route,Navigate} from 'react-router-dom'
 import Home from '../pages/Home'
 import BlogDetail from '../pages/BlogDetail'
 import Login from '../pages/Login'
-import Dashboard from '../admin/components/Dashboard/Dashboard'
+import Dashboard from '../admin/pages/Dashboard/Dashboard'
+import CategoryPage from '../admin/pages/Category/Category'
 
 const Routers = () => {
   return (
@@ -14,7 +15,9 @@ const Routers = () => {
 
         {/* ADMIN ROUTES */}
 
-        <Route path='/dashboard' element={<Dashboard/>} />
+
+        <Route path='/admin/dashboard' element={<Dashboard/>} />
+        <Route path='/admin/category' element={<CategoryPage/>} />
         <Route path='/login' element={<Login/>} />
     </Routes>
   )
