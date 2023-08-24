@@ -9,6 +9,7 @@ import BlogCardSkeleton from "../BlogCardSkeleton/BlogCardSkeleton";
 import AppPagination from "../AppPagination/AppPagination";
 import useBlogs from "../../../hooks/useBlogs";
 import { setPageNumber } from "../../../store/slice/blogSlice";
+import { Link } from "react-router-dom";
 
 interface Props {
   blogs?: Blog[];
@@ -27,9 +28,6 @@ const BlogList = ({blogs}: Props) => {
             <BlogCardSkeleton/>
           ) : (
             <div className="card border-primary mb-12">
-            <div className="card-header">
-              {blog.name}
-            </div>
             <div className="card-image">
               <img
                 src={main01}
@@ -39,7 +37,7 @@ const BlogList = ({blogs}: Props) => {
               />
             </div>
             <div className="card-body">
-              <h4 className="card-title">Primary card title</h4>
+              <div className="text-[22px] mb-2">{blog.name}</div>
               <div className="post__content flex items-center gap-3">
                 <div className="date-wrapper flex items-center gap-1">
                   <BsCalendar2DateFill />
@@ -65,11 +63,11 @@ const BlogList = ({blogs}: Props) => {
                 content. Some quick example text to build on the card title and make
                 up the bulk of the card's content.
               </p>
-              <div className="view-btn w-full text-end mt-3 mb-4">
+              <Link to={`/blog/${blog.id}`} className="view-btn w-full text-end mt-3 mb-4">
                 <button type="button" className="btn btn-primary">
                   Read More
                 </button>
-              </div>
+              </Link>
             </div>
           </div>
           )} 

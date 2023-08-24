@@ -104,6 +104,11 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     <Grid item xs={12} sm={12}>
                         <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
+
+                    <input type="hidden" name="deletedAt" value="0" />
+                    <input type="hidden" name="updatedAt" value="0" />
+
+
                  <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Category'

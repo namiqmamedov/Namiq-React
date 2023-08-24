@@ -11,7 +11,6 @@ import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
     
 
     export default function AppSelectList(props: AppSelectListProps) {
-    console.log(props.value);
 
         return (
         <FormControl fullWidth>

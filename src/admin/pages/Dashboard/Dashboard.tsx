@@ -15,6 +15,8 @@ import agent from '../../../api/agent';
 import BlogForm from '../../components/BlogForm/BlogForm';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { format, formatDistanceToNow } from 'date-fns';
+import Swal from 'sweetalert2';
 
 function Copyright(props: any) {
   return (
@@ -100,6 +102,7 @@ export default function Dashboard() {
                             <TableCell align="center">Category</TableCell>
                             <TableCell align="center">Tag</TableCell>
                             <TableCell align="center">Comment</TableCell>
+                            <TableCell align="center">Created At</TableCell>
                             <TableCell align="center">Settings</TableCell>
                         </TableRow>
                     </TableHead>
@@ -110,6 +113,56 @@ export default function Dashboard() {
             const pageSize = metaData!!.pageSize;
 
             const startNumber = (currentPage - 1) * pageSize + index + 1;
+
+            function getTimeAgo(date:any) {
+              const currentDate = new Date();
+              const blogDate = new Date(date);
+              const timeDifferenceInMilliseconds = currentDate.getTime() - blogDate.getTime();
+              const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (60 * 1000));
+              
+              if (timeDifferenceInMinutes < 1) {
+                return `now`;
+              } else if (timeDifferenceInMinutes < 60) {
+                return `${timeDifferenceInMinutes} minutes ago`;
+              } else if (timeDifferenceInMinutes < 1440) {
+                const hours = Math.floor(timeDifferenceInMinutes / 60);
+                return `${hours} hours ago`;
+              } else if (timeDifferenceInMinutes < 43200) {
+                const days = Math.floor(timeDifferenceInMinutes / 1440);
+                return `${days} days ago`;
+              } else if (timeDifferenceInMinutes < 525600) {
+                const months = Math.floor(timeDifferenceInMinutes / 43200);
+                return `${months} months ago`;
+              } else {
+                const years = Math.floor(timeDifferenceInMinutes / 525600);
+                return `${years} years ago`;
+              }
+            }
+
+            const timeAgo = getTimeAgo(blog.createdAt);
+            console.log(timeAgo);
+            
+
+            const handleClick = () => {
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  handleDeleteBlog(blog.id)
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                }
+              })
+            }
 
             return (
                   <TableRow
@@ -139,10 +192,13 @@ export default function Dashboard() {
                     </TableCell>
                     <TableCell align="center">{blog.categoryID}</TableCell>
                     <TableCell align="center">
+                    {getTimeAgo(blog.createdAt)}
+                    </TableCell>
+                    <TableCell align="center">
                       <Button onClick={() => handleSelectBlog(blog)} startIcon={<Edit />} />
                       <LoadingButton
                         loading={loading && target === blog.id}
-                        onClick={() => handleDeleteBlog(blog.id)}
+                        onClick={() => handleClick()}
                         startIcon={<Delete />} color='error' />
                     </TableCell>
                   </TableRow>

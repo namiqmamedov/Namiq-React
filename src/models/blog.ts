@@ -1,6 +1,9 @@
 export interface Blog {
     id: number,
     name: string | undefined;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
     pictureUrl: string;
     categoryID: number;
     tagID: number;

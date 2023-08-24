@@ -12,10 +12,9 @@ const Routers = () => {
         <Route path='/' element={<Navigate to={'home'}/>} /> 
         <Route path='/home' element={<Home />} />
         <Route path='/search' element={<Home />} />
-        <Route path='/blog' element={<BlogDetail/>} />
+        <Route path='/blog/:id' element={<BlogDetail/>} />
 
         {/* ADMIN ROUTES */}
-
 
         <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/category' element={<CategoryPage/>} />

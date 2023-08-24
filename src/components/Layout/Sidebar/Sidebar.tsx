@@ -13,7 +13,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useBlogs from '../../../hooks/useBlogs';
-import { useAppDispatch } from '../../../store/configureStore';
 import { useState } from 'react';
 import {Blog}  from '../../../models/blog';
 import { mainListItems } from '../../../admin/components/ListItem/ListItem';
@@ -78,7 +77,6 @@ const defaultTheme = createTheme();
 export default function Sidebar() {
   const {tags} = useBlogs();
   const [editMode,setEditMode] = useState(false)
-  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
 

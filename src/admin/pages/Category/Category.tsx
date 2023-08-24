@@ -15,6 +15,7 @@ import useCategory from '../../../hooks/useCategory';
 import { Category } from '../../../models/category';
 import CategoryForm from '../../components/CategoryForm/CategoryForm';
 import { removeCategory, setPageNumber } from '../../../store/slice/categorySlice';
+import Swal from 'sweetalert2';
 
 
 function Copyright(props: any) {
@@ -92,6 +93,27 @@ export default function CategoryPage() {
 
             const startNumber = (currentPage - 1) * pageSize + index + 1;
 
+            const handleClick = () => {
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  handleDeleteCategory(item.id)
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                }
+              })
+            }
+
             return (
                   <TableRow
                     key={item.id}
@@ -108,7 +130,7 @@ export default function CategoryPage() {
                       <Button onClick={() => handleSelectCategory(item)} startIcon={<Edit />} />
                       <LoadingButton
                         loading={loading && target === item.id}
-                        onClick={() => handleDeleteCategory(item.id)}
+                        onClick={() => handleClick()}
                         startIcon={<Delete />} color='error' />
                     </TableCell>
                   </TableRow>

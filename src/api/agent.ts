@@ -103,7 +103,6 @@ const Tag = {
     list: (params: URLSearchParams) => requests.get('tag/list', params),
 }
 
-
 const Account = {
     login: (values: any) => requests.post('account/login', values),
     currentUser: () => requests.get('account/current-user')
