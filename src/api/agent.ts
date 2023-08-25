@@ -86,7 +86,11 @@ const Admin = {
 
     createTag: (tag:any) => requests.postForm('tag', createFormData(tag)),
     updateTag: (tag:any) => requests.putForm('tag', createFormData(tag)),
-    deleteTag: (id:number) => requests.delete(`tag/${id}`)
+    deleteTag: (id:number) => requests.delete(`tag/${id}`),
+
+    createComment: (comment:any) => requests.postForm('comment', createFormData(comment)),
+    acceptComment: (commentId:any) => requests.put(`comment/${commentId}/accept`, {}),
+    deleteComment: (id:number) => requests.delete(`comment/${id}`)
 }
 
 const Blog = {
@@ -103,6 +107,10 @@ const Tag = {
     list: (params: URLSearchParams) => requests.get('tag/list', params),
 }
 
+const Comment = {
+    list: (params: URLSearchParams) => requests.get('comment/list', params),
+}
+
 const Account = {
     login: (values: any) => requests.post('account/login', values),
     currentUser: () => requests.get('account/current-user')
@@ -113,7 +121,8 @@ const agent = {
     Account,
     Admin,
     Category,
-    Tag
+    Tag,
+    Comment
 }
 
 export default agent;

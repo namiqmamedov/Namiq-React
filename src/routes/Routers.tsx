@@ -5,6 +5,7 @@ import Login from '../pages/Login'
 import Dashboard from '../admin/pages/Dashboard/Dashboard'
 import CategoryPage from '../admin/pages/Category/Category'
 import TagPage from '../admin/pages/Tag/Tag'
+import CommentPage from '../admin/pages/Comment/Comment'
 
 const Routers = () => {
   return (
@@ -19,6 +20,7 @@ const Routers = () => {
         <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/category' element={<CategoryPage/>} />
         <Route path='/admin/tag' element={<TagPage/>} />
+        <Route path='/admin/comment' element={<CommentPage/>} />
         <Route path='/login' element={<Login/>} />
     </Routes>
   )

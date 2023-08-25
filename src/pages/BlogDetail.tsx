@@ -57,7 +57,29 @@ const BlogDetail = () => {
           </p>
           {blog?.description.text && ReactHtmlParser(blog?.description.text)}
 
+          <div className="bold text-[26px] mt-5">Post a new comment</div>
+
+            <div className="form-group">
+              <label htmlFor="exampleTextarea" className="form-label mt-4">Comment *</label>
+              <textarea className="form-control" id="exampleTextarea" rows={3}></textarea>
+            </div>
+
+            <div className="form-center flex gap-5 w-full">
+            <div className="form-group w-50">
+              <label htmlFor="exampleInputEmail1" className="form-label mt-4">Name *</label>
+              <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
+            </div>
+
+            <div className="form-group w-50">
+              <label htmlFor="exampleInputEmail1" className="form-label mt-4">Email address *</label>
+              <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
+            </div>
+
+          </div>
+            
+            <button type="button" className="btn btn-primary mt-3">Post comment</button>
         </div>
+
       </div>
         </Grid>
         <Grid item lg={4} sm={12} md={4}>

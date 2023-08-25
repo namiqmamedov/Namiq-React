@@ -38,7 +38,7 @@ export const mainListItems = (
     </ListItemButton>
     </Link>
     <Divider sx={{ my: 1 }} />
-    <Link to={''}>
+    <Link to={'/admin/comment'}>
     <ListItemButton>
       <ListItemIcon>
         <TfiCommentsSmiley />
