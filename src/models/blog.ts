@@ -1,6 +1,6 @@
 export interface Blog {
     id: number,
-    name: string | undefined;
+    name: string;
     createdAt: string;
     updatedAt: string;
     deletedAt: string;
@@ -10,6 +10,7 @@ export interface Blog {
     categoryName: string | undefined;
     tagName: string | undefined;
     description: BlogDescription;
+    comment: BlogComment[];
     blogTags: BlogTag[];
     category: {
         name: string;
@@ -26,6 +27,14 @@ export interface BlogParams {
 
 export interface BlogDescription {
     text: string;
+}
+
+export interface BlogComment {
+    text: string;
+    name: string;
+    email: string;
+    isAccepted: boolean;
+    createdAt: string;
 }
 
 export interface BlogTag {

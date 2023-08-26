@@ -21,6 +21,7 @@ interface BlogState {
     status: string;
     category: string[];
     description: string;
+    comment: string[];
     tags: string[];
     searchResults: SearchResult[];
     searchResultsCount: number;
@@ -62,6 +63,18 @@ export const fetchBlogsAsync = createAsyncThunk<
 });
 
 
+export const fetchBlogAsync = createAsyncThunk<Blog, number>(
+    'blog/fetchBlogAsync',
+    async (blogID,thunkAPI) => {
+        try {
+            return await agent.Blog.details(blogID);
+        } catch (error:any) {
+            return thunkAPI.rejectWithValue({error: error.data})
+        }
+    }
+)
+
+
 export const fetchFilters = createAsyncThunk(
     'blog/fetchFilters',
     async(_,thunkAPI) => {
@@ -79,6 +92,7 @@ function initParams() {
         pageSize: 6,
         category: [],
         description: [],
+        comment: [],
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
@@ -99,6 +113,7 @@ export const blogSlice = createSlice({
         blogParams: initParams(),
         category: [],
         description: '',
+        comment: [],
         tags: [],
         searchResults: [],
         searchResultsCount: 0,
@@ -152,6 +167,18 @@ export const blogSlice = createSlice({
         builder.addCase(fetchBlogsAsync.rejected, (state) => {
             state.status = 'idle';
         })
+        builder.addCase(fetchBlogAsync.pending, (state) => {
+            state.status = 'pendingFetchBlog';
+        })
+        builder.addCase(fetchBlogAsync.fulfilled, (state,action) => {
+            blogsAdapter.upsertOne(state,action.payload)
+            
+            state.status = 'idle';
+        })
+        builder.addCase(fetchBlogAsync.rejected, (state,action) => {
+            state.status = 'idle';
+        })
+
         builder.addCase(fetchFilters.pending, (state) => {
             state.status = 'pendingFetchFilters'
         })

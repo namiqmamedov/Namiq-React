@@ -24,6 +24,7 @@
     "apexcharts": "^3.41.1",
     "axios": "^1.4.0",
     "bootswatch": "^5.3.1",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@hookform/resolvers": "^2.9.10",
+    "@types/crypto-js": "^4.1.1",
     "@types/node": "^20.5.0",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.2.20",
