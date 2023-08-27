@@ -5,6 +5,8 @@ export interface Comment {
     email: string;
     isAccepted: boolean;
     createdAt: string;
+    parentCommentId: number;
+    blogID: number;
 }
 
 export interface CommentParams {

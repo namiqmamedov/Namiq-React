@@ -36,6 +36,8 @@ p{
 }
 
 .card-image img{
+  margin-top: -3px;
+  margin-left: 0px;
   transition: .3s ease-in-out;
   cursor: pointer;
 }
@@ -78,4 +80,15 @@ p{
 
 .app-box .MuiListItemIcon-root {
   padding-left: 7px;
+}
+
+.card.border-primary{
+  border-radius: 0 5px 5px 5px/25px 0px 25px 5px;
+}
+
+.underline{
+  cursor: pointer;
+}
+.underline:hover{
+  text-decoration: underline !important;
 }

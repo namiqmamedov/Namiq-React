@@ -175,7 +175,7 @@ export const blogSlice = createSlice({
             
             state.status = 'idle';
         })
-        builder.addCase(fetchBlogAsync.rejected, (state,action) => {
+        builder.addCase(fetchBlogAsync.rejected, (state) => {
             state.status = 'idle';
         })
 

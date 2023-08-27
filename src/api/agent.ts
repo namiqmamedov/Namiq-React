@@ -39,6 +39,9 @@ axios.interceptors.response.use(async response => {
            case 403:
                 toast.error('You are not allowed to do that');
                 break;
+           case 429:
+                toast.error('Too many requests.Please try again later.');
+                break;
             case 500:
                 router.navigate('/server-error', {state: {error: data}});
                 break;

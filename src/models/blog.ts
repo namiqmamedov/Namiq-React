@@ -30,11 +30,13 @@ export interface BlogDescription {
 }
 
 export interface BlogComment {
+    id: number;
     text: string;
     name: string;
     email: string;
     isAccepted: boolean;
     createdAt: string;
+    parentCommentID: number;
 }
 
 export interface BlogTag {

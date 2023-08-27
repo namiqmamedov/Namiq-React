@@ -33,7 +33,6 @@ const BlogList = ({blogs}: Props) => {
                 src={main01}
                 alt="Image"
                 className="w-full"
-                style={{ marginTop: "-2px" }}
               />
             </div>
             <div className="card-body">

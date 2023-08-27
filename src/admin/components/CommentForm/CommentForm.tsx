@@ -30,7 +30,8 @@ export default function TagForm({ comment, cancelEdit }: Props) {
     {
         try {
             let response: Comment;
-             response = await agent.Admin.createComment(data);
+
+            response = await agent.Admin.createComment(data);
             dispatch(setComment(response));
             cancelEdit();
         } catch (error) {
@@ -50,7 +51,7 @@ export default function TagForm({ comment, cancelEdit }: Props) {
                         <AppTextInput control={control} name='name' label='Name' />
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                    <   AppTextInput multiline={true} rows={4} control={control} name='name' label='Name' />
+                    <AppTextInput multiline={true} rows={4} control={control} name='name' label='Name' />
                     </Grid>
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>

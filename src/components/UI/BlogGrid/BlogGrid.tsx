@@ -6,12 +6,15 @@ import useBlogs from '../../../hooks/useBlogs'
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore'
 import { setBlogParams } from '../../../store/slice/blogSlice'
 import TagList from '../TagList/TagList'
+import useComments from '../../../hooks/useComments'
 
 const BlogGrid = () => {
 
-    const {category,tags} = useBlogs()
+    const {category,blogs,tags} = useBlogs()
+    const {comment} = useComments();
     const {blogParams} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
+
 
   return (
     <div className="card border-primary mb-3" >
@@ -19,53 +22,30 @@ const BlogGrid = () => {
         <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
         <List>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-            <Link to={''}>
-            Advisory | Roxy-WI Unauthenticated Remote Code Executions CVE-2022-31137
-            </Link>
-            <Link to={''}>
-            Advisory | Roxy-WI Unauthenticated Remote Code Executions CVE-2022-31137
-            </Link>
-            <Link to={''}>
-            Advisory | Roxy-WI Unauthenticated Remote Code Executions CVE-2022-31137
-            </Link>
-            <Link to={''}>
-            Advisory | Roxy-WI Unauthenticated Remote Code Executions CVE-2022-31137
-            </Link>
+           {blogs.slice(0,5).map((item,index) => {
+                 return (
+                    <Link key={index} className='w-full' to={`/blog/${item.id}`}>
+                       {item.name}
+                    </Link>
+                 )
+           })}
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-            <Link className="flex gap-2" to={''}>
-                <FaRegComment className="mt-1"/>
-                <div>
-                Ege Balci 
-                   <span className=" text-gray-400"> on </span>
-                Art of Anti Detection 3 – Shellcode Alchemy
-                </div>
-            </Link>
-            <Link className="flex gap-2" to={''}>
-                <FaRegComment className="mt-1"/>
-                <div>
-                Chase Run Taylor
-                   <span className=" text-gray-400"> on </span>
-                Art of Anti Detection 3 – Shellcode Alchemy
-                </div>
-            </Link>
-            <Link className="flex gap-2" to={''}>
-                <FaRegComment className="mt-1"/>
-                <div>
-                0x00 
-                   <span className=" text-gray-400"> on </span>
-                Art of Anti Detection 3 – Shellcode Alchemy
-                </div>
-            </Link>
-            <Link className="flex gap-2" to={''}>
-                <FaRegComment className="mt-1"/>
-                <div>
-                namiq 
-                   <span className=" text-gray-400"> on </span>
-                Art of Anti Detection 3 – Shellcode Alchemy
-                </div>
-            </Link>
+           {comment.slice(0,5).map((item,index) => {
+             const blog = blogs.find((blog:any) => blog.id === item.blogID);
+             const blogName = blog ? blog.name : 'Unknown Blog'; 
+                return (
+                    <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
+                    <FaRegComment className="mt-1"/>
+                    <div>
+                    {item.name}
+                        <span className=" text-gray-400"> on </span>
+                    {blogName}
+                    </div>
+                </Link>
+                )
+                })}
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Categories</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 categories">
