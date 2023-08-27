@@ -6,11 +6,10 @@ import { useAppDispatch } from "../../../store/configureStore";
 import { setComment } from "../../../store/slice/commentSlice";
 import SketchyInput from "../SketchyInput/SketchyInput";
 import { useParams } from "react-router-dom";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { validationSchema } from "../../../validation/blogValidation";
 import { Box } from "@mui/material";
 import { toast } from "react-toastify";
 import SketchyText from "../SketchyText/SketchyText";
+import axios from "axios";
 
 interface Props {
     comment?: Comment;
@@ -47,22 +46,38 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
 
     async function handleSubmitData(data: FieldValues) {
         try {
+            debugger;
+            const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/comment/antiForgery`);
+            console.log(antiForgeryResponse);
+            
+            const antiForgeryToken = antiForgeryResponse.data['requestToken'];
+      
+            const headers = {
+                "Content-Type": "application/x-www-form-urlencoded",
+                'X-CSRF-TOKEN': antiForgeryToken,
+            };
 
             let response: Comment;
 
+
             if(!comment) {
                 const commentWithBlogId = { ...data, blogID: Number(id),parentCommentID: Number(selectedCommentId)};
-                response = await agent.Admin.createComment(commentWithBlogId);
+                
+                response = await agent.Admin.createComment({
+                    comment: commentWithBlogId,
+                    headers: headers
+                });
+
+                if(response) {
+                    dispatch(setComment(response));
+                    toast.success('Your comment has been submitted and will be published after approval.');
+                    reset();
+                 }
+                 else {
+                  throw new Error("Comment posting failed");
+                 }
             }
             
-           if(response!) {
-            dispatch(setComment(response!));
-            toast.success('Your comment has been submitted and will be published after approval.');
-            reset();
-           }
-           else {
-            throw new Error("Comment posting failed");
-           }
 
         } catch (error) {
             console.log(error);
