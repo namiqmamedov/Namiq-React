@@ -1,6 +1,7 @@
 export interface Blog {
     id: number,
     name: string;
+    viewCount: number;
     createdAt: string;
     updatedAt: string;
     deletedAt: string;

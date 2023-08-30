@@ -16,7 +16,7 @@ import BlogForm from '../../components/BlogForm/BlogForm';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { getTimeAgo } from '../../../util/getTimeAgo';
+import { getTimeAgo } from '../../../util/util';
 
 function Copyright(props: any) {
   return (

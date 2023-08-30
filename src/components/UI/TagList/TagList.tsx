@@ -17,38 +17,33 @@ const TagList = ({items,checked,onChange}: Props) => {
 
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
-      const tagIDs = urlParams.getAll('tagID');
-  
-      setCheckedItems(tagIDs);
-    }, [location]);
+      const tagIDs = urlParams.getAll('tag');
 
-    function handleChecked(value: string) {
-      const currentIndex = checkedItems.indexOf(value);
-      let newChecked: string[];
-    
-      if (currentIndex === -1) {
-        newChecked = [value];
-      } else {
-        newChecked = [value];
-      }
-  
-      const urlParams = new URLSearchParams(location.search);
-  
-      // Remove any existing categoryID before adding the updated one
-      urlParams.delete('tagID');
-      
-      newChecked.forEach((item) => urlParams.append('tagID', item));
-    
-      navigate({ search: urlParams.toString() });
-    
-      setCheckedItems(newChecked);
-      onChange(newChecked);
-  }
+      setCheckedItems(tagIDs);
+  }, [location]);
+
+  function handleChecked(value: string) {
+    const urlParams = new URLSearchParams(location.search);
+
+    if (checkedItems.includes(value)) {
+        urlParams.delete('tag');
+        setCheckedItems([]);
+    } else {
+        urlParams.delete('tag');
+        urlParams.delete('category');
+        urlParams.append('tag', value);
+        setCheckedItems([value]);
+    }
+
+    navigate({ search: urlParams.toString() });
+    onChange(urlParams.getAll('tag'));
+}
+
   return (
     <div className="category__item flex gap-1">
     {items.map((item:any) => (
       <Link
-        onClick={() => handleChecked(item.tagID)}
+        onClick={() => handleChecked(item.tagName) }
         key={item.tagID}
       >
             <span className="badge bg-dark">

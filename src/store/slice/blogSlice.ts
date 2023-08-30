@@ -34,16 +34,47 @@ interface BlogState {
 
 const blogsAdapter = createEntityAdapter<Blog>()
 
+
+
 function getAxiosParams(blogParams: BlogParams) {
     const params = new URLSearchParams();
-    params.append('pageNumber',blogParams.pageNumber.toString());
-    params.append('pageSize',blogParams.pageSize.toString());
-    if(blogParams.searchTerm) params.append('searchTerm',blogParams.searchTerm)
-    if(blogParams.category.length > 0) params.append('category',blogParams.category.toString())
-    if(blogParams.tags.length > 0) params.append('tags',blogParams.tags.toString())
+    let lastAddedParam = '';
 
+    params.append('pageNumber', blogParams.pageNumber.toString());
+    params.append('pageSize', blogParams.pageSize.toString());
+    if (blogParams.searchTerm) params.append('searchTerm', blogParams.searchTerm);
+
+    const hasCategory = blogParams.category.length > 0;
+    const hasTags = blogParams.tags.length > 0;
+
+    if (hasCategory && !hasTags) {
+        params.append('category', blogParams.category.toString());
+        lastAddedParam = 'category';
+    } else if (!hasCategory && hasTags) {
+        params.append('tags', blogParams.tags.toString());
+        lastAddedParam = 'tags';
+    }
+
+    const urlParams = new URLSearchParams(window.location.search); 
+    const hasCategoryInUrl = urlParams.has('category');
+    const hasTagsInUrl = urlParams.has('tag');
+
+    if (hasCategoryInUrl && !hasTagsInUrl) {
+        params.append('category', blogParams.category.toString());
+    } else if (!hasCategoryInUrl && hasTagsInUrl) {
+        params.append('tags', blogParams.tags.toString());
+    } else if (hasCategoryInUrl && hasTagsInUrl) {
+  
+        if (urlParams.get('category')) {
+            params.append('category', blogParams.category.toString());
+        } else if (urlParams.get('tag')) {
+            params.append('tags', blogParams.tags.toString());
+        }
+    }
+    
     return params;
 }
+
 
 export const fetchBlogsAsync = createAsyncThunk<
   Blog[],
@@ -51,8 +82,10 @@ export const fetchBlogsAsync = createAsyncThunk<
   { state: RootState }
 >('blog/fetchBlogsAsync', async (_, thunkAPI) => {
   const params = getAxiosParams(thunkAPI.getState().blog.blogParams);
+
   try {
     const response = await agent.Blog.list(params);
+
     thunkAPI.dispatch(setMetaData(response.metaData));
     thunkAPI.dispatch(setTotalResults(response.metaData.totalCount));
 
@@ -61,7 +94,6 @@ export const fetchBlogsAsync = createAsyncThunk<
     return thunkAPI.rejectWithValue({ error: error.data });
   }
 });
-
 
 export const fetchBlogAsync = createAsyncThunk<Blog, number>(
     'blog/fetchBlogAsync',
@@ -73,7 +105,6 @@ export const fetchBlogAsync = createAsyncThunk<Blog, number>(
         }
     }
 )
-
 
 export const fetchFilters = createAsyncThunk(
     'blog/fetchFilters',
@@ -97,6 +128,8 @@ function initParams() {
         searchResults: [],
         searchResultsCount: 0,
         hasSubmitted: false,
+        categoryAdded: false,
+        tagsAdded: false
     }
 }
 

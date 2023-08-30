@@ -99,6 +99,7 @@ const Admin = {
 
 const Blog = {
     list: (params: URLSearchParams) => requests.get('blog/list', params),
+    listNoFilter: () => requests.get('blog/listNoFilter'),
     details: (id: number) => requests.get(`blog/${id}`),
     fetchFilters: () => requests.get('blog/filters')
 }

@@ -4,17 +4,18 @@ import { BiSolidUser } from "react-icons/bi"
 import { BsCalendar2DateFill } from "react-icons/bs"
 import main01 from "../assets/images/main01.png";
 import {FaFolderOpen} from 'react-icons/fa'
+import {AiFillEye} from 'react-icons/ai'
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
 import { blogSelectors, fetchBlogAsync } from "../store/slice/blogSlice"
 import { useParams } from "react-router-dom"
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom"
 import * as sha256 from 'crypto-js/sha256';
-import { getTimeAgo } from "../util/getTimeAgo";
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
+import { getTimeAgo } from "../util/util";
 
 function generateUniqueKey(email: string): string {
   return sha256(email).toString();
@@ -34,7 +35,7 @@ const BlogDetail = () => {
     if(!blog) dispatch(fetchBlogAsync(parseInt((!blog && id!))))
     }, [id,dispatch,blog]) 
 
-  const formattedCreatedAt = blog?.createdAt
+   const formattedCreatedAt = blog?.createdAt
   ? format(new Date(blog.createdAt), 'MMMM d, yyyy')
   : '';
 
@@ -51,6 +52,7 @@ const BlogDetail = () => {
         <div className="card-image">
           <img
             src={main01}
+            height={450}
             alt="Image"
             className="w-full"
           />
@@ -62,13 +64,18 @@ const BlogDetail = () => {
               <BsCalendar2DateFill />
               <span>{formattedCreatedAt}</span> 
             </div>
+
             <div className="author-wrapper flex items-center gap-1">
               <BiSolidUser />
               <span>admin</span>
+
             </div>
             <div className="comment-wrapper flex items-center gap-1">
               <FaFolderOpen />
               <span>{blog?.category?.name}</span> 
+            </div>
+            <div className="view-count flex gap-1 items-center">
+            <AiFillEye/> {blog?.viewCount}
             </div>
           </div>
           <p className="card-text mt-4">

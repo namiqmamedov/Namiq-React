@@ -9,12 +9,12 @@ interface Props {
     metaData: MetaData;
     onPageChange: (page: number, searchTerm?: string) => void;
     searchTerm?: string;
-    categoryID?: string; 
-    tagID?: string; 
+    category?: string; 
+    tag?: string; 
 }
 
 
-const AppPagination = ({metaData,onPageChange,searchTerm,categoryID,tagID}:Props) => {
+const AppPagination = ({metaData,onPageChange,searchTerm,category,tag}:Props) => {
     const {currentPage,totalCount,totalPages,pageSize} = metaData;
     const [pageNumber,setPageNumber] = useState(currentPage);
     const navigate = useNavigate();
@@ -47,12 +47,12 @@ const AppPagination = ({metaData,onPageChange,searchTerm,categoryID,tagID}:Props
         searchParams.set('q', searchTerm || '');
       }
 
-      if (categoryID) {
-        searchParams.set('categoryID', categoryID);
+      if (category) {
+        searchParams.set('category', category);
       }
 
-      if (tagID) {
-        searchParams.set('tagID', tagID);
+      if (tag) {
+        searchParams.set('tag', tag);
       }
 
       // Navigate to the new URL

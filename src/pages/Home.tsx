@@ -13,7 +13,7 @@ const Home = () => {
   const {blogs,filtersLoaded} = useBlogs()
   
   const searchResultsCount = useSelector((state: RootState) => state.blog.searchResultsCount);  
-  const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted); // Get hasSubmitted from Redux state
+  const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted);
   const totalResults = useAppSelector(state => state.blog.totalResults);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -22,30 +22,30 @@ const Home = () => {
 
   const searchQuery = searchParams.get("q");
   const page = parseInt(searchParams.get('page') || '1', 10);
-  const categoryID = searchParams.get("categoryID");
-  const tagID = searchParams.get("tagID");
+  const category = searchParams.get("category");
+  const tag = searchParams.get("tag");
 
   useEffect(() => {
     if (searchQuery) {
-      dispatch(setBlogParams({ searchTerm: searchQuery, pageNumber: page, categoryID: categoryID, tagID: tagID }));
+      dispatch(setBlogParams({ searchTerm: searchQuery, pageNumber: page}));
       dispatch(fetchBlogsAsync() as any);
     }
-  }, [searchQuery, page, categoryID, tagID, dispatch]);
+  }, [searchQuery, page, dispatch]);
 
   useEffect(() => {
-    if (categoryID) {
-      dispatch(setBlogParams({category: categoryID}));
+    if (category) {
+      dispatch(setBlogParams({category: category}));
       dispatch(fetchBlogsAsync() as any);
     }
-  }, [categoryID, dispatch]);
+  }, [category, dispatch]);
 
   
   useEffect(() => {
-    if (tagID) {
-      dispatch(setBlogParams({tags: tagID}));
+    if (tag) {
+      dispatch(setBlogParams({tags: tag}));
       dispatch(fetchBlogsAsync() as any);
     }
-  }, [tagID, dispatch]);
+  }, [tag, dispatch]);
   
 
   if(!filtersLoaded) return <Loading/>
@@ -53,13 +53,9 @@ const Home = () => {
   return (
         <div className='card__item'>
             <Container>
-            <div className="mt-4">
-            {searchQuery &&  (
-                <p className="text-[22px]">
-                    <small>{totalResults} Results for </small> “{searchQuery}”
-                </p>
-            )}
-              </div>
+            <div className="mt-12">
+
+            </div>
               <Grid container spacing={2} className="!mt-6">
               <Grid item lg={8} sm={12} md={8}>
                           {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 ? (
@@ -68,15 +64,33 @@ const Home = () => {
                               <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
                             </Fragment>
                           ) : (
-                            /* Notify if tagID doesn't match any blog */
-                            tagID && blogs.length === 0 && (
+                            tag && blogs?.length === 0 && (
                              <Fragment>
                               <p className="font-bold text-[32px]">Not found</p>
                               <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
                             </Fragment>
                             )
                           )}
-                          {blogs?.length > 0 && <BlogList blogs={blogs} />}
+                          {blogs?.length > 0 &&
+                              <Fragment>
+                                {searchQuery &&  (
+                                    <p className="text-[22px]">
+                                        <small>{totalResults} Results for </small> “{searchQuery}”
+                                    </p>
+                                )}
+                                {tag && (
+                                    <p className="text-[28px]">
+                                      <small>Tag: </small> {tag}
+                                    </p>
+                                )}
+                                {category && (
+                                    <p className="text-[28px]">
+                                      <small>Category: </small> {category}
+                                    </p>
+                                )}
+                                <BlogList blogs={blogs} />
+                              </Fragment> 
+                            }
                         </Grid>
                         <Grid item lg={4} sm={12} md={4}>
                             <BlogGrid/>

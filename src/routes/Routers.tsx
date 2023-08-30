@@ -1,4 +1,4 @@
-import {Routes,Route,Navigate} from 'react-router-dom'
+import {Routes,Route} from 'react-router-dom'
 import Home from '../pages/Home'
 import BlogDetail from '../pages/BlogDetail'
 import Login from '../pages/Login'
@@ -10,8 +10,7 @@ import CommentPage from '../admin/pages/Comment/Comment'
 const Routers = () => {
   return (
     <Routes>
-        <Route path='/' element={<Navigate to={'home'}/>} /> 
-        <Route path='/home' element={<Home />} />
+        <Route path='/' element={<Home />} />
         <Route path='/search' element={<Home />} />
         <Route path='/blog/:id' element={<BlogDetail/>} />
 

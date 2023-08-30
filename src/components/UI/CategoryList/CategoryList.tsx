@@ -16,38 +16,35 @@ const CategoryList = ({items,checked,onChange}: Props) => {
 
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
-      const categoryIDs = urlParams.getAll('categoryID');
-  
-      setCheckedItems(categoryIDs);
-    }, [location]);
+      const categoryIDs = urlParams.getAll('category');
 
-    function handleChecked(value: string) {
-      const currentIndex = checkedItems.indexOf(value);
-      let newChecked: string[];
-    
-      if (currentIndex === -1) {
-        newChecked = [value];
-      } else {
-        newChecked = [value];
-      }
-  
+      setCheckedItems(categoryIDs);
+  }, [location]);
+
+  function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
-  
-      // Remove any existing categoryID before adding the updated one
-      urlParams.delete('categoryID');
-      
-      newChecked.forEach((item) => urlParams.append('categoryID', item));
-    
+
+      if (checkedItems.includes(value)) {
+          urlParams.delete('category');
+          setCheckedItems([]);
+      } else {
+          urlParams.delete('tag');
+          urlParams.delete('category');
+          urlParams.append('category', value);
+          setCheckedItems([value]);
+      }
+
       navigate({ search: urlParams.toString() });
-    
-      setCheckedItems(newChecked);
-      onChange(newChecked);
+      onChange(urlParams.getAll('category'));
   }
+
+
+
   return (
     <div className="category__item flex flex-column">
     {items.map((item:any) => (
       <Link
-        onClick={() => handleChecked(item.categoryID)}
+        onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}
       >
         {item.categoryName }

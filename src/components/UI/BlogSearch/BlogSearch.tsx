@@ -9,20 +9,18 @@ const BlogSearch = () => {
     const [searchTerm, setSearchTerm] = useState(blogParams.searchTerm);
     const navigate = useNavigate(); 
     const dispatch = useAppDispatch();
-    const location = useLocation(); // Get the current location object
+    const location = useLocation(); 
 
 
     const searchParams = new URLSearchParams(location.search);
-   // Check if categoryID exists in the URL
-   const categoryIDExists = searchParams.has('categoryID');
-    
-   // Get the categoryID value from the URL
-   const categoryID = categoryIDExists ? searchParams.get('categoryID') : null;
 
-   const tagIDExists = searchParams.has('tagID');
+//    const categoryIDExists = searchParams.has('category');
     
-   // Get the categoryID value from the URL
-   const tagID = tagIDExists ? searchParams.get('tagID') : null;
+//    const category = categoryIDExists ? searchParams.get('category') : null;
+
+//    const tagIDExists = searchParams.has('tag');
+    
+//    const tag = tagIDExists ? searchParams.get('tag') : null;
 
     const debouncedSearch = debounce(async (value: string) => {
         dispatch(setBlogParams({ searchTerm: value }));
@@ -34,7 +32,7 @@ const BlogSearch = () => {
                 return;
             }
             
-            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}&categoryID=${encodeURIComponent(categoryID || '')}&tagID=${encodeURIComponent(tagID || '')}`);
+            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}`);
             
             const data = await response.json();
             
@@ -46,8 +44,8 @@ const BlogSearch = () => {
                 setSearchResultsCount(0);
             }
         } catch (error) {
-            setSearchResults([]); // Reset searchResults to an empty array in case of an error
-            setSearchResultsCount(0); // Reset the count
+            setSearchResults([]);
+            setSearchResultsCount(0);
         }
     }, 1000);
 
@@ -56,7 +54,7 @@ const BlogSearch = () => {
         dispatch(setHasSubmitted(true));
         debouncedSearch(searchTerm!);
 
-        navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1${categoryID !== null ? `&categoryID=${encodeURIComponent(categoryID)}` : ''}${tagID !== null ? `&tagID=${encodeURIComponent(tagID)}` : ''}`);
+        navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1`);
     };
 
     return (

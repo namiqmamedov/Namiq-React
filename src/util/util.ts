@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export function getTimeAgo(date:any) {
     const currentDate = new Date();
     const blogDate = new Date(date);
@@ -22,3 +24,6 @@ export function getTimeAgo(date:any) {
       return `${years} years ago`;
     }
   }
+
+  export const formattedCreatedAt = (date: any) =>
+   format(new Date(date), 'MMMM d, yyyy');
