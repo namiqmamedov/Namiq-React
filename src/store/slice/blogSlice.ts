@@ -38,40 +38,51 @@ const blogsAdapter = createEntityAdapter<Blog>()
 
 function getAxiosParams(blogParams: BlogParams) {
     const params = new URLSearchParams();
-    let lastAddedParam = '';
 
     params.append('pageNumber', blogParams.pageNumber.toString());
     params.append('pageSize', blogParams.pageSize.toString());
     if (blogParams.searchTerm) params.append('searchTerm', blogParams.searchTerm);
 
     const hasCategory = blogParams.category.length > 0;
-    const hasTags = blogParams.tags.length > 0;
+    const hasTags = blogParams.tags.length > 0; 
 
     if (hasCategory && !hasTags) {
         params.append('category', blogParams.category.toString());
-        lastAddedParam = 'category';
     } else if (!hasCategory && hasTags) {
         params.append('tags', blogParams.tags.toString());
-        lastAddedParam = 'tags';
     }
-
+    
     const urlParams = new URLSearchParams(window.location.search); 
     const hasCategoryInUrl = urlParams.has('category');
     const hasTagsInUrl = urlParams.has('tag');
-
+    const hasSearchTermInUrl = urlParams.has('search?q');
+    
     if (hasCategoryInUrl && !hasTagsInUrl) {
         params.append('category', blogParams.category.toString());
+        params.delete('searchTerm'); 
     } else if (!hasCategoryInUrl && hasTagsInUrl) {
         params.append('tags', blogParams.tags.toString());
+        params.delete('searchTerm'); 
     } else if (hasCategoryInUrl && hasTagsInUrl) {
-  
         if (urlParams.get('category')) {
             params.append('category', blogParams.category.toString());
+            params.delete('searchTerm');
+            urlParams.delete('q')
+            urlParams.delete('search?q')
+            
         } else if (urlParams.get('tag')) {
             params.append('tags', blogParams.tags.toString());
+            params.delete('searchTerm');
+            urlParams.delete('q')
+            urlParams.delete('search?q')
         }
     }
     
+    if (hasSearchTermInUrl) {
+        params.delete('category'); 
+        params.delete('tags');
+    }
+
     return params;
 }
 

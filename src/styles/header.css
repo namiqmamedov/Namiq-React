@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+}
+
+.search__item-mb {
+  padding: 0 13px;
+  margin-top: 10px;
+}
+
+.drawer-root .MuiPaper-root {
+  border-top-right-radius: 40px;
+  padding-top: 35px;
+}
+
+.nav-sr {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .nav-sr {
+    display: flex !important;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .navbar-collapse {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .navbar-collapse .navbar-nav {
+    display: flex;
+    gap: 1rem;
+    flex-direction: unset;
+  }
+}/*# sourceMappingURL=header.css.map */

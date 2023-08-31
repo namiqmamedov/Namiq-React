@@ -35,7 +35,14 @@ const TagList = ({items,checked,onChange}: Props) => {
         setCheckedItems([value]);
     }
 
-    navigate({ search: urlParams.toString() });
+    const tagParam = urlParams.get('tag') ? `tag=${urlParams.get('tag')}` : '';
+
+    // Yeni URL oluşturun
+    const newURL = `/?${tagParam}`;
+
+    // Yeni URL'ye yönlendirin
+    navigate(newURL);
+    
     onChange(urlParams.getAll('tag'));
 }
 

@@ -12,7 +12,7 @@ import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom"
 import * as sha256 from 'crypto-js/sha256';
 import { format } from 'date-fns';
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
 import { getTimeAgo } from "../util/util";
@@ -28,8 +28,11 @@ const BlogDetail = () => {
   const {status: blogStatus} = useAppSelector(state => state.blog)
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
 
-  console.log(blog);
-  
+  const handleReplyClick = (commentId: any) => {
+    setSelectedCommentId((prevCommentId) => {
+      return prevCommentId === commentId ? null : commentId;
+    });
+  };
 
   useEffect(() => {
     if(!blog) dispatch(fetchBlogAsync(parseInt((!blog && id!))))
@@ -51,15 +54,15 @@ const BlogDetail = () => {
         <div className="card border-primary mb-12">
         <div className="card-image">
           <img
-            src={main01}
-            height={450}
+            src={blog?.pictureUrl}
+            style={{height: 450}}
             alt="Image"
             className="w-full"
           />
         </div>
         <div className="card-body">
-        {/* <div className="text-[22px] mb-2">{blog!!.name}</div> */}
-          <div className="post__content flex items-center gap-3">
+        <div className="text-[22px] mb-2">{blog?.name}</div>
+          <div className="post__content flex flex-wrap items-center gap-3">
             <div className="date-wrapper flex items-center gap-1">
               <BsCalendar2DateFill />
               <span>{formattedCreatedAt}</span> 
@@ -94,8 +97,8 @@ const BlogDetail = () => {
 
           {blog?.comment?.length!! > 0 && (
             <div>
-              <div className="text-[24px]">{blog?.comment?.length} Comments</div>
-                    {blog?.comment?.filter((comment) => !comment.parentCommentID).map((comment, index) => (
+              <div className="text-[24px]">{blog?.comment?.filter(comment => comment.isAccepted).length} Comments</div>
+              {blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
                       <div key={index} className="comment-item flex flex-col align-center mt-3">
                         <div className="comment-base flex">
                           <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(comment.email)}.png`} />
@@ -109,15 +112,15 @@ const BlogDetail = () => {
                             <p className="pb-1 mb-0">
                               {comment.text}
                             </p>
-                            <a className="underline" onClick={() => setSelectedCommentId(comment.id)}>Reply</a>
+                            <a className="underline" onClick={() => handleReplyClick(comment.id)}>Reply</a>
                             {selectedCommentId === comment.id && (
                               <PostComment selectedCommentId={selectedCommentId} />
                             )}
                           </div>
                         </div>
                         
-                        {blog?.comment?.filter((reply) => reply.parentCommentID === comment.id).map((reply) => (
-                          <>
+                        {blog?.comment?.filter((reply => reply.isAccepted && reply.parentCommentID === comment.id)).map((reply) => (
+                          <Fragment>
                             <div key={reply.id} className="comment-item flex align-center ml-6 mt-3">
                                <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(reply.email)}.png`} />
                                <div className="comment-body">
@@ -130,13 +133,13 @@ const BlogDetail = () => {
                                  <p className="pb-1 mb-0">
                                    {reply.text}
                                  </p>
-                                 <a className="underline" onClick={() => setSelectedCommentId(reply.id)}>Reply</a>
+                                 <a className="underline" onClick={() => handleReplyClick(reply.id)}>Reply</a>
                                  {selectedCommentId === reply.id && (
                                    <PostComment selectedCommentId={selectedCommentId} />
                                  )}                           
                                </div>
                             </div>
-                            {blog?.comment?.filter((nestedReply) => nestedReply.parentCommentID === reply.id).map((nestedReply) => (
+                            {blog?.comment?.filter((nestedReply => nestedReply.isAccepted && nestedReply.parentCommentID === reply.id)).map((nestedReply) => (
                                <div key={nestedReply.id} className="comment-item flex align-center ml-6 mt-3">
                                  <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(nestedReply.email)}.png`} />
                                  <div className="comment-body">
@@ -149,14 +152,14 @@ const BlogDetail = () => {
                                    <p className="pb-1 mb-0">
                                      {nestedReply.text}
                                    </p>
-                                   <a className="underline" onClick={() => setSelectedCommentId(nestedReply.id)}>Reply</a>
+                                   <a className="underline" onClick={() => handleReplyClick(nestedReply.id)}>Reply</a>
                                    {selectedCommentId === nestedReply.id && (
                                      <PostComment selectedCommentId={selectedCommentId} />
                                    )}
                                  </div>
                                </div>
                             ))}
-                          </>
+                          </Fragment>
                         ))}
                       </div>
                     ))}       
@@ -164,14 +167,13 @@ const BlogDetail = () => {
           )}
 
             {selectedCommentId === null && (
-              <div>
+              <Fragment>
                 <div className="bold text-[26px] mt-5">Post a new comment</div>
                 <PostComment selectedCommentId={selectedCommentId} />
-              </div>
+              </Fragment>
             )}
          </div>
 
-        {/* submit olduğu zaman form resetlensin */}
 
       </div>
         </Grid>

@@ -48,15 +48,14 @@ export default function TagForm({ comment, cancelEdit }: Props) {
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12}>
-                        <AppTextInput control={control} name='name' label='Name' />
+                        <AppTextInput disabled={true} control={control} name='name' label='Name' />
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                    <AppTextInput multiline={true} rows={4} control={control} name='name' label='Name' />
+                        <AppTextInput disabled={true} multiline={true} rows={4} control={control} name='name' label='Name' />
                     </Grid>
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
-                    <LoadingButton loading={isSubmitting} type='submit' variant='contained' color='success'>Submit</LoadingButton>
                 </Box>
             </form>
         </Box>

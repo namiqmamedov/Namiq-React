@@ -8,12 +8,12 @@ import { setBlogParams } from '../../../store/slice/blogSlice'
 import TagList from '../TagList/TagList'
 import useComments from '../../../hooks/useComments'
 import agent from '../../../api/agent'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { Blog } from '../../../models/blog'
 
 const BlogGrid = () => {
 
-    const {category,blogs,tags} = useBlogs()
+    const {category,tags} = useBlogs()
     const {comment} = useComments();
     const {blogParams} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
@@ -49,18 +49,18 @@ const BlogGrid = () => {
         
         <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-           {comment.map((item,index) => {
+           {comment.filter(comment => comment.isAccepted).slice(0, 5).map((item,index) => {
             const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
             const blogName = blog ? blog.name : 'Unknown Blog'; 
                 return (
-                    <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
-                    <FaRegComment className="mt-1"/>
-                    <div>
-                    {item.name}
-                        <span className=" text-gray-400"> on </span>
-                    {blogName}
-                    </div>
-                </Link>
+                      <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
+                          <FaRegComment className="mt-1"/>
+                            <Fragment>
+                              {item.text}
+                                  <span className=" text-gray-400"> on </span>
+                              {blogName}
+                            </Fragment>
+                      </Link>
                 )
             })}
         </ListItem>

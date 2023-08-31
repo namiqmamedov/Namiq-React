@@ -16,8 +16,8 @@ interface Props {
 }
 
 const BlogList = ({blogs}: Props) => {
-  const { blogsLoaded, blogParams } = useAppSelector(state => state.blog);
-  const {metaData} = useBlogs()
+   const { blogsLoaded, blogParams } = useAppSelector(state => state.blog);
+   const {metaData} = useBlogs()
    const dispatch = useAppDispatch();
 
    const formattedCreatedAt = (date: any) =>
@@ -41,7 +41,7 @@ const BlogList = ({blogs}: Props) => {
             </div>
             <div className="card-body">
               <div className="text-[22px] mb-2">{blog.name}</div>
-              <div className="post__content flex items-center gap-3">
+              <div className="post__content flex flex-wrap items-center gap-3">
                 <div className="date-wrapper flex items-center gap-1">
                   <BsCalendar2DateFill />
                   <span>{formattedCreatedAt(blog.createdAt)}</span> 

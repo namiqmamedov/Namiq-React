@@ -24,8 +24,10 @@ interface Props {
 }
 
 export default function BlogForm({ blog, cancelEdit }: Props) {
+    const editMode = !!blog;  
+
     const { control, reset, handleSubmit, watch, setValue, formState: { isDirty, isSubmitting }} = useForm({
-          resolver: yupResolver(validationSchema)
+        resolver: editMode ? undefined : yupResolver(validationSchema)
     });
     const {category, tags} = useBlogs();
     const categoryNamesAndIDs: { id: string, name: string }[] = Object.values(category).map((cat: any) => ({
@@ -94,21 +96,16 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
     }
 
     return (
-        <Container>
-            <Box component={Paper} sx={{ p: 4 }}>
+        <Container sx={{mt: 4,mb: 4}}>
+            <Box className="box-main" component={Paper} sx={{ p: 4 }}>
             <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-                Create blog
+                {editMode ? 'Edit blog' : 'Create blog'}
                 </Typography>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12}>
                         <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
-
-                    <input type="hidden" name="deletedAt" value="0" />
-                    <input type="hidden" name="updatedAt" value="0" />
-
-
                  <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Category'
@@ -128,7 +125,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                         />
                     </Grid> 
                     <Grid item xs={12}>
-                        <Box display='flex' justifyContent='space-between' alignItems='center'>
+                        <Box className="dropzone-box" display='flex' justifyContent='space-between' alignItems='center'>
                             <AppDropzone control={control} name='file' />
                             {watchFile ? (
                                 <img src={watchFile.preview} alt="preview" style={{ maxHeight: 200 }} />

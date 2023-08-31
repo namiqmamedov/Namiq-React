@@ -54,10 +54,9 @@ const Home = () => {
         <div className='card__item'>
             <Container>
             <div className="mt-12">
-
             </div>
               <Grid container spacing={2} className="!mt-6">
-              <Grid item lg={8} sm={12} md={8}>
+                 <Grid className="w-full" item lg={8} sm={12} md={8}>
                           {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 ? (
                             <Fragment>
                               <p className="font-bold text-[32px]">Not found</p>
@@ -91,11 +90,11 @@ const Home = () => {
                                 <BlogList blogs={blogs} />
                               </Fragment> 
                             }
-                        </Grid>
-                        <Grid item lg={4} sm={12} md={4}>
-                            <BlogGrid/>
-                        </Grid>
-                    </Grid>
+                 </Grid>
+                 <Grid item lg={4} sm={12} md={4}>
+                     <BlogGrid/>
+                 </Grid>
+              </Grid>
             </Container>
         </div>
   )

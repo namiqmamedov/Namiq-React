@@ -11,11 +11,13 @@ const Layout = () => {
 
   const customLayoutURLs = ['/admin'];
   const useCustomLayout = customLayoutURLs.some(url => location.pathname.startsWith(url));
+
+  const isErrorPage = location.pathname === '/not-found';
   return (
     <Fragment>
       <ScrollRestoration/>
       <ToastContainer position='bottom-right' hideProgressBar theme='colored'/>
-      {useCustomLayout ? <Sidebar/>  : <Header/> }
+      {isErrorPage ? null : (useCustomLayout ? <Sidebar /> : <Header />)}
       <Fragment>{useCustomLayout ? null : <Routers /> }</Fragment>
     </Fragment>
   )

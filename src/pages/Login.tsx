@@ -25,7 +25,7 @@ export default function Login() {
     async function submitForm(data: FieldValues){
       try {
         await dispatch(signInUser(data))
-        navigate(location.state?.from || '/home');
+        navigate(location.state?.from || '/');
       } catch (error) {
         console.log(error);
       }
@@ -34,7 +34,7 @@ export default function Login() {
   return (
       <Container 
       component={Paper} maxWidth="sm" 
-      sx={{display: 'flex', flexDirection: 'column',alignItems: 'center',p: 4}}>
+      sx={{mt: 4,display: 'flex', flexDirection: 'column',alignItems: 'center',p: 4}}>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -48,7 +48,7 @@ export default function Login() {
               label="Username"
               autoFocus
               {...register('username', {required: 'Username is required'})}
-              error={!!errors.username} // if exist error object going to be true, is not exist going to false 
+              error={!!errors.username} 
               helperText={errors?.username?.message as string}
             />
             <TextField
@@ -57,7 +57,7 @@ export default function Login() {
               label="Password"
               type="password"
               {...register('password', {required: 'Password is required'})}
-              error={!!errors.password} // if exist error object going to be true, is not exist going to false 
+              error={!!errors.password} 
               helperText={errors?.password?.message as string}
             />
             <FormControlLabel

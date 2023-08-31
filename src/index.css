@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 *{
   margin: 0;
   padding: 0;
@@ -52,13 +53,7 @@ p{
 }
 
 .navbar{
-  position: sticky !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
+  position: relative !important;
   z-index: 999999;
 }
 
@@ -71,6 +66,7 @@ p{
 .tox.tox-tinymce{
   margin: 0 auto !important;
   margin-top: 20px !important;
+  width: 100%;
 }
 
 .app-box .MuiListItemIcon-root svg{
@@ -92,3 +88,35 @@ p{
 .underline:hover{
   text-decoration: underline !important;
 }
+
+.box-main{
+  padding: 22px 45px !important;
+}
+
+.dropzone-box .MuiFormControl-root{
+  width: 520px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .app-pagination{
+    flex-direction: column;
+  }
+
+  .app-pagination p {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10px;
+    display: block;
+    padding-bottom: 21px;
+  }
+
+  .MuiPagination-ul{
+    flex-wrap: nowrap;
+  }
+
+  .comment-item .MuiBox-root{
+      margin-left: -58px;
+  }
+}
+

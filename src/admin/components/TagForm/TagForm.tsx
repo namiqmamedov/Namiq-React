@@ -42,11 +42,13 @@ export default function TagForm({ tag, cancelEdit }: Props) {
         }
     }
 
+    const editMode = !!tag;  
+
     return (
-        <Container>
+        <Container sx={{mt: 4}}>
             <Box component={Paper} sx={{ p: 4 }}>
-            <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-                Create tag
+                <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+                    {editMode ? 'Edit tag' : 'Create tag'}
                 </Typography>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>

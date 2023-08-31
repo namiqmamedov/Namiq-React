@@ -6,6 +6,7 @@ interface Props extends UseControllerProps {
     multiline?: boolean;
     rows?: number;
     type?: string;
+    disabled?: boolean;
 }
 
 const AppTextInput = (props: Props) => {

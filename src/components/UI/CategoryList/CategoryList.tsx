@@ -34,7 +34,12 @@ const CategoryList = ({items,checked,onChange}: Props) => {
           setCheckedItems([value]);
       }
 
-      navigate({ search: urlParams.toString() });
+      const categoryParam = urlParams.get('category') ? `category=${urlParams.get('category')}` : '';
+
+      const newURL = `/?${categoryParam}`;
+  
+      navigate(newURL);
+      
       onChange(urlParams.getAll('category'));
   }
 

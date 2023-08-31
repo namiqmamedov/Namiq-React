@@ -22,7 +22,6 @@ export default function CategoryForm({ category, cancelEdit }: Props) {
 
     const dispatch = useAppDispatch();
 
-
     useEffect(() => {
         if (category && !isDirty) reset(category);
     }, [category, reset, isDirty])
@@ -44,11 +43,13 @@ export default function CategoryForm({ category, cancelEdit }: Props) {
         }
     }
 
+    const editMode = !!category;  
+
     return (
-        <Container>
+        <Container sx={{mt: 4}}>
             <Box component={Paper} sx={{ p: 4 }}>
             <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-                Create category
+                {editMode ? 'Edit category' : 'Create category'}
                 </Typography>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>

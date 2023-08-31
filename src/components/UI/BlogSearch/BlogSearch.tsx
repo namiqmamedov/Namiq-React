@@ -1,5 +1,5 @@
 import { debounce } from '@mui/material';
-import {  useState } from 'react'
+import { Fragment,  useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../../store/configureStore';
 import { setBlogParams,setHasSubmitted,setSearchResults, setSearchResultsCount } from '../../../store/slice/blogSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -14,14 +14,6 @@ const BlogSearch = () => {
 
     const searchParams = new URLSearchParams(location.search);
 
-//    const categoryIDExists = searchParams.has('category');
-    
-//    const category = categoryIDExists ? searchParams.get('category') : null;
-
-//    const tagIDExists = searchParams.has('tag');
-    
-//    const tag = tagIDExists ? searchParams.get('tag') : null;
-
     const debouncedSearch = debounce(async (value: string) => {
         dispatch(setBlogParams({ searchTerm: value }));
 
@@ -32,7 +24,7 @@ const BlogSearch = () => {
                 return;
             }
             
-            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blog/list?searchTerm=${encodeURIComponent(value)}`);
             
             const data = await response.json();
             
@@ -52,28 +44,37 @@ const BlogSearch = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         dispatch(setHasSubmitted(true));
-        debouncedSearch(searchTerm!);
 
-        navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1`);
+        if(searchTerm) {
+            debouncedSearch(searchTerm!);
+            navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1`);
+        } else {
+            searchParams.delete('q');
+            searchParams.delete('page'); 
+            
+            navigate('/');
+
+            window.location.reload();
+        }
     };
 
     return (
-        <div>
-       <form className="d-flex" onSubmit={handleSubmit}>
-        <input 
-            className="form-control me-sm-2"
-            type="search"
-            placeholder="Search"  
-            value={searchTerm || ''}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const value = event.target.value;
-                setSearchTerm(value);
-                setHasSubmitted(false);
-            }}
-        />
-        <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-      </form>
-        </div>
+        <Fragment>
+            <form className="d-flex" onSubmit={handleSubmit}>
+                <input 
+                    className="form-control me-sm-2"
+                    type="search"
+                    placeholder="Search"  
+                    value={searchTerm || ''}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const value = event.target.value;
+                        setSearchTerm(value);
+                        setHasSubmitted(false);
+                    }}
+                />
+                <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </Fragment>
   )
 }
 
