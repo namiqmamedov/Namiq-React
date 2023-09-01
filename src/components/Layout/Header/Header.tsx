@@ -1,6 +1,8 @@
 import { Container } from "@mui/material";
 import BlogSearch from "../../UI/BlogSearch/BlogSearch";
 import MuiDrawer from "../../UI/MuiDrawer/MuiDrawer";
+import { NavLink } from "react-router-dom";
+import '../../../styles/header.css'
 
 const Header = () => {
   return (
@@ -9,16 +11,15 @@ const Header = () => {
         <div className="nav-main flex w-full items-center">
             <div className="navbar-collapse" id="navbarColor03">
               <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                  <a className="nav-link active !text-[17px]" href="#">
+              <li className="nav-item">
+                  <NavLink to="/" className="nav-link !text-[17px]">
                     Home
-                    <span className="visually-hidden">(current)</span>
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link  !text-[17px]" href="#">
+                  <NavLink to="/about" className="nav-link !text-[17px]">
                     About Me
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
               <BlogSearch />

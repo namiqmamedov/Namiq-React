@@ -2,6 +2,10 @@
   margin: 0;
 }
 
+.nav-item .active,.link-active{
+  color: black !important;
+}
+
 .search__item-mb {
   padding: 0 13px;
   margin-top: 10px;

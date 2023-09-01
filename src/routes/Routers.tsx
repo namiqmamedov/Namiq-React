@@ -9,10 +9,12 @@ import CommentPage from '../admin/pages/Comment/Comment'
 import Error from '../pages/Error'
 
 const Routers = () => {
+
   return (
     <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/search' element={<Home />} />
+        <Route path='/about' element={<Home />} />
         <Route path='/blog/:id' element={<BlogDetail/>} />
 
         <Route path='*' element={<Navigate to = '/not-found' />}/>

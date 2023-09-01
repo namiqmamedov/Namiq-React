@@ -2,7 +2,6 @@ import { Container, Grid } from "@mui/material"
 import BlogGrid from "../components/UI/BlogGrid/BlogGrid"
 import { BiSolidUser } from "react-icons/bi"
 import { BsCalendar2DateFill } from "react-icons/bs"
-import main01 from "../assets/images/main01.png";
 import {FaFolderOpen} from 'react-icons/fa'
 import {AiFillEye} from 'react-icons/ai'
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
@@ -16,6 +15,7 @@ import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
 import { getTimeAgo } from "../util/util";
+import NotFound from '../pages/Error'
 
 function generateUniqueKey(email: string): string {
   return sha256(email).toString();
@@ -44,8 +44,7 @@ const BlogDetail = () => {
 
   if(blogStatus.includes('pending')) return <Loading/>
 
-  // if(!blog) return <NotFound/>
-
+  if(!blog) return <NotFound/>
   
   return (
     <Container>

@@ -1,16 +1,28 @@
 import { debounce } from '@mui/material';
-import { Fragment,  useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../../../store/configureStore';
+import { Fragment,  useEffect,  useState } from 'react'
+import { useAppSelector, useAppDispatch} from '../../../store/configureStore';
 import { setBlogParams,setHasSubmitted,setSearchResults, setSearchResultsCount } from '../../../store/slice/blogSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const BlogSearch = () => {
     const { blogParams } = useAppSelector(state => state.blog);
     const [searchTerm, setSearchTerm] = useState(blogParams.searchTerm);
+    const hasSubmitted = useAppSelector(state => state.blog.hasSubmitted);
+    const trimmedSearchTerm = searchTerm?.trim();
+    
+    const isOnlySpaces = (str:string) => {
+        return str.trim() === '';
+    }
+
+    useEffect(() => {
+        if (searchTerm && hasSubmitted) {
+            document.title = `Search results for “${trimmedSearchTerm}” | Namiq`;
+        }
+    }, [searchTerm,hasSubmitted]);
+
     const navigate = useNavigate(); 
     const dispatch = useAppDispatch();
     const location = useLocation(); 
-
 
     const searchParams = new URLSearchParams(location.search);
 
@@ -45,15 +57,19 @@ const BlogSearch = () => {
         event.preventDefault();
         dispatch(setHasSubmitted(true));
 
-        if(searchTerm) {
-            debouncedSearch(searchTerm!);
-            navigate(`/search?q=${encodeURIComponent(searchTerm!)}&page=1`);
+
+        if (trimmedSearchTerm) {
+            debouncedSearch(trimmedSearchTerm!);
+            navigate(`/search?q=${encodeURIComponent(trimmedSearchTerm!)}&page=1`);
         } else {
             searchParams.delete('q');
             searchParams.delete('page'); 
+
+            if (trimmedSearchTerm === ' ' || isOnlySpaces(trimmedSearchTerm!)) {
+                window.location.reload();
+            } 
             
             navigate('/');
-
             window.location.reload();
         }
     };

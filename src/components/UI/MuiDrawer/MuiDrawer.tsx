@@ -25,7 +25,7 @@ export default function MuiDrawer() {
   React.useEffect(() => {
     if (hasSubmitted) {
       setIsDrawerOpen(false);
-      dispatch(setHasSubmitted(false)); // Redux store'daki hasSubmitted durumunu güncelle
+      dispatch(setHasSubmitted(false)); 
     }
   }, [hasSubmitted]);
 
