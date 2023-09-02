@@ -106,11 +106,11 @@ export const fetchBlogsAsync = createAsyncThunk<
   }
 });
 
-export const fetchBlogAsync = createAsyncThunk<Blog, number>(
+export const fetchBlogAsync = createAsyncThunk<Blog, string>(
     'blog/fetchBlogAsync',
-    async (blogID,thunkAPI) => {
+    async (blogName,thunkAPI) => {
         try {
-            return await agent.Blog.details(blogID);
+            return await agent.Blog.details(blogName);
         } catch (error:any) {
             return thunkAPI.rejectWithValue({error: error.data})
         }

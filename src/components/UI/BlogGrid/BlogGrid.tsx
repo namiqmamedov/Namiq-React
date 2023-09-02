@@ -10,6 +10,7 @@ import useComments from '../../../hooks/useComments'
 import agent from '../../../api/agent'
 import { useState, useEffect, Fragment } from 'react'
 import { Blog } from '../../../models/blog'
+import { Comment } from '../../../models/comment'
 
 const BlogGrid = () => {
 
@@ -17,6 +18,7 @@ const BlogGrid = () => {
     const {comment} = useComments();
     const {blogParams} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
+    const [commentsNoFilter, setCommentsNoFilter] = useState<Comment[]>([]); 
     const [blogsNoFilter, setBlogsNoFilter] = useState<Blog[]>([]); 
 
     useEffect(() => {
@@ -30,6 +32,21 @@ const BlogGrid = () => {
       };
       
       fetchBlogsNoFilter();
+    }, []);
+        
+
+
+    useEffect(() => {
+      const fetchCommentsNoFilter = async () => {
+        try {
+          const response = await agent.Comment.listNoFilter();
+          setCommentsNoFilter(response);
+        } catch (error) {
+          console.error('Error fetching comments without filters:', error);
+        }
+      };
+      
+      fetchCommentsNoFilter();
     }, []);
         
 
@@ -49,32 +66,22 @@ const BlogGrid = () => {
         
         <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-          {comment
-            .slice()
-            .reverse()
-            .reduce((acc, item) => {
-              const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
-              const blogName = blog ? blog.name : 'Unknown Blog';
-
-              if (item.isAccepted) {
-                acc.acceptedComments.push(
-                  <Link key={acc.acceptedCount} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
-                    <FaRegComment className="mt-1" />
-                    <Fragment>
-                      {item.text}
-                      <span className=" text-gray-400"> on </span>
-                      {blogName}
-                    </Fragment>
-                  </Link>
-                );
-                acc.acceptedCount++;
-              }
-
-              return acc;
-            },
-            { acceptedComments: [] as React.ReactNode[], acceptedCount: 0 }
-            ).acceptedComments.slice(-5)}
+           {commentsNoFilter.filter(comment => comment.isAccepted).slice(-5).map((item,index) => {
+            const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
+            const blogName = blog ? blog.name : 'Unknown Blog'; 
+                return (
+                      <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
+                          <FaRegComment className="mt-1"/>
+                            <Fragment>
+                              {item.text}
+                                  <span className=" text-gray-400"> on </span>
+                              {blogName}
+                            </Fragment>
+                      </Link>
+                )
+            })}
         </ListItem>
+
         <h3 className="text-uppercase text-sm font-bold">Categories</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 categories">
             <CategoryList

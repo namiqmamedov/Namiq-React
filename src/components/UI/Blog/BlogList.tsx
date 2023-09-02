@@ -22,9 +22,9 @@ const BlogList = ({blogs}: Props) => {
 
    const formattedCreatedAt = (date: any) =>
    format(new Date(date), 'MMMM d, yyyy'); 
- 
-  return (
-    <Fragment>
+
+   return (
+     <Fragment>
       {blogs?.map(blog => (
         <Fragment key={blog.id}>
           {!blogsLoaded ? (
@@ -52,7 +52,7 @@ const BlogList = ({blogs}: Props) => {
                 </div>
                 <div className="comment-wrapper flex items-center gap-1">
                   <FaRegComment />
-                  <span>{blog?.comment?.length} Comments</span>
+                  <span>{blog?.comment?.filter(comment => comment.isAccepted).length}  Comments</span>
                 </div>
               </div>
               <p className="card-text mt-4 text-ellipsis overflow-hidden">
@@ -68,11 +68,19 @@ const BlogList = ({blogs}: Props) => {
 
                 {blog?.description?.text}
               </p>
-              <Link to={`/blog/${blog.id}`} className="view-btn w-full text-end mt-3 mb-4">
-                <button type="button" className="btn btn-primary">
-                  Read More
-                </button>
-              </Link>
+              {blog && (
+                <Link
+                to={`/blog/${blog.name
+                  .replace(/\|/g, "")
+                  .replace(/\s+/g, "-")
+                  .toLowerCase()}`}
+                 
+                 className="view-btn w-full text-end mt-3 mb-4">
+                  <button type="button" className="btn btn-primary">
+                    Read More
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
           )} 

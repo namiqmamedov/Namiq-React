@@ -5,7 +5,7 @@ import { BsCalendar2DateFill } from "react-icons/bs"
 import {FaFolderOpen} from 'react-icons/fa'
 import {AiFillEye} from 'react-icons/ai'
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
-import { blogSelectors, fetchBlogAsync } from "../store/slice/blogSlice"
+import {  fetchBlogAsync } from "../store/slice/blogSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom"
@@ -15,6 +15,7 @@ import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
 import { getTimeAgo } from "../util/util";
+import useBlogs from "../hooks/useBlogs"
 
 function generateUniqueKey(email: string): string {
   return sha256(email).toString();
@@ -23,8 +24,20 @@ function generateUniqueKey(email: string): string {
 const BlogDetail = () => {
   const dispatch = useAppDispatch(); 
   const navigate = useNavigate();
-  const {id} = useParams<{id: string}>();
-  const blog = useAppSelector(state => blogSelectors.selectById(state, id!))
+  const { name } = useParams<{ name: string }>();
+  
+  const {blogs} = useBlogs();
+
+  const formattedName = name?.replace(/\|/g, "").replace(/\s+/g, "-").toLowerCase();
+  const blog = blogs.find((blog: any) => {
+    const blogName = blog?.name
+      .replace(/\|/g, "")
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    return blogName === formattedName;
+  });
+  
+
   const {status: blogStatus} = useAppSelector(state => state.blog)
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
 
@@ -41,8 +54,8 @@ const BlogDetail = () => {
   };
 
   useEffect(() => {
-    if(!blog) dispatch(fetchBlogAsync(parseInt((!blog && id!))))
-    }, [id,dispatch,blog]) 
+    if(!blog) dispatch(fetchBlogAsync((!blog && name!)))
+    }, [name,dispatch,blog]) 
   
     
     const formattedCreatedAt = blog?.createdAt
@@ -105,7 +118,7 @@ const BlogDetail = () => {
 
           {blog?.comment?.length!! > 0 && (
             <div>
-              <div className="text-[24px]">{blog?.comment?.filter(comment => comment.isAccepted).length} Comments</div>
+              <div className="text-[24px]">{blog?.comment?.filter(comment => comment.isAccepted).length} Comments</div> // accepted true olanda 0 comment
               {blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
                       <div key={index} className="comment-item flex flex-col align-center mt-3">
                         <div className="comment-base flex">

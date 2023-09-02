@@ -9,6 +9,7 @@ import { Box } from "@mui/material";
 import { toast } from "react-toastify";
 import SketchyText from "../SketchyText/SketchyText";
 import axios from "axios";
+import useBlogs from "../../../hooks/useBlogs";
 
 interface Props {
     comment?: Comment;
@@ -35,7 +36,20 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         }
     }
 
-    const {id} = useParams();
+    
+    const {blogs} = useBlogs();
+    
+    const {name} = useParams();
+    
+    const currentBlog = blogs.find((blog: any) =>  {
+        const formattedName = blog?.name
+        .replace(/\|/g, "")
+        .replace(/\s+/g, "-")
+        .toLowerCase();
+      return formattedName === name;
+    });
+
+    const id = currentBlog?.id;
 
     const dispatch = useAppDispatch();
 
@@ -47,6 +61,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         try {
             const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/comment/csrf-token`);
 
+            debugger;
                 const setCookieHeader = antiForgeryResponse.data['Set-Cookie'];
 
                 if (setCookieHeader) {

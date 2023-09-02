@@ -100,7 +100,7 @@ const Admin = {
 const Blog = {
     list: (params: URLSearchParams) => requests.get('blog/list', params),
     listNoFilter: () => requests.get('blog/listNoFilter'),
-    details: (id: number) => requests.get(`blog/${id}`),
+    details: (name: string) => requests.get(`blog/${name}`),
     fetchFilters: () => requests.get('blog/filters')
 }
 
@@ -114,6 +114,7 @@ const Tag = {
 
 const Comment = {
     list: (params: URLSearchParams) => requests.get('comment/list', params),
+    listNoFilter: () => requests.get('comment/listNoFilter'),
 }
 
 const Account = {

@@ -97,7 +97,7 @@ export default function Dashboard() {
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell align="left">Name</TableCell>
+                            <TableCell width={'35%'} align="left">Name</TableCell>
                             <TableCell align="center">Category</TableCell>
                             <TableCell align="center">Tag</TableCell>
                             <TableCell align="center">Comment</TableCell>
