@@ -8,17 +8,18 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import useBlogs from '../../../hooks/useBlogs';
 import { useState } from 'react';
 import {Blog}  from '../../../models/blog';
 import { mainListItems } from '../../../admin/components/ListItem/ListItem';
 import BlogForm from '../../../admin/components/BlogForm/BlogForm';
 import Routers from '../../../routes/Routers';
-
+import { Button, Menu, MenuItem } from '@mui/material';
+import {AiOutlineUser} from 'react-icons/ai'
+import { signOut } from '../../../store/slice/accountSlice';
+import { useAppDispatch } from '../../../store/configureStore';
 
 
 const drawerWidth: number = 240;
@@ -71,14 +72,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Sidebar() {
+  const dispatch = useAppDispatch();
   const {tags} = useBlogs();
   const [editMode,setEditMode] = useState(false)
   const [open, setOpen] = React.useState(true);
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openn = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   const tagNamesAndIDs: { id: string, name: string }[] = Object.values(tags).map((tag: any) => ({
     id: tag.tagID,
@@ -89,7 +100,6 @@ export default function Sidebar() {
   tagNamesAndIDs.forEach(item => {
       tagIDToNameMapping[parseInt(item.id)] = item.name;
   });
-
 
 
   function cancelEdit() {
@@ -150,11 +160,28 @@ export default function Sidebar() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+          <Button
+            id="basic-button"
+            aria-controls={openn ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={openn ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            <AiOutlineUser color='white' style={{width: '3rem',height: '1.5rem'}} />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={openn}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={() => {
+              dispatch(signOut());
+            }}>Logout</MenuItem>
+          </Menu>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

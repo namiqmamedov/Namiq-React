@@ -6,7 +6,7 @@ import {FaFolderOpen} from 'react-icons/fa'
 import {AiFillEye} from 'react-icons/ai'
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
 import { blogSelectors, fetchBlogAsync } from "../store/slice/blogSlice"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom"
 import * as sha256 from 'crypto-js/sha256';
@@ -15,18 +15,24 @@ import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
 import { getTimeAgo } from "../util/util";
-import NotFound from '../pages/Error'
 
 function generateUniqueKey(email: string): string {
   return sha256(email).toString();
 }
 
 const BlogDetail = () => {
-  const dispatch = useAppDispatch() 
+  const dispatch = useAppDispatch(); 
+  const navigate = useNavigate();
   const {id} = useParams<{id: string}>();
   const blog = useAppSelector(state => blogSelectors.selectById(state, id!))
   const {status: blogStatus} = useAppSelector(state => state.blog)
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (blog) {
+      document.title = `${blog.name} | Namiq`;
+    }
+  }, [blog]);
 
   const handleReplyClick = (commentId: any) => {
     setSelectedCommentId((prevCommentId) => {
@@ -37,15 +43,18 @@ const BlogDetail = () => {
   useEffect(() => {
     if(!blog) dispatch(fetchBlogAsync(parseInt((!blog && id!))))
     }, [id,dispatch,blog]) 
-
-   const formattedCreatedAt = blog?.createdAt
-  ? format(new Date(blog.createdAt), 'MMMM d, yyyy')
-  : '';
+  
+    
+    const formattedCreatedAt = blog?.createdAt
+    ? format(new Date(blog.createdAt), 'MMMM d, yyyy')
+    : '';
 
   if(blogStatus.includes('pending')) return <Loading/>
 
-  if(!blog) return <NotFound/>
-  
+  if (!blog) {
+    navigate('/not-found')
+  }
+
   return (
     <Container>
     <Grid container spacing={2} className="!mt-6" >

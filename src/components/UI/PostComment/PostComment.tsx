@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
-import agent from "../../../api/agent";
 import { Comment } from "../../../models/comment";
 import { useAppDispatch } from "../../../store/configureStore";
 import { setComment } from "../../../store/slice/commentSlice";
@@ -46,30 +45,52 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
 
     async function handleSubmitData(data: FieldValues) {
         try {
-            debugger;
-            const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/comment/antiForgery`);
-            console.log(antiForgeryResponse);
-            
-            const antiForgeryToken = antiForgeryResponse.data['requestToken'];
+            const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/comment/csrf-token`);
+
+                const setCookieHeader = antiForgeryResponse.data['Set-Cookie'];
+
+                if (setCookieHeader) {
+                    for (const cookie of setCookieHeader) {
+                        const [cookieName] = cookie.split('=');
+                        if (cookieName === '.AspNetCore.Antiforgery.G6Na-BmiaUo') {
+
+                            document.cookie = cookie;
+                        }
+                        if (cookieName === 'X-CSRF-TOKEN') {
+
+                            document.cookie = cookie;
+                        } 
+                    }
+                }
+                
+                const cookies = document.cookie.split('; ');
+
+                let token: any = {}
+
+                for (const cookie of cookies) {
+                    const [name, value] = cookie.split('=');
+                    if (name === 'X-CSRF-TOKEN') {
       
-            const headers = {
-                "Content-Type": "application/x-www-form-urlencoded",
-                'X-CSRF-TOKEN': antiForgeryToken,
-            };
+                        token[name] = value;
+                    }
+                }
 
-            let response: Comment;
-
+                const tokenAny = token['X-CSRF-TOKEN']
+                
 
             if(!comment) {
                 const commentWithBlogId = { ...data, blogID: Number(id),parentCommentID: Number(selectedCommentId)};
-                
-                response = await agent.Admin.createComment({
-                    comment: commentWithBlogId,
-                    headers: headers
-                });
+
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/comment`, commentWithBlogId, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': tokenAny,
+                    },
+                    withCredentials: true
+                })
 
                 if(response) {
-                    dispatch(setComment(response));
+                    dispatch(setComment(response.data));
                     toast.success('Your comment has been submitted and will be published after approval.');
                     reset();
                  }
@@ -85,11 +106,10 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         }
     }
 
-
     return (
         <Box component="form" onSubmit={handleSubmit(handleSubmitData)}>
             <div className="form-center flex flex-wrap gap-1 w-full">
-                <SketchyText control={control} name="text" multiline={true} rows={4} type="text" label="Comment *" placeholder={""}/>
+                <SketchyText control={control} name="text" rows={4} type="text" label="Comment *" placeholder={""}/>
                 <div className="comment-main flex gap-5 w-full">
                 <SketchyInput control={control} name="name" label="Name *" placeholder="Enter name" />
                 

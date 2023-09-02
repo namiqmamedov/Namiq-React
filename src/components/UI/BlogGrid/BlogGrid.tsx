@@ -49,20 +49,31 @@ const BlogGrid = () => {
         
         <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-           {comment.filter(comment => comment.isAccepted).slice(0, 5).map((item,index) => {
-            const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
-            const blogName = blog ? blog.name : 'Unknown Blog'; 
-                return (
-                      <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
-                          <FaRegComment className="mt-1"/>
-                            <Fragment>
-                              {item.text}
-                                  <span className=" text-gray-400"> on </span>
-                              {blogName}
-                            </Fragment>
-                      </Link>
-                )
-            })}
+          {comment
+            .slice()
+            .reverse()
+            .reduce((acc, item) => {
+              const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
+              const blogName = blog ? blog.name : 'Unknown Blog';
+
+              if (item.isAccepted) {
+                acc.acceptedComments.push(
+                  <Link key={acc.acceptedCount} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
+                    <FaRegComment className="mt-1" />
+                    <Fragment>
+                      {item.text}
+                      <span className=" text-gray-400"> on </span>
+                      {blogName}
+                    </Fragment>
+                  </Link>
+                );
+                acc.acceptedCount++;
+              }
+
+              return acc;
+            },
+            { acceptedComments: [] as React.ReactNode[], acceptedCount: 0 }
+            ).acceptedComments.slice(-5)}
         </ListItem>
         <h3 className="text-uppercase text-sm font-bold">Categories</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5 categories">

@@ -8,6 +8,8 @@ const MouseSpotlight = () => {
 
   const handleClick = () => {
     navigate('/');
+
+    window.location.reload();
   }
 
   const handleMouseMove = (e:any) => {
