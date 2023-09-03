@@ -33,6 +33,15 @@ const BlogDetail = () => {
     const blogName = blog?.name
       .replace(/\|/g, "")
       .replace(/\s+/g, "-")
+      .replace(/#/g, "")
+      .replace(/&/g, "")
+      .replace(/[()]/g, "")
+      .replace(/:/g, "")
+      .replace(/\//g, "")
+      .replace(/\?/g, "")
+      .replace(/[-–—]+/g, "-")
+      .replace(/-+/g, "-") 
+      .replace(/^-+|-+$/g, "")
       .toLowerCase();
     return blogName === formattedName;
   });
@@ -118,8 +127,12 @@ const BlogDetail = () => {
 
           {blog?.comment?.length!! > 0 && (
             <div>
-              <div className="text-[24px]">{blog?.comment?.filter(comment => comment.isAccepted).length} Comments</div> // accepted true olanda 0 comment
-              {blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
+                  {blog && blog?.comment?.filter(comment => comment.isAccepted).length > 0 && (
+                      <div className="text-[24px]">
+                          {blog?.comment?.filter(comment => comment.isAccepted).length} Comments
+                      </div>
+                  )}              
+                  {blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
                       <div key={index} className="comment-item flex flex-col align-center mt-3">
                         <div className="comment-base flex">
                           <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(comment.email)}.png`} />

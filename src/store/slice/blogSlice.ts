@@ -55,7 +55,7 @@ function getAxiosParams(blogParams: BlogParams) {
     const urlParams = new URLSearchParams(window.location.search); 
     const hasCategoryInUrl = urlParams.has('category');
     const hasTagsInUrl = urlParams.has('tag');
-    const hasSearchTermInUrl = urlParams.has('search?q');
+    const hasSearchTermInUrl = urlParams.has('q');
     
     if (hasCategoryInUrl && !hasTagsInUrl) {
         params.append('category', blogParams.category.toString());
@@ -68,15 +68,14 @@ function getAxiosParams(blogParams: BlogParams) {
             params.append('category', blogParams.category.toString());
             params.delete('searchTerm');
             urlParams.delete('q')
-            urlParams.delete('search?q')
             
         } else if (urlParams.get('tag')) {
             params.append('tags', blogParams.tags.toString());
             params.delete('searchTerm');
             urlParams.delete('q')
-            urlParams.delete('search?q')
         }
     }
+
     
     if (hasSearchTermInUrl) {
         params.delete('category'); 

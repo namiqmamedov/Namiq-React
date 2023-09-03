@@ -56,7 +56,7 @@ const BlogGrid = () => {
         <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
         <List>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-        {blogsNoFilter.slice(-5).map((item, index) => (
+        {blogsNoFilter.slice(-5).reverse().map((item, index) => (
               <Link key={index} className="w-full" to={`/blog/${item.id}`}>
                 {item.name}
               </Link>
@@ -66,14 +66,14 @@ const BlogGrid = () => {
         
         <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
         <ListItem disablePadding className="flex flex-wrap mb-5">
-           {commentsNoFilter.filter(comment => comment.isAccepted).slice(-5).map((item,index) => {
+           {commentsNoFilter.filter(comment => comment.isAccepted).slice(-5).reverse().map((item,index) => {
             const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
             const blogName = blog ? blog.name : 'Unknown Blog'; 
                 return (
-                      <Link key={index} className="flex w-full gap-2" to={`/blog/${item.blogID}`}>
-                          <FaRegComment className="mt-1"/>
+                  <Link key={index} to={`/blog/${item.blogID}`}>
+                          <FaRegComment className="mt-1 d-inline-block mr-2"/>
+                              {item.name}
                             <Fragment>
-                              {item.text}
                                   <span className=" text-gray-400"> on </span>
                               {blogName}
                             </Fragment>

@@ -74,6 +74,8 @@ const BlogList = ({blogs}: Props) => {
                   .replace(/\|/g, "")
                   .replace(/\s+/g, "-")
                   .replace(/#/g, "")
+                  .replace(/&/g, "")
+                  .replace(/[()]/g, "")
                   .replace(/:/g, "")
                   .replace(/\//g, "")
                   .replace(/\?/g, "")

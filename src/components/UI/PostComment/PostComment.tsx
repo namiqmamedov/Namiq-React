@@ -45,6 +45,15 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         const formattedName = blog?.name
         .replace(/\|/g, "")
         .replace(/\s+/g, "-")
+        .replace(/#/g, "")
+        .replace(/&/g, "")
+        .replace(/[()]/g, "")
+        .replace(/:/g, "")
+        .replace(/\//g, "")
+        .replace(/\?/g, "")
+        .replace(/[-–—]+/g, "-")
+        .replace(/-+/g, "-") 
+        .replace(/^-+|-+$/g, "")
         .toLowerCase();
       return formattedName === name;
     });
@@ -61,7 +70,6 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         try {
             const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/comment/csrf-token`);
 
-            debugger;
                 const setCookieHeader = antiForgeryResponse.data['Set-Cookie'];
 
                 if (setCookieHeader) {
