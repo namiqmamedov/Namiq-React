@@ -43,8 +43,7 @@ const AppEditor = (props: Props) => {
       spellchecker_active: true,
    }} 
     />
- {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
-    {/* <button onClick={log}>Log editor content</button> */}
+ {fieldState.error && <FormHelperText sx={{color: '#d32f2f'}}>{fieldState.error.message}</FormHelperText>}
   </FormControl>
   )
 }

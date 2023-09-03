@@ -73,7 +73,15 @@ const BlogList = ({blogs}: Props) => {
                 to={`/blog/${blog.name
                   .replace(/\|/g, "")
                   .replace(/\s+/g, "-")
-                  .toLowerCase()}`}
+                  .replace(/#/g, "")
+                  .replace(/:/g, "")
+                  .replace(/\//g, "")
+                  .replace(/\?/g, "")
+                  .replace(/[-–—]+/g, "-")
+                  .replace(/-+/g, "-") 
+                  .replace(/^-+|-+$/g, "")
+                  .toLowerCase()
+                }`}
                  
                  className="view-btn w-full text-end mt-3 mb-4">
                   <button type="button" className="btn btn-primary">

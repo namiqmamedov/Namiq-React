@@ -113,6 +113,8 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             options={categoryOptions}
                             onChange={handleCategoryChange}
                             multiple={false}
+                            control={control}
+                            name="categoryID"
                             />
                     </Grid> 
                     <Grid item xs={12} sm={6}>
@@ -122,6 +124,8 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             options={tagOptions}
                             onChange={handleTagChange}
                             multiple={true}
+                            control={control}
+                            name="tagID"
                         />
                     </Grid> 
                     <Grid item xs={12}>
@@ -134,7 +138,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                     <AppEditor control={control} name='description' /> 
+                    <AppEditor control={control} name='description' /> 
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
