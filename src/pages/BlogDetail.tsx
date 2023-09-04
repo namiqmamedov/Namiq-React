@@ -31,18 +31,7 @@ const BlogDetail = () => {
   const formattedName = name?.replace(/\|/g, "").replace(/\s+/g, "-").toLowerCase();
   const blog = blogs.find((blog: any) => {
     const blogName = blog?.name
-      .replace(/\|/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/#/g, "")
-      .replace(/&/g, "")
-      .replace(/[()]/g, "")
-      .replace(/:/g, "")
-      .replace(/\//g, "")
-      .replace(/\?/g, "")
-      .replace(/[-–—]+/g, "-")
-      .replace(/-+/g, "-") 
-      .replace(/^-+|-+$/g, "")
-      .toLowerCase();
+    .replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
     return blogName === formattedName;
   });
   

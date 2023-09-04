@@ -53,6 +53,7 @@ export default function Dashboard() {
     setSelectedBlog(blog);
     setEditMode(true);
   }
+  
 
   function handleDeleteBlog(id: number) {
     setLoading(true);
@@ -155,10 +156,10 @@ export default function Dashboard() {
                     {blog?.blogTags?.slice(0, 3).map((tag, index) => (
                         <span key={tag.tagID}>
                             {tagIDToNameMapping[tag.tagID]}
-                            {index < blog.blogTags.length - 1 && ", "}
+                            {index < 2 && ", "}
                         </span>
                     ))}
-                     {blog?.blogTags?.length > 3 && `${tagIDToNameMapping[blog.blogTags[2].tagID]} ...`}
+                     {blog?.blogTags?.length > 3 && ` ...`}
                     </TableCell>
                     <TableCell align="center">{blog.categoryID}</TableCell>
                     <TableCell align="center">

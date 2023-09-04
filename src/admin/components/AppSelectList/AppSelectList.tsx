@@ -12,21 +12,24 @@ import { useController } from 'react-hook-form';
     
 
     export default function AppSelectList(props: AppSelectListProps) {
-        const {fieldState} = useController({...props,defaultValue: ''})
+        // const {fieldState} = useController({...props,defaultValue: ''})
+
+        const { field, fieldState } = useController(props); // props parametresini kullanarak useController'ı çağırın
+
+        const { onChange } = props;
 
         return (
         <FormControl fullWidth>
             <InputLabel>{props.label}</InputLabel>
             <Select
-                name="tagID"
                 multiple={props.multiple} 
                 value={props.value}
                 label={props.label}
                 onChange={(event) => {
                     const selectedValues = event.target.value as number[];
-                    
-                    props.onChange(selectedValues);
-                }}
+                    field.onChange(selectedValues); // Form kontrolüne değeri bildir
+                    onChange(selectedValues); // Değişikliği ana bileşene aktar
+                  }}
             >
                 {props.options.map((option) => (
                     <MenuItem key={option.id} value={option.id}>

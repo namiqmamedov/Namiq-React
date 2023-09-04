@@ -71,18 +71,7 @@ const BlogList = ({blogs}: Props) => {
               {blog && (
                 <Link
                 to={`/blog/${blog.name
-                  .replace(/\|/g, "")
-                  .replace(/\s+/g, "-")
-                  .replace(/#/g, "")
-                  .replace(/&/g, "")
-                  .replace(/[()]/g, "")
-                  .replace(/:/g, "")
-                  .replace(/\//g, "")
-                  .replace(/\?/g, "")
-                  .replace(/[-–—]+/g, "-")
-                  .replace(/-+/g, "-") 
-                  .replace(/^-+|-+$/g, "")
-                  .toLowerCase()
+                  .replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
                 }`}
                  
                  className="view-btn w-full text-end mt-3 mb-4">

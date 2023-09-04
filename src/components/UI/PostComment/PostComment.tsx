@@ -43,18 +43,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
     
     const currentBlog = blogs.find((blog: any) =>  {
         const formattedName = blog?.name
-        .replace(/\|/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/#/g, "")
-        .replace(/&/g, "")
-        .replace(/[()]/g, "")
-        .replace(/:/g, "")
-        .replace(/\//g, "")
-        .replace(/\?/g, "")
-        .replace(/[-–—]+/g, "-")
-        .replace(/-+/g, "-") 
-        .replace(/^-+|-+$/g, "")
-        .toLowerCase();
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
       return formattedName === name;
     });
 

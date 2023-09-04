@@ -35,7 +35,6 @@ interface BlogState {
 const blogsAdapter = createEntityAdapter<Blog>()
 
 
-
 function getAxiosParams(blogParams: BlogParams) {
     const params = new URLSearchParams();
 
