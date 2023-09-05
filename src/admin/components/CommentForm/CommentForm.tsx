@@ -51,7 +51,7 @@ export default function TagForm({ comment, cancelEdit }: Props) {
                         <AppTextInput disabled={true} control={control} name='name' label='Name' />
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <AppTextInput disabled={true} multiline={true} rows={4} control={control} name='name' label='Name' />
+                        <AppTextInput disabled={true} multiline={true} rows={4} control={control} name='text' label='Comment' />
                     </Grid>
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>

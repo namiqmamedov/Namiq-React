@@ -12,9 +12,6 @@ import AppSelectList from "../AppSelectList/AppSelectList";
 import useBlogs from "../../../hooks/useBlogs";
 import AppEditor from "../AppEditor/AppEditor";
 import {TiMediaRecord} from 'react-icons/ti';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { validationSchema } from "../../../validation/blogValidation";
-
 
 interface Props {
     blog?: Blog;
@@ -28,14 +25,14 @@ interface Props {
 export default function BlogForm({ blog, cancelEdit }: Props) {
     const editMode = !!blog;  
 
-    const { register,control, reset, handleSubmit, watch, setError, setValue, formState: { isDirty, isSubmitting }} = useForm({
+    const {control, reset, handleSubmit, watch, setError, setValue, formState: { isDirty, isSubmitting }} = useForm({
        mode: 'all',
     });
 
     function handleApiErrors(errors: any) {
         console.log(errors);
         debugger
-         if (Array.isArray(errors) && !editMode) {
+         if (Array.isArray(errors)) {
             errors.forEach((error: string) => {
                 console.log(error);
     
@@ -143,7 +140,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     {errorMessage && (
                         <List className="!ml-2">
                             <ListItem className="text-red-500">
-                                <TiMediaRecord className="text-red-500 mr-1" /> 
+                                <TiMediaRecord className="text-red-500 mr-1 w-3" /> 
                                 {errorMessage}
                             </ListItem>
                         </List>
@@ -184,7 +181,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                    <AppEditor control={control} name='descriptionText' /> 
+                    <AppEditor control={control} name={editMode ? 'description' : 'descriptionText'}/> 
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>

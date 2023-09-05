@@ -17,7 +17,7 @@ interface Props {
 }
 
 const PostComment = ({ comment,selectedCommentId }: Props) => {
-    const { control, reset, handleSubmit,setError, formState: { isDirty, isSubmitting } } = useForm({
+    const { control, reset, handleSubmit,setError, formState: { isDirty } } = useForm({
        mode: 'all'
     });
     
@@ -29,7 +29,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
                     setError('name', { message: error })
                 } else if (error.includes('Email')) {
                     setError('email', { message: error })
-                } else if (error.includes('Text')) {
+                } else if (error.includes('Comment')) {
                     setError('text', { message: error })
                 }
             });

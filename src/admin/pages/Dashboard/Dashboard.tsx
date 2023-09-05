@@ -156,12 +156,18 @@ export default function Dashboard() {
                     {blog?.blogTags?.slice(0, 3).map((tag, index) => (
                         <span key={tag.tagID}>
                             {tagIDToNameMapping[tag.tagID]}
-                            {index < 2 && ", "}
+                            {index < 2 && index < blog.blogTags.length - 1 && ", "}
                         </span>
                     ))}
                      {blog?.blogTags?.length > 3 && ` ...`}
                     </TableCell>
-                    <TableCell align="center">{blog.categoryID}</TableCell>
+                    <TableCell align="center">
+                      {blog && blog.comment
+                        ? blog.comment.filter(comment => comment.isAccepted).length > 0
+                          ? blog.comment.filter(comment => comment.isAccepted).length
+                          : 0
+                        : 0}
+                    </TableCell>
                     <TableCell align="center">
                     {getTimeAgo(blog.createdAt)}
                     </TableCell>

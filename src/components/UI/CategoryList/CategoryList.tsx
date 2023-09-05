@@ -43,15 +43,16 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       onChange(urlParams.getAll('category'));
   }
 
-
-
   return (
     <div className="category__item flex flex-column">
     {items.map((item:any) => (
       <Link
         onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}
-      >
+        className={`${
+          checkedItems.includes(item.categoryName) ? 'active' : ''
+        }`}
+        >
         {item.categoryName }
         <span className='ml-2'>
         ( {item.count} )

@@ -4,7 +4,6 @@ import { useRef } from 'react';
 import { FormControl, FormHelperText } from '@mui/material';
 import { UseControllerProps,useController } from 'react-hook-form';
 
-
 interface Props extends UseControllerProps {
     name: string;
     multiline?: boolean;
@@ -42,10 +41,9 @@ const AppEditor = (props: Props) => {
     
       autosave_restore_when_empty: true,
       spellchecker_active: true,
-   }} 
-    />
-   <input className='zugulba' type="text" name={props.name} value={field.value} />   
- {fieldState.error && <FormHelperText sx={{color: '#d32f2f'}}>{fieldState.error.message}</FormHelperText>}
+      }} 
+      />
+  {fieldState.error && <FormHelperText sx={{color: '#d32f2f'}}>{fieldState.error.message}</FormHelperText>}
   </FormControl>
   )
 }

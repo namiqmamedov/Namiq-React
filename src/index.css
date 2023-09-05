@@ -120,4 +120,6 @@ p{
   }
 }
 
-
+.category__item .active{
+  color: black !important;
+}

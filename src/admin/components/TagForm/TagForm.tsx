@@ -1,14 +1,13 @@
-import { Box, Paper, Typography, Grid, Button, Container } from "@mui/material";
+import { Box, Paper, Typography, Grid, Button, Container, List, ListItem } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import agent from "../../../api/agent";
 import { useAppDispatch } from "../../../store/configureStore";
 import AppTextInput from "../AppTextInput/AppTextInput";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
-import { validationSchema } from "../../../validation/categoryValidation";
+import { useEffect, useState } from "react";
 import { Tag } from "../../../models/tag";
 import { setTag } from "../../../store/slice/tagSlice";
+import { TiMediaRecord } from "react-icons/ti";
 
 interface Props {
     tag?: Tag;
@@ -16,9 +15,25 @@ interface Props {
 }
 
 export default function TagForm({ tag, cancelEdit }: Props) {
-    const { control, reset, handleSubmit, formState: { isDirty, isSubmitting }} = useForm({
-          resolver: yupResolver(validationSchema)
+    const { control, reset, handleSubmit,setError, formState: { isDirty, isSubmitting }} = useForm({
+          mode: 'all'
     });
+
+    function handleApiErrors(errors: any) {
+        console.log(errors);
+        debugger
+         if (Array.isArray(errors)) {
+            errors.forEach((error: string) => {
+                console.log(error);
+    
+                if (error.includes('Name')) {
+                    setError('name', { message: error })
+                } 
+            });
+        }
+    }
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const dispatch = useAppDispatch();
 
@@ -37,7 +52,18 @@ export default function TagForm({ tag, cancelEdit }: Props) {
             }
             dispatch(setTag(response));
             cancelEdit();
-        } catch (error) {
+        } catch (error:any) {
+            if (error) {
+                const errorMessageFromAPI = error.data;
+                setErrorMessage(errorMessageFromAPI); 
+
+                console.log(error);
+                
+            } else {
+                setErrorMessage("An error occurred."); 
+            }
+            handleApiErrors(error)
+
             console.log(error);
         }
     }
@@ -52,6 +78,14 @@ export default function TagForm({ tag, cancelEdit }: Props) {
                 </Typography>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <Grid container spacing={3}>
+                {errorMessage && (
+                        <List className="!ml-2">
+                            <ListItem className="text-red-500">
+                                <TiMediaRecord className="text-red-500 mr-1 w-3" /> 
+                                {errorMessage}
+                            </ListItem>
+                        </List>
+                    )}
                     <Grid item xs={12} sm={12}>
                         <AppTextInput control={control} name='name' label='Tag name' />
                     </Grid>

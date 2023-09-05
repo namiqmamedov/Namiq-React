@@ -18,6 +18,7 @@ import { removeComment, setComment, setPageNumber } from '../../../store/slice/c
 import CommentForm from '../../components/CommentForm/CommentForm';
 import {BsFillCheckCircleFill} from 'react-icons/bs'
 import {BsInfoCircle} from 'react-icons/bs'
+import { getTimeAgo } from '../../../util/util';
 
 function Copyright(props: any) {
   return (
@@ -93,6 +94,7 @@ export default function CommentPage() {
                             <TableCell>#</TableCell>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Comment</TableCell>
+                            <TableCell align="left">Date</TableCell>
                             <TableCell align="center">Settings</TableCell>
                         </TableRow>
                     </TableHead>
@@ -138,6 +140,9 @@ export default function CommentPage() {
                     </TableCell>
                     <TableCell align="left">
                       {item?.text}
+                    </TableCell>
+                    <TableCell align="left">
+                    {getTimeAgo(item?.createdAt)}
                     </TableCell>
 
                     <TableCell align="center">
