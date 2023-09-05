@@ -6,6 +6,7 @@ import { UseControllerProps,useController } from 'react-hook-form';
 
 
 interface Props extends UseControllerProps {
+    name: string;
     multiline?: boolean;
     rows?: number;
     type?: string;
@@ -19,7 +20,7 @@ const AppEditor = (props: Props) => {
     const handleEditorChange = (content: string) => {
       field.onChange(content);
   };
-    
+
   return (
     <FormControl className='form-editor'>
     <Editor
@@ -43,6 +44,7 @@ const AppEditor = (props: Props) => {
       spellchecker_active: true,
    }} 
     />
+   <input className='zugulba' type="text" name={props.name} value={field.value} />   
  {fieldState.error && <FormHelperText sx={{color: '#d32f2f'}}>{fieldState.error.message}</FormHelperText>}
   </FormControl>
   )

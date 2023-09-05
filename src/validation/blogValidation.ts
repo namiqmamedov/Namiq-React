@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 export const validationSchema = yup.object({
     // name: yup.string().required('Name field is required'),
-    // description: yup.string().required('Description is required'),
+    //  description: yup.string().required('Description is required'),
     // categoryID: yup.string().required('Category field is required'),
     // tagID: yup
     // .array().required('Tag field is required')

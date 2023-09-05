@@ -10,25 +10,22 @@ import { useController } from 'react-hook-form';
         multiple?: boolean;
     }
     
-
     export default function AppSelectList(props: AppSelectListProps) {
-        // const {fieldState} = useController({...props,defaultValue: ''})
-
-        const { field, fieldState } = useController(props); // props parametresini kullanarak useController'ı çağırın
-
+        const { field, fieldState } = useController(props); 
         const { onChange } = props;
 
         return (
         <FormControl fullWidth>
             <InputLabel>{props.label}</InputLabel>
             <Select
+                error={!!fieldState.error}
                 multiple={props.multiple} 
                 value={props.value}
                 label={props.label}
                 onChange={(event) => {
                     const selectedValues = event.target.value as number[];
-                    field.onChange(selectedValues); // Form kontrolüne değeri bildir
-                    onChange(selectedValues); // Değişikliği ana bileşene aktar
+                    field.onChange(selectedValues);
+                    onChange(selectedValues);
                   }}
             >
                 {props.options.map((option) => (

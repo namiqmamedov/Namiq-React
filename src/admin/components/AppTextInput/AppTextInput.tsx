@@ -7,6 +7,8 @@ interface Props extends UseControllerProps {
     rows?: number;
     type?: string;
     disabled?: boolean;
+    className?: string;
+    value?: string;
 }
 
 const AppTextInput = (props: Props) => {

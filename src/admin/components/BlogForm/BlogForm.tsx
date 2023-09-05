@@ -7,13 +7,13 @@ import { Blog } from "../../../models/blog";
 import { useAppDispatch } from "../../../store/configureStore";
 import AppDropzone from "../AppDropzone/AppDropzone";
 import AppTextInput from "../AppTextInput/AppTextInput";
-import { validationSchema } from "../../../validation/blogValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { setBlog } from "../../../store/slice/blogSlice";
 import AppSelectList from "../AppSelectList/AppSelectList";
 import useBlogs from "../../../hooks/useBlogs";
 import AppEditor from "../AppEditor/AppEditor";
 import {TiMediaRecord} from 'react-icons/ti';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { validationSchema } from "../../../validation/blogValidation";
 
 
 interface Props {
@@ -28,21 +28,21 @@ interface Props {
 export default function BlogForm({ blog, cancelEdit }: Props) {
     const editMode = !!blog;  
 
-    const { control, reset, handleSubmit, watch, setError, setValue, formState: { isDirty, isSubmitting,errors }} = useForm({
-       mode: 'all'
+    const { register,control, reset, handleSubmit, watch, setError, setValue, formState: { isDirty, isSubmitting }} = useForm({
+       mode: 'all',
     });
 
     function handleApiErrors(errors: any) {
         console.log(errors);
         debugger
-         if (Array.isArray(errors)) {
+         if (Array.isArray(errors) && !editMode) {
             errors.forEach((error: string) => {
                 console.log(error);
     
                 if (error.includes('Name')) {
                     setError('name', { message: error })
                 } else if (error.includes('Description')) {
-                    setError('description', { message: error })
+                    setError('descriptionText', { message: error })
                 } else if (error.includes('Category')) {
                     setError('categoryID', { message: error })
                 } else if (error.includes('File')) {
@@ -151,6 +151,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                     <Grid item xs={12} sm={12}>
                         <AppTextInput control={control} name='name' label='Blog name' />
                     </Grid>
+                        <AppTextInput className="d-none" control={control} type="hidden" name='tagID' label='' />
                  <Grid item xs={12} sm={6}>
                         <AppSelectList
                             label='Category'
@@ -183,7 +184,7 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
                             )}
                         </Box>
                     </Grid>
-                    <AppEditor control={control} name='description' /> 
+                    <AppEditor control={control} name='descriptionText' /> 
                 </Grid>
                 <Box display='flex' justifyContent='space-between' sx={{ mt: 3 }}>
                     <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
