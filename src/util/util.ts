@@ -25,5 +25,15 @@ export function getTimeAgo(date:any) {
     }
   }
 
-  export const formattedCreatedAt = (date: any) =>
+  export const formattedCreatedAt = (date: string) =>
    format(new Date(date), 'MMMM d, yyyy');
+
+  export function formatBlogName(name:string) {
+    return name
+      .replace(/[|&#()/:?–—]/g, '-')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .toLowerCase();
+  }
+

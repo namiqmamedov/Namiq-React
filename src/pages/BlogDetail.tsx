@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
-import { getTimeAgo } from "../util/util";
+import { formatBlogName, getTimeAgo } from "../util/util";
 import useBlogs from "../hooks/useBlogs"
 
 function generateUniqueKey(email: string): string {
@@ -28,14 +28,11 @@ const BlogDetail = () => {
   
   const {blogs} = useBlogs();
 
-  const formattedName = name?.replace(/\|/g, "").replace(/\s+/g, "-").toLowerCase();
   const blog = blogs.find((blog: any) => {
-    const blogName = blog?.name
-    .replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
-    return blogName === formattedName;
+    const blogName = formatBlogName(blog?.name);
+    return blogName === name;
   });
   
-
   const {status: blogStatus} = useAppSelector(state => state.blog)
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
 
@@ -69,7 +66,7 @@ const BlogDetail = () => {
   return (
     <Container>
     <Grid container spacing={2} className="!mt-6" >
-        <Grid item lg={8} sm={12} md={8}>
+        <Grid className="widget__wrapper" item lg={8} sm={12} md={8}>
         <div className="card border-primary mb-12">
         <div className="card-image">
           <img
@@ -92,10 +89,10 @@ const BlogDetail = () => {
               <span>admin</span>
 
             </div>
-            <div className="comment-wrapper flex items-center gap-1">
+            <Link className="comment-wrapper flex items-center gap-1 m-0 p-0 text-black" to={`${import.meta.env.VITE_API_URL}/?category=${blog?.category?.name}`}>
               <FaFolderOpen />
               <span>{blog?.category?.name}</span> 
-            </div>
+            </Link>
             <div className="view-count flex gap-1 items-center">
             <AiFillEye/> {blog?.viewCount}
             </div>

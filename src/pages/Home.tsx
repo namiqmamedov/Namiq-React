@@ -12,6 +12,7 @@ import { fetchBlogsAsync, setBlogParams } from "../store/slice/blogSlice"
 const Home = () => {
   const {blogs,filtersLoaded} = useBlogs()
   
+  const hasSubmitted = useAppSelector(state => state.blog.hasSubmitted); 
   const searchResultsCount = useAppSelector(state => state.blog.searchResultsCount);  
   const totalResults = useAppSelector(state => state.blog.totalResults);
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const Home = () => {
     }
   }, [tag, dispatch]);
   
+
   if(!filtersLoaded) return <Loading/>
 
   return (
@@ -61,9 +63,9 @@ const Home = () => {
             <div className="mt-12">
             </div>
               <Grid container spacing={2} className="!mt-6">
-                 <Grid className="w-full" item lg={8} sm={12} md={8}>
-                          {searchResultsCount === 0 && blogs?.length === 0 ? (
-                            <Fragment>
+                 <Grid className="card__index w-full" item lg={8} sm={12} md={8}>
+                          {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 ? (
+                           <Fragment>
                               <p className="font-bold text-[32px]">Not found</p>
                               <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
                             </Fragment>
@@ -92,7 +94,7 @@ const Home = () => {
                             </Fragment>
                           )}
                  </Grid>
-                 <Grid item lg={4} sm={12} md={4}>
+                 <Grid className="widget__wrapper" item lg={4} sm={12} md={4}>
                      <BlogGrid/>
                  </Grid>
               </Grid>

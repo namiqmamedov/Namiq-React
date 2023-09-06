@@ -8,6 +8,10 @@ interface Props {
     onChange: (items: string[]) => void;
 }
 
+const updateDocumentTitle = (newTitle:string) => {
+  document.title = newTitle;
+};
+
 const TagList = ({items,checked,onChange}: Props) => {
 
     const [checkedItems,setCheckedItems] = useState(checked || [])
@@ -18,8 +22,13 @@ const TagList = ({items,checked,onChange}: Props) => {
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
       const tagIDs = urlParams.getAll('tag');
-
       setCheckedItems(tagIDs);
+
+      if (tagIDs.length > 0) {
+        const tagTitle = urlParams.get('tag');
+        updateDocumentTitle(`${tagTitle} | Namiq`);
+        setCheckedItems(tagIDs);
+      }
   }, [location]);
 
   function handleChecked(value: string) {
@@ -42,6 +51,9 @@ const TagList = ({items,checked,onChange}: Props) => {
     navigate(newURL);
     
     onChange(urlParams.getAll('tag'));
+
+    const tagTitle = urlParams.get('tag');
+    updateDocumentTitle(tagTitle ? `${tagTitle} | Namiq` : "Hack 'em all");
 }
 
   return (
@@ -51,7 +63,9 @@ const TagList = ({items,checked,onChange}: Props) => {
         onClick={() => handleChecked(item.tagName) }
         key={item.tagID}
       >
-            <span className="badge bg-dark">
+            <span className={`badge bg-dark ${
+              checkedItems.includes(item.tagName) ? 'active' : ''
+            }`}>
             {item.tagName }
             </span>
       </Link>

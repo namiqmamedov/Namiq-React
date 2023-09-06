@@ -1,16 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import BlogSearch from '../BlogSearch/BlogSearch';
 import { Link } from 'react-router-dom';
 import '../../../styles/header.css'
 import { Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { RootState } from '../../../store/configureStore';
-import { setHasSubmitted } from '../../../store/slice/blogSlice';
 
 export default function MuiDrawer() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -20,12 +18,11 @@ export default function MuiDrawer() {
   };
 
   const hasSubmitted = useSelector((state: RootState) => state.blog.hasSubmitted);
-  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (hasSubmitted) {
       setIsDrawerOpen(false);
-      dispatch(setHasSubmitted(false)); 
+      // dispatch(setHasSubmitted(false)); 
     }
   }, [hasSubmitted]);
 

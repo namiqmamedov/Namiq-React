@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import SketchyText from "../SketchyText/SketchyText";
 import axios from "axios";
 import useBlogs from "../../../hooks/useBlogs";
+import { formatBlogName } from "../../../util/util";
 
 interface Props {
     comment?: Comment;
@@ -42,9 +43,9 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
     const {name} = useParams();
     
     const currentBlog = blogs.find((blog: any) =>  {
-        const formattedName = blog?.name
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
-      return formattedName === name;
+        const formattedName = formatBlogName(blog?.name);
+ 
+        return formattedName === name;
     });
 
     const id = currentBlog?.id;
@@ -129,7 +130,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
                 </div>
             </div>
 
-            <button type="submit" className="btn btn-primary mt-3">Post comment</button>
+            <button type="submit" className="btn btn-primary mt-3 hover-back">Post comment</button>
         </Box>
     )
 }

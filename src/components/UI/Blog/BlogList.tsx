@@ -10,6 +10,7 @@ import useBlogs from "../../../hooks/useBlogs";
 import { setPageNumber } from "../../../store/slice/blogSlice";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { formatBlogName } from "../../../util/util";
 
 interface Props {
   blogs?: Blog[];
@@ -40,7 +41,12 @@ const BlogList = ({blogs}: Props) => {
               />
             </div>
             <div className="card-body">
-              <div className="text-[22px] mb-2">{blog.name}</div>
+              <div className="mb-4">
+                <Link className="text-[24px] !p-0 text-black transition-colors duration-300 hover:!text-[#5f5858]"
+                to={`blog/${formatBlogName(blog?.name)}`}>
+                  {blog.name}
+                </Link>
+              </div>
               <div className="post__content flex flex-wrap items-center gap-3">
                 <div className="date-wrapper flex items-center gap-1">
                   <BsCalendar2DateFill />
@@ -70,12 +76,9 @@ const BlogList = ({blogs}: Props) => {
               </p>
               {blog && (
                 <Link
-                to={`/blog/${blog.name
-                  .replace(/[|&#()/:?–—]/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
-                }`}
-                 
+                  to={`blog/${formatBlogName(blog?.name)}`}
                  className="view-btn w-full text-end mt-3 mb-4">
-                  <button type="button" className="btn btn-primary">
+                  <button type="button" className="btn btn-primary hover-back">
                     Read More
                   </button>
                 </Link>

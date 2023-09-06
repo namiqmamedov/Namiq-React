@@ -8,6 +8,10 @@ interface Props {
     onChange: (items: string[]) => void;
 }
 
+const updateDocumentTitle = (newTitle:string) => {
+  document.title = newTitle;
+};
+
 const CategoryList = ({items,checked,onChange}: Props) => {
     const [checkedItems,setCheckedItems] = useState(checked || [])
 
@@ -18,12 +22,17 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       const urlParams = new URLSearchParams(location.search);
       const categoryIDs = urlParams.getAll('category');
 
-      setCheckedItems(categoryIDs);
+      
+      if(categoryIDs.length > 0) {
+        setCheckedItems(categoryIDs);
+        const categoryTitle = urlParams.get('category');
+        updateDocumentTitle(`${categoryTitle} | Namiq`)
+      }
   }, [location]);
 
   function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
-
+      
       if (checkedItems.includes(value)) {
           urlParams.delete('category');
           setCheckedItems([]);
@@ -41,6 +50,9 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       navigate(newURL);
       
       onChange(urlParams.getAll('category'));
+
+        const categoryTitle = urlParams.get('category');
+        updateDocumentTitle(categoryTitle ? `${categoryTitle} | Namiq` : "Hack 'em all");
   }
 
   return (
@@ -49,8 +61,8 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       <Link
         onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}
-        className={`${
-          checkedItems.includes(item.categoryName) ? 'active' : ''
+        className={`hover-text ${
+          checkedItems.includes(item.categoryName) ? 'active' : '' 
         }`}
         >
         {item.categoryName }

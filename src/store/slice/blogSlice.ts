@@ -74,7 +74,6 @@ function getAxiosParams(blogParams: BlogParams) {
             urlParams.delete('q')
         }
     }
-
     
     if (hasSearchTermInUrl) {
         params.delete('category'); 
