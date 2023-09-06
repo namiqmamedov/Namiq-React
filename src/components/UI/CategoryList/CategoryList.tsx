@@ -37,8 +37,8 @@ const CategoryList = ({items,checked,onChange}: Props) => {
           urlParams.delete('category');
           setCheckedItems([]);
       } else {
-          urlParams.delete('tag');
           urlParams.delete('category');
+          urlParams.delete('tag');
           urlParams.append('category', value);
           setCheckedItems([value]);
       }
@@ -61,9 +61,7 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       <Link
         onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}
-        className={`hover-text ${
-          checkedItems.includes(item.categoryName) ? 'active' : '' 
-        }`}
+        className={`hover-text ${checkedItems.includes(item.categoryName) ? 'active' : ''}`}
         >
         {item.categoryName }
         <span className='ml-2'>

@@ -60,8 +60,7 @@ const Home = () => {
   return (
         <div className='card__item'>
             <Container>
-            <div className="mt-12">
-            </div>
+              <img src="" alt="" />
               <Grid container spacing={2} className="!mt-6">
                  <Grid className="card__index w-full" item lg={8} sm={12} md={8}>
                           {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 ? (

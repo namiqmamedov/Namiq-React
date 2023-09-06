@@ -66,12 +66,11 @@ const BlogDetail = () => {
   return (
     <Container>
     <Grid container spacing={2} className="!mt-6" >
-        <Grid className="widget__wrapper" item lg={8} sm={12} md={8}>
+        <Grid className="card__index" item lg={8} sm={12} md={8}>
         <div className="card border-primary mb-12">
         <div className="card-image">
           <img
             src={blog?.pictureUrl}
-            style={{height: 450}}
             alt="Image"
             className="w-full"
           />
@@ -89,7 +88,7 @@ const BlogDetail = () => {
               <span>admin</span>
 
             </div>
-            <Link className="comment-wrapper flex items-center gap-1 m-0 p-0 text-black" to={`${import.meta.env.VITE_API_URL}/?category=${blog?.category?.name}`}>
+            <Link className="comment-wrapper flex items-center gap-1 m-0 p-0 text-black" to={`/?category=${blog?.category?.name}`}>
               <FaFolderOpen />
               <span>{blog?.category?.name}</span> 
             </Link>
@@ -197,7 +196,7 @@ const BlogDetail = () => {
 
       </div>
         </Grid>
-        <Grid item lg={4} sm={12} md={4}>
+        <Grid className="widget__wrapper" item lg={4} sm={12} md={4}>
             <BlogGrid/>
         </Grid>
     </Grid>                             

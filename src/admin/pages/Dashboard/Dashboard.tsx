@@ -100,7 +100,7 @@ export default function Dashboard() {
                             <TableCell>#</TableCell>
                             <TableCell width={'35%'} align="left">Name</TableCell>
                             <TableCell align="center">Category</TableCell>
-                            <TableCell align="center">Tag</TableCell>
+                            <TableCell width={'14%'} align="center">Tag</TableCell>
                             <TableCell align="center">Comment</TableCell>
                             <TableCell align="center">Created At</TableCell>
                             <TableCell align="center">Settings</TableCell>
@@ -145,7 +145,7 @@ export default function Dashboard() {
                     </TableCell>
                     <TableCell align="left">
                       <Box display='flex' alignItems='center'>
-                        <img src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
+                        <img width={80} src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
                         <span>{blog.name}</span>
                       </Box>
                     </TableCell>

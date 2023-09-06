@@ -1,6 +1,6 @@
 import { List, ListItem } from '@mui/material'
 import { FaRegComment } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CategoryList from '../CategoryList/CategoryList'
 import useBlogs from '../../../hooks/useBlogs'
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore'
@@ -45,17 +45,33 @@ const BlogGrid = () => {
       
       fetchCommentsNoFilter();
     }, []);
-        
+
+
+    function generateNewURL(item:any) {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.has('category') || urlParams.has('tag')) {
+        urlParams.delete('category');
+        urlParams.delete('tag');
+      }
+    }
+
   return (
     <div className="card border-primary mb-3" >
       <div className="card-body">
+        
           <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
           <List>
           <ListItem disablePadding className="flex flex-wrap mb-5">
             {blogsNoFilter.slice(-5).reverse().map((item, index) => (
-                  <Link key={index} className="w-full hover-text" to={`/blog/${formatBlogName(item?.name)}`}>
-                    {item.name}
-                  </Link>
+              <Link
+                key={index}
+                className="w-full hover-text"
+                onClick={() => generateNewURL(item)}
+                to={`/blog/${formatBlogName(item?.name)}`}
+                >
+                  {item.name}
+                </Link>
             ))}
           </ListItem>
           
@@ -65,7 +81,11 @@ const BlogGrid = () => {
               const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
               const blogName = blog ? blog.name : 'Unknown Blog'; 
                   return (
-                    <Link key={index} to={`/blog/${formatBlogName(blog?.name || '')}`}>
+                    <Link 
+                    key={index} 
+                    onClick={() => generateNewURL(blog)}
+                    to={`/blog/${formatBlogName(blog?.name ||'')}`}
+                    >
                             <FaRegComment className="mt-1 d-inline-block mr-2"/>
                                 <span className='hover-text'>{item.name}</span>
                               <Fragment>

@@ -93,7 +93,7 @@ export default function CommentPage() {
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Comment</TableCell>
+                            <TableCell sx={{width: '45% !important'}} align="left">Comment</TableCell>
                             <TableCell align="left">Date</TableCell>
                             <TableCell align="center">Settings</TableCell>
                         </TableRow>

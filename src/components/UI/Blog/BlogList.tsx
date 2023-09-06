@@ -35,7 +35,6 @@ const BlogList = ({blogs}: Props) => {
             <div className="card-image">
               <img
                 src={blog?.pictureUrl}
-                style={{height: '450px'}}
                 alt="Image"
                 className="w-full"
               />

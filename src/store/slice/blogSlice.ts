@@ -90,7 +90,6 @@ export const fetchBlogsAsync = createAsyncThunk<
   { state: RootState }
 >('blog/fetchBlogsAsync', async (_, thunkAPI) => {
   const params = getAxiosParams(thunkAPI.getState().blog.blogParams);
-
   try {
     const response = await agent.Blog.list(params);
 

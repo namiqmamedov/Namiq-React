@@ -79,6 +79,10 @@ p{
   opacity: 0.8;
 }
 
+.widget__wrapper{
+  padding-left: 26px !important;
+}
+
 .widget__wrapper .card-body{
   padding: 1.5rem 1.2rem;
 }
