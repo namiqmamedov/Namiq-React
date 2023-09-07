@@ -141,7 +141,7 @@ export default function Dashboard() {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {startNumber}
+                        {startNumber}
                     </TableCell>
                     <TableCell align="left">
                       <Box display='flex' alignItems='center'>

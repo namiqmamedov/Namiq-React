@@ -4,14 +4,25 @@ import MuiDrawer from "../../UI/MuiDrawer/MuiDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import '../../../styles/header.css'
 
+
 const Header = () => {
   const navigate = useNavigate();
 
-  function handleClick() {
-    navigate('');
-    
-    window.location.reload();
+  function clearURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const params = ['category','tag','q'];
+
+    params.forEach((param) => {
+        if(urlParams.has(param)) {
+          urlParams.delete(param);
+
+          navigate('')
+          window.location.reload();
+        }
+    })
   }
+
   return (
     <nav className="navbar navbar-expand-lg bg-light" data-bs-theme="light">
       <Container>
@@ -19,7 +30,7 @@ const Header = () => {
             <div className="navbar-collapse" id="navbarColor03">
               <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                  <NavLink to="/" className="nav-link !text-[17px]" onClick={() => handleClick()} >
+                  <NavLink to="/" className="nav-link !text-[17px]" onClick={clearURL}>
                     Home
                   </NavLink>
                 </li>

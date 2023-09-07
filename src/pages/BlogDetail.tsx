@@ -59,7 +59,11 @@ const BlogDetail = () => {
 
   if(blogStatus.includes('pending')) return <Loading/>
 
-  if (!blog) {
+  console.log(name);
+  
+  const formattedBlogName = formatBlogName(blog?.name || '')
+
+  if (blog?.name && formattedBlogName !== name) {
     navigate('/not-found')
   }
 

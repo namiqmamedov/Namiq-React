@@ -25,7 +25,7 @@ const TagList = ({items,checked,onChange}: Props) => {
       setCheckedItems(tagIDs);
 
       if (tagIDs.length > 0) {
-        const tagTitle = urlParams.get('tag');
+        const tagTitle = urlParams.get('tag')?.replace(/-/g, " ");
         updateDocumentTitle(`${tagTitle} | Namiq`);
         setCheckedItems(tagIDs);
       }
@@ -33,16 +33,17 @@ const TagList = ({items,checked,onChange}: Props) => {
 
   function handleChecked(value: string) {
     const urlParams = new URLSearchParams(location.search);
+    const formattedValue = value.replace(/\s+/g, '-');
 
-    if (checkedItems.includes(value)) {
-        urlParams.delete('tag');
+    if (checkedItems.includes(formattedValue)) {
+      urlParams.delete('tag');
         setCheckedItems([]);
     } else {
         urlParams.delete('tag');
         urlParams.delete('category');
-        urlParams.append('tag', value);
-        setCheckedItems([value]);
-    }
+        urlParams.append('tag', formattedValue);
+        setCheckedItems([formattedValue]);
+      }
 
     const tagParam = urlParams.get('tag') ? `tag=${urlParams.get('tag')}` : '';
 

@@ -19,10 +19,13 @@ const BlogGrid = () => {
     const dispatch = useAppDispatch();
     const [commentsNoFilter, setCommentsNoFilter] = useState<Comment[]>([]); 
     const [blogsNoFilter, setBlogsNoFilter] = useState<Blog[]>([]); 
+    const navigate = useNavigate();
+    const urlParams = new URLSearchParams(location.search);
 
     useEffect(() => {
       const fetchBlogsNoFilter = async () => {
         try {
+          urlParams.delete('category');
           const response = await agent.Blog.listNoFilter();
           setBlogsNoFilter(response);
         } catch (error) {
@@ -49,10 +52,17 @@ const BlogGrid = () => {
 
     function generateNewURL(item:any) {
       const urlParams = new URLSearchParams(window.location.search);
-      
-      if (urlParams.has('category') || urlParams.has('tag')) {
-        urlParams.delete('category');
-        urlParams.delete('tag');
+
+      if (urlParams.has('category')) {
+        urlParams.delete('category')
+        navigate(`/blog/${formatBlogName(item?.name)}`);
+
+      }
+
+      if (urlParams.has('tag')) {
+        urlParams.delete('tag')
+        navigate(`/blog/${formatBlogName(item?.name)}`);
+
       }
     }
 

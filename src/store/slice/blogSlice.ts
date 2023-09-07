@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAction, createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { Blog, BlogParams } from "../../models/blog";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
@@ -140,6 +140,8 @@ function initParams() {
     }
 }
 
+export const clearFiltersAction = createAction("blog/clearFilters");
+
 export const blogSlice = createSlice({
     name: 'blog',
     initialState: blogsAdapter.getInitialState<BlogState>({
@@ -230,6 +232,9 @@ export const blogSlice = createSlice({
         })
         builder.addCase(fetchFilters.rejected, (state) => {
             state.status = 'idle';
+        })
+        builder.addCase(clearFiltersAction, (state) => {
+            state.blogParams = initParams();
         })
     })
 })

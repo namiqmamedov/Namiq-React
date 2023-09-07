@@ -60,7 +60,6 @@ const Home = () => {
   return (
         <div className='card__item'>
             <Container>
-              <img src="" alt="" />
               <Grid container spacing={2} className="!mt-6">
                  <Grid className="card__index w-full" item lg={8} sm={12} md={8}>
                           {hasSubmitted && searchResultsCount === 0 && blogs?.length === 0 ? (
@@ -79,12 +78,12 @@ const Home = () => {
                                   )}
                                   {tag && (
                                       <p className="text-[28px]">
-                                        <small>Tag: </small> {tag}
+                                        <small>Tag: </small> {tag.replace(/-/g, " ")}
                                       </p>
                                   )}
                                   {category && (
                                       <p className="text-[28px]">
-                                        <small>Category: </small> {category}
+                                        <small>Category: </small> {category.replace(/-/g, " ")}
                                       </p>
                                   )}
                                   <BlogList blogs={blogs} />

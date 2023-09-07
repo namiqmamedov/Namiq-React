@@ -21,39 +21,40 @@ const CategoryList = ({items,checked,onChange}: Props) => {
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
       const categoryIDs = urlParams.getAll('category');
+      setCheckedItems(categoryIDs);
 
-      
-      if(categoryIDs.length > 0) {
+      if (categoryIDs.length > 0) {
+        const categoryTitle = urlParams.get('category')?.replace(/-/g, " ");
+        updateDocumentTitle(`${categoryTitle} | Namiq`);
         setCheckedItems(categoryIDs);
-        const categoryTitle = urlParams.get('category');
-        updateDocumentTitle(`${categoryTitle} | Namiq`)
       }
   }, [location]);
 
-  function handleChecked(value: string) {
+   function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
-      
-      if (checkedItems.includes(value)) {
+      const formattedValue = value.replace(/\s+/g, '-');
+
+      if (checkedItems.includes(formattedValue)) {
           urlParams.delete('category');
           setCheckedItems([]);
       } else {
           urlParams.delete('category');
           urlParams.delete('tag');
-          urlParams.append('category', value);
-          setCheckedItems([value]);
+          urlParams.append('category', formattedValue);
+          setCheckedItems([formattedValue]);
       }
 
-      const categoryParam = urlParams.get('category') ? `category=${urlParams.get('category')}` : '';
-
-      const newURL = `/?${categoryParam}`;
+      const newURL = `/?${urlParams.toString()}`;
   
       navigate(newURL);
       
       onChange(urlParams.getAll('category'));
 
-        const categoryTitle = urlParams.get('category');
-        updateDocumentTitle(categoryTitle ? `${categoryTitle} | Namiq` : "Hack 'em all");
+      const categoryTitle = urlParams.get('category');
+      updateDocumentTitle(categoryTitle ? `${categoryTitle} | Namiq` : "Hack 'em all");
   }
+
+  const urlParams = new URLSearchParams(window.location.search);
 
   return (
     <div className="category__item flex flex-column">
@@ -61,9 +62,10 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       <Link
         onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}
-        className={`hover-text ${checkedItems.includes(item.categoryName) ? 'active' : ''}`}
         >
-        {item.categoryName }
+        <span 
+        className={`hover-text ${urlParams.has('category') && checkedItems.includes(item.categoryName) ? 'active' : ''}`}
+        >{item.categoryName }</span>
         <span className='ml-2'>
         ( {item.count} )
         </span>
