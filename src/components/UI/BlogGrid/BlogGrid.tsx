@@ -57,11 +57,14 @@ const BlogGrid = () => {
         urlParams.delete('category')
         navigate(`/blog/${formatBlogName(item?.name)}`);
 
+        window.location.reload();
       }
 
       if (urlParams.has('tag')) {
         urlParams.delete('tag')
         navigate(`/blog/${formatBlogName(item?.name)}`);
+
+        window.location.reload();
 
       }
     }

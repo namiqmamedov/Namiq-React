@@ -100,7 +100,14 @@ const Admin = {
 const Blog = {
     list: (params: URLSearchParams) => requests.get('blog/list', params),
     listNoFilter: () => requests.get('blog/listNoFilter'),
-    details: (name: string) => requests.get(`blog/${name}`),
+    details: (name: string, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        return axios.get(`blog/${name}`, { headers: headersWithToken })
+          .then(responseBody);
+      },
     fetchFilters: () => requests.get('blog/filters')
 }
 

@@ -54,7 +54,6 @@ const Home = () => {
     }
   }, [tag, dispatch]);
   
-
   if(!filtersLoaded) return <Loading/>
 
   return (

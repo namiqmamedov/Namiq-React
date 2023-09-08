@@ -141,16 +141,16 @@ export default function CommentPage() {
                     <TableCell align="left">
                       {item?.text}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell width={'23%'} align="left">
                     {getTimeAgo(item?.createdAt)}
                     </TableCell>
 
-                    <TableCell align="center">
+                    <TableCell align="right">
                     {item.isAccepted ? (
                           <Fragment>
                             <Button onClick={() => handleSelectComment(item)} startIcon={<BsInfoCircle />} />
                             <LoadingButton
-                              style={{minWidth: '48px'}}
+                              style={{minWidth: '48px',marginRight: '20px'}}
                               loading={loading && target === item.id}
                               onClick={() => handleClick()}
                               startIcon={<Delete />} color='error' />

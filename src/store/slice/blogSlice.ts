@@ -106,7 +106,16 @@ export const fetchBlogAsync = createAsyncThunk<Blog, string>(
     'blog/fetchBlogAsync',
     async (blogName,thunkAPI) => {
         try {
-            return await agent.Blog.details(blogName);
+            const userJSON  = localStorage.getItem("user");
+
+            const userData = JSON.parse(userJSON!);
+            const userToken = userData.token;
+      
+            const authorizationHeader = userToken;
+            
+            const response = await agent.Blog.details(blogName, authorizationHeader);
+      
+            return response;
         } catch (error:any) {
             return thunkAPI.rejectWithValue({error: error.data})
         }

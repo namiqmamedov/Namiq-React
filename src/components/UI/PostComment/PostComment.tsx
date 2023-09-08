@@ -66,11 +66,9 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
                     for (const cookie of setCookieHeader) {
                         const [cookieName] = cookie.split('=');
                         if (cookieName === '.AspNetCore.Antiforgery.G6Na-BmiaUo') {
-
                             document.cookie = cookie;
                         }
                         if (cookieName === 'X-CSRF-TOKEN') {
-
                             document.cookie = cookie;
                         } 
                     }

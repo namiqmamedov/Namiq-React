@@ -2,8 +2,14 @@ import { Link } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+interface CategoryItem {
+  categoryName: string;
+  categoryID: number;
+  count: number;
+}
+
 interface Props {
-    items: string[];
+    items: CategoryItem[];
     checked?: string[];
     onChange: (items: string[]) => void;
 }
@@ -27,8 +33,13 @@ const CategoryList = ({items,checked,onChange}: Props) => {
         const categoryTitle = urlParams.get('category')?.replace(/-/g, " ");
         updateDocumentTitle(`${categoryTitle} | Namiq`);
         setCheckedItems(categoryIDs);
+
+        if (items.some((item) => item.categoryName === categoryTitle)) {
+        } else {
+          navigate('/not-found')
+        }      
       }
-  }, [location]);
+  }, [location,items]);
 
    function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
@@ -58,7 +69,7 @@ const CategoryList = ({items,checked,onChange}: Props) => {
 
   return (
     <div className="category__item flex flex-column">
-    {items.map((item:any) => (
+    {items.map((item) => (
       <Link
         onClick={() => handleChecked(item.categoryName)}
         key={item.categoryID}

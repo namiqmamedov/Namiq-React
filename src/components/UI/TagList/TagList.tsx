@@ -2,8 +2,13 @@ import { Link } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+interface TagItem {
+  tagName: string;
+  tagID: number;
+}
+
 interface Props {
-    items: string[];
+    items: TagItem[];
     checked?: string[];
     onChange: (items: string[]) => void;
 }
@@ -13,7 +18,6 @@ const updateDocumentTitle = (newTitle:string) => {
 };
 
 const TagList = ({items,checked,onChange}: Props) => {
-
     const [checkedItems,setCheckedItems] = useState(checked || [])
 
     const location = useLocation();
@@ -28,15 +32,21 @@ const TagList = ({items,checked,onChange}: Props) => {
         const tagTitle = urlParams.get('tag')?.replace(/-/g, " ");
         updateDocumentTitle(`${tagTitle} | Namiq`);
         setCheckedItems(tagIDs);
-      }
-  }, [location]);
+
+        if (items.some((item) => item.tagName === tagTitle)) {
+        } else {
+          navigate('/not-found')
+        }
+    }
+  }, [location,items]);
+
 
   function handleChecked(value: string) {
     const urlParams = new URLSearchParams(location.search);
     const formattedValue = value.replace(/\s+/g, '-');
 
     if (checkedItems.includes(formattedValue)) {
-      urlParams.delete('tag');
+        urlParams.delete('tag');
         setCheckedItems([]);
     } else {
         urlParams.delete('tag');
@@ -59,7 +69,7 @@ const TagList = ({items,checked,onChange}: Props) => {
 
   return (
     <div className="tag__item flex flex-wrap gap-1">
-    {items.map((item:any) => (
+    {items.map((item) => (
       <Link
         onClick={() => handleChecked(item.tagName) }
         key={item.tagID}
