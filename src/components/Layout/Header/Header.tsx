@@ -8,6 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   function clearURL() {
+    document.title = "Hack 'em all"
     const urlParams = new URLSearchParams(window.location.search);
 
     const params = ['category','tag','q'];

@@ -2,13 +2,9 @@ import { Link } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface TagItem {
-  tagName: string;
-  tagID: number;
-}
 
 interface Props {
-    items: TagItem[];
+    items: string[];
     checked?: string[];
     onChange: (items: string[]) => void;
 }
@@ -33,7 +29,7 @@ const TagList = ({items,checked,onChange}: Props) => {
         updateDocumentTitle(`${tagTitle} | Namiq`);
         setCheckedItems(tagIDs);
 
-        if (items.some((item) => item.tagName === tagTitle)) {
+        if (items.some((item:any) => item.tagName === tagTitle)) {
         } else {
           navigate('/not-found')
         }
@@ -69,7 +65,7 @@ const TagList = ({items,checked,onChange}: Props) => {
 
   return (
     <div className="tag__item flex flex-wrap gap-1">
-    {items.map((item) => (
+    {items.map((item:any) => (
       <Link
         onClick={() => handleChecked(item.tagName) }
         key={item.tagID}
