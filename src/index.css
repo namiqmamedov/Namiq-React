@@ -2,25 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   background: #F2F2F2 !important;
 }
 
-a{
+a {
   text-decoration: none !important;
   color: #878383 !important;
   padding-bottom: 20px;
 }
 
-p{
-  font-family: 'Neucha',sans-serif;
+p {
+  font-family: 'Neucha', sans-serif;
 }
 
 .text-ellipsis {
@@ -28,62 +27,64 @@ p{
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  overflow : hidden;
+  overflow: hidden;
   line-height: 1.5;
 }
 
-.category__item .active{
+.category__item .active {
   color: rgb(15 23 42 / 1) !important;
 }
 
-.tag__item .active{
+.tag__item .active {
   background-color: #000000 !important;
 }
 
-.hover-text{
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-
-}
-.hover-text:hover{
-  color: rgb(15 23 42 / 1) !important;
-}
-
-.hover-back{
+.hover-text {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
 
 }
-.hover-back:hover{
+
+.hover-text:hover {
+  color: rgb(15 23 42 / 1) !important;
+}
+
+.hover-back {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+
+}
+
+.hover-back:hover {
   background: #5e5e5e !important;
 }
 
-.categories a{
+.categories a {
   cursor: pointer;
 }
 
-.card-image img{
+.card-image img {
   margin-top: 0px;
   margin-left: 0px;
   transition: .3s ease-in-out;
   cursor: pointer;
 }
 
-.card__index .card-body{
+.card__index .card-body {
   padding: 1.9rem 1.8rem !important;
 }
 
-.card-image img:hover{
+.card-image img:hover {
   opacity: 0.8;
 }
 
-.widget__wrapper{
+.widget__wrapper {
   padding-left: 26px !important;
 }
 
-.widget__wrapper .card-body{
+.widget__wrapper .card-body {
   padding: 1.5rem 1.2rem;
 }
 
@@ -92,24 +93,24 @@ p{
   padding-bottom: 0;
 }
 
-.navbar{
+.navbar {
   position: relative !important;
   z-index: 999999;
 }
 
-.form-editor{
+.form-editor {
   width: 100% !important;
   margin: 0 auto !important;
   padding-left: 23px !important;
 }
 
-.tox.tox-tinymce{
+.tox.tox-tinymce {
   margin: 0 auto !important;
   margin-top: 20px !important;
   width: 100%;
 }
 
-.app-box .MuiListItemIcon-root svg{
+.app-box .MuiListItemIcon-root svg {
   width: 1.3rem;
   height: 1.3rem;
 }
@@ -118,28 +119,29 @@ p{
   padding-left: 7px;
 }
 
-.card.border-primary{
+.card.border-primary {
   border-radius: 0 5px 5px 5px/25px 0px 25px 5px;
 }
 
-.underline{
+.underline {
   cursor: pointer;
 }
-.underline:hover{
+
+.underline:hover {
   text-decoration: underline !important;
 }
 
-.box-main{
+.box-main {
   padding: 22px 45px !important;
 }
 
-.dropzone-box .MuiFormControl-root{
+.dropzone-box .MuiFormControl-root {
   width: 520px;
 }
 
 
 @media screen and (max-width: 768px) {
-  .app-pagination{
+  .app-pagination {
     flex-direction: column;
   }
 
@@ -151,14 +153,50 @@ p{
     padding-bottom: 21px;
   }
 
-  .MuiPagination-ul{
+  .MuiPagination-ul {
     flex-wrap: nowrap;
   }
 
-  .comment-item .MuiBox-root{
-      margin-left: -58px;
+  .comment-item .MuiBox-root {
+    margin-left: -58px;
   }
 }
 
+.card__item .card-body .form__search {
+  gap: 1rem;
+  margin-bottom: 26px !important;
+}
 
+@media screen and (max-width: 768px) {
+  .card-body .form__search {
+    gap: 1rem;
+    margin-bottom: 30px !important;
+  }
+}
 
+@media screen and (min-width: 768px){
+  .card-body .form__search {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card__index .card-body {
+    padding: 1.9rem 1rem !important;
+  }
+}
+
+.about{
+  margin-top: 20px;
+}
+
+.about div{
+  margin-top: 20px;
+}
+
+.about span{
+  width: 100%;
+  display: block;
+  font-weight: bold;
+  color: #585860;
+}

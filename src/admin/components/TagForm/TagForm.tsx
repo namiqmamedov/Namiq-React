@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Tag } from "../../../models/tag";
 import { setTag } from "../../../store/slice/tagSlice";
 import { TiMediaRecord } from "react-icons/ti";
+import { getAuthorizationHeader } from "../../../util/util";
 
 interface Props {
     tag?: Tag;
@@ -45,10 +46,13 @@ export default function TagForm({ tag, cancelEdit }: Props) {
     {
         try {
             let response: Tag;
+
+            const authorizationHeader = getAuthorizationHeader();
+
             if(tag) {
-                response = await agent.Admin.updateTag(data);   
+                response = await agent.Admin.updateTag(data,authorizationHeader);   
             } else {
-                response = await agent.Admin.createTag(data);
+                response = await agent.Admin.createTag(data,authorizationHeader);
             }
             dispatch(setTag(response));
             cancelEdit();

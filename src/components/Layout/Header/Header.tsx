@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 import BlogSearch from "../../UI/BlogSearch/BlogSearch";
-import MuiDrawer from "../../UI/MuiDrawer/MuiDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import '../../../styles/header.css'
 
@@ -30,20 +29,18 @@ const Header = () => {
             <div className="navbar-collapse" id="navbarColor03">
               <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                  <NavLink to="/" className="nav-link !text-[17px]" onClick={clearURL}>
+                  <NavLink to="/" className="nav-link hover-text !text-[17px]" onClick={clearURL}>
                     Home
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/about" className="nav-link !text-[17px]">
+                  <NavLink to="/whoami" className="nav-link hover-text !text-[17px]">
                     About Me
                   </NavLink>
                 </li>
               </ul>
               <BlogSearch />
             </div>
-
-            <MuiDrawer />
         </div>
       </Container>
     </nav>

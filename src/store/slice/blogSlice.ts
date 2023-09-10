@@ -3,6 +3,7 @@ import { Blog, BlogParams } from "../../models/blog";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
 import { MetaData } from "../../models/pagination";
+import { getAuthorizationHeader } from "../../util/util";
 
 
 interface SearchResult {
@@ -106,15 +107,7 @@ export const fetchBlogAsync = createAsyncThunk<Blog, string>(
     'blog/fetchBlogAsync',
     async (blogName,thunkAPI) => {
         try {
-            const userJSON  = localStorage.getItem("user");
-
-            const userData = JSON.parse(userJSON!);
-            const userToken = userData.token;
-      
-            const authorizationHeader = userToken;
-            
-            const response = await agent.Blog.details(blogName, authorizationHeader);
-      
+            const response = await agent.Blog.details(blogName);
             return response;
         } catch (error:any) {
             return thunkAPI.rejectWithValue({error: error.data})

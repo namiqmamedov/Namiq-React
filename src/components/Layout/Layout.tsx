@@ -13,6 +13,7 @@ const Layout = () => {
   const useCustomLayout = customLayoutURLs.some(url => location.pathname.startsWith(url));
 
   const isErrorPage = location.pathname === '/not-found';
+
   return (
     <Fragment>
       <ScrollRestoration/>

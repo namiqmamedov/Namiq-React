@@ -16,7 +16,7 @@ import BlogForm from '../../components/BlogForm/BlogForm';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { getTimeAgo } from '../../../util/util';
+import { getAuthorizationHeader, getTimeAgo } from '../../../util/util';
 
 function Copyright(props: any) {
   return (
@@ -56,9 +56,11 @@ export default function Dashboard() {
   
 
   function handleDeleteBlog(id: number) {
+    const authorizationHeader = getAuthorizationHeader();
+    
     setLoading(true);
     setTarget(id);
-    agent.Admin.deleteBlog(id)
+    agent.Admin.deleteBlog(id,authorizationHeader)
       .then(() => dispatch(removeBlog(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
@@ -98,7 +100,7 @@ export default function Dashboard() {
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell width={'35%'} align="left">Name</TableCell>
+                            <TableCell width={'33%'} align="left">Name</TableCell>
                             <TableCell align="center">Category</TableCell>
                             <TableCell width={'14%'} align="center">Tag</TableCell>
                             <TableCell align="center">Comment</TableCell>
@@ -145,7 +147,7 @@ export default function Dashboard() {
                     </TableCell>
                     <TableCell align="left">
                       <Box display='flex' alignItems='center'>
-                        <img width={80} src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
+                        <img width={'21%'} src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
                         <span>{blog.name}</span>
                       </Box>
                     </TableCell>
@@ -153,13 +155,11 @@ export default function Dashboard() {
                         {blog?.category?.name}
                     </TableCell>
                     <TableCell align="center">
-                    {blog?.blogTags?.slice(0, 3).map((tag, index) => (
-                        <span key={tag.tagID}>
-                            {tagIDToNameMapping[tag.tagID]}
-                            {index < 2 && index < blog.blogTags.length - 1 && ", "}
+                      {blog?.blogTags?.length > 0 && (
+                        <span>
+                          {tagIDToNameMapping[blog.blogTags[0].tagID]}
                         </span>
-                    ))}
-                     {blog?.blogTags?.length > 3 && ` ...`}
+                      )}
                     </TableCell>
                     <TableCell align="center">
                       {blog && blog.comment

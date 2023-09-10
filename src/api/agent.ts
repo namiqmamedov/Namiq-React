@@ -80,34 +80,115 @@ function createFormData(item: any) {
 }
 
 const Admin = {
-    createBlog: (blog:any) => requests.postForm('blog',createFormData(blog)),
-    updateBlog: (blog:any) => requests.putForm('blog',createFormData(blog)),
-    deleteBlog: (id: number) => requests.delete(`blog/${id}`),
-
-    createCategory: (category:any) => requests.postForm('category', createFormData(category)),
-    updateCategory: (category:any) => requests.putForm('category', createFormData(category)),
-    deleteCategory: (id:number) => requests.delete(`category/${id}`),
-
-    createTag: (tag:any) => requests.postForm('tag', createFormData(tag)),
-    updateTag: (tag:any) => requests.putForm('tag', createFormData(tag)),
-    deleteTag: (id:number) => requests.delete(`tag/${id}`),
-
-    createComment: (comment:any) => requests.postForm('comment', createFormData(comment)),
-    acceptComment: (commentId:any) => requests.put(`comment/${commentId}/accept`, {}),
-    deleteComment: (id:number) => requests.delete(`comment/${id}`)
-}
-
-const Blog = {
-    list: (params: URLSearchParams) => requests.get('blog/list', params),
-    listNoFilter: () => requests.get('blog/listNoFilter'),
-    details: (name: string, token: string) => {
+    createBlog: (blog: any, token: string) => {
         const headersWithToken = {
           Authorization: `Bearer ${token}`,
         };
 
-        return axios.get(`blog/${name}`, { headers: headersWithToken })
+        const formData = createFormData(blog);
+
+        return axios.postForm('blog', formData, { headers: headersWithToken })
           .then(responseBody);
-      },
+    },
+    updateBlog: (blog: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const formData = createFormData(blog);
+
+        return axios.putForm('blog', formData, { headers: headersWithToken })
+          .then(responseBody);
+    },    
+    deleteBlog: (id: number, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        return axios.delete(`blog/${id}`, { headers: headersWithToken })
+          .then(responseBody);
+    },  
+    createCategory: (category: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const formData = createFormData(category);
+
+        return axios.postForm('category', formData, { headers: headersWithToken })
+          .then(responseBody);
+    },  
+    updateCategory: (category: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const formData = createFormData(category);
+
+        return axios.putForm('category', formData, { headers: headersWithToken })
+          .then(responseBody);
+    },     
+    deleteCategory: (id: number, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        return axios.delete(`category/${id}`, { headers: headersWithToken })
+          .then(responseBody);
+    },  
+    createTag: (tag: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const formData = createFormData(tag);
+
+        return axios.postForm('tag', formData, { headers: headersWithToken })
+          .then(responseBody);
+    }, 
+    updateTag: (tag: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const formData = createFormData(tag);
+
+        return axios.putForm('tag', formData, { headers: headersWithToken })
+          .then(responseBody);
+    },   
+    deleteTag: (id: number, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        return axios.delete(`tag/${id}`, { headers: headersWithToken })
+          .then(responseBody);
+    },  
+    createComment: (comment:any) => requests.postForm('comment', createFormData(comment)),
+    acceptComment: (commentId: any, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        debugger;
+      
+        return axios.put(`comment/${commentId}/accept`, {}, { headers: headersWithToken })
+        .then(responseBody);
+    },
+    deleteComment: (id: number, token: string) => {
+        const headersWithToken = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        return axios.delete(`comment/${id}`, { headers: headersWithToken })
+          .then(responseBody);
+    },
+  }
+
+const Blog = {
+    list: (params: URLSearchParams) => requests.get('blog/list', params),
+    listNoFilter: () => requests.get('blog/listNoFilter'),
+    details: (name: string) => requests.get(`blog/${name}`),
     fetchFilters: () => requests.get('blog/filters')
 }
 

@@ -76,7 +76,7 @@ const BlogSearch = () => {
 
     return (
         <Fragment>
-            <form className="d-flex" onSubmit={handleSubmit}>
+            <form className="d-flex form__search search-item" onSubmit={handleSubmit}>
                 <input 
                     className="form-control me-sm-2"
                     type="search"

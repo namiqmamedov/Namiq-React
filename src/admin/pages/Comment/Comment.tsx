@@ -18,7 +18,7 @@ import { removeComment, setComment, setPageNumber } from '../../../store/slice/c
 import CommentForm from '../../components/CommentForm/CommentForm';
 import {BsFillCheckCircleFill} from 'react-icons/bs'
 import {BsInfoCircle} from 'react-icons/bs'
-import { getTimeAgo } from '../../../util/util';
+import { getAuthorizationHeader, getTimeAgo } from '../../../util/util';
 
 function Copyright(props: any) {
   return (
@@ -50,18 +50,22 @@ export default function CommentPage() {
   }
 
   function handleDeleteComment(id: number) {
+    const authorizationHeader = getAuthorizationHeader();
+
     setLoading(true);
     setTarget(id);
-    agent.Admin.deleteComment(id)
+    agent.Admin.deleteComment(id,authorizationHeader)
       .then(() => dispatch(removeComment(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
   }
 
   function handleAcceptComment(id: number) {
+    const authorizationHeader = getAuthorizationHeader();
+
     setLoading(true);
     setTarget(id);
-    agent.Admin.acceptComment(id) 
+    agent.Admin.acceptComment(id,authorizationHeader) 
       .then(() => dispatch(setComment(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
@@ -92,8 +96,8 @@ export default function CommentPage() {
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell sx={{width: '45% !important'}} align="left">Comment</TableCell>
+                            <TableCell width={'15%'} align="left">Name</TableCell>
+                            <TableCell sx={{width: '39% !important'}} align="left">Comment</TableCell>
                             <TableCell align="left">Date</TableCell>
                             <TableCell align="center">Settings</TableCell>
                         </TableRow>
@@ -150,7 +154,7 @@ export default function CommentPage() {
                           <Fragment>
                             <Button onClick={() => handleSelectComment(item)} startIcon={<BsInfoCircle />} />
                             <LoadingButton
-                              style={{minWidth: '48px',marginRight: '20px'}}
+                              style={{minWidth: '48px'}}
                               loading={loading && target === item.id}
                               onClick={() => handleClick()}
                               startIcon={<Delete />} color='error' />

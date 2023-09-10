@@ -76,6 +76,9 @@ const BlogList = ({blogs}: Props) => {
               {blog && (
                 <Link
                   to={`blog/${formatBlogName(blog?.name)}`}
+                  onClick={() => {
+                    fetch(`${import.meta.env.VITE_API_URL}/api/blog/${formatBlogName(blog?.name)}`)
+                  }}
                  className="view-btn w-full text-end mt-3 mb-4">
                   <button type="button" className="btn btn-primary hover-back">
                     Read More

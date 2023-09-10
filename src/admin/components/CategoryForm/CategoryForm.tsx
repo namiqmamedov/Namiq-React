@@ -8,6 +8,7 @@ import { Category } from "../../../models/category";
 import { useEffect, useState } from "react";
 import { setCategory } from "../../../store/slice/categorySlice";
 import { TiMediaRecord } from "react-icons/ti";
+import { getAuthorizationHeader } from "../../../util/util";
 
 interface Props {
     category?: Category;
@@ -46,10 +47,13 @@ export default function CategoryForm({ category, cancelEdit }: Props) {
     {
         try {
             let response: Category;
+
+            const authorizationHeader = getAuthorizationHeader();
+
             if(category) {
-                response = await agent.Admin.updateCategory(data);   
+                response = await agent.Admin.updateCategory(data,authorizationHeader);   
             } else {
-                response = await agent.Admin.createCategory(data);
+                response = await agent.Admin.createCategory(data,authorizationHeader);
             }
             dispatch(setCategory(response));
             cancelEdit();

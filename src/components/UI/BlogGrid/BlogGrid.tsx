@@ -11,10 +11,10 @@ import { useState, useEffect, Fragment } from 'react'
 import { Blog } from '../../../models/blog'
 import { Comment } from '../../../models/comment'
 import { formatBlogName } from '../../../util/util'
+import BlogSearch from '../BlogSearch/BlogSearch'
 
 const BlogGrid = () => {
 
-    const {category,tags} = useBlogs()
     const {blogParams} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
     const [commentsNoFilter, setCommentsNoFilter] = useState<Comment[]>([]); 
@@ -73,6 +73,7 @@ const BlogGrid = () => {
     <div className="card border-primary mb-3" >
       <div className="card-body">
         
+         <BlogSearch />
           <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
           <List>
           <ListItem disablePadding className="flex flex-wrap mb-5">
@@ -111,7 +112,7 @@ const BlogGrid = () => {
           </ListItem>
 
           <h3 className="text-uppercase text-sm font-bold">Categories</h3>
-          <ListItem disablePadding className="flex flex-wrap mb-5 categories">
+          {/* <ListItem disablePadding className="flex flex-wrap mb-5 categories">
               <CategoryList
                 items={category}
                 checked={blogParams.category}
@@ -125,7 +126,7 @@ const BlogGrid = () => {
                   checked={blogParams.tags}
                   onChange={(items: string[]) => dispatch(setBlogParams({tags: items}))}
               />
-          </ListItem>
+          </ListItem> */}
           </List>
       </div>
     </div>

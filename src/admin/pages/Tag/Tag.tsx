@@ -16,6 +16,7 @@ import { Tag } from '../../../models/tag';
 import TagForm from '../../components/TagForm/TagForm';
 import { removeTag, setPageNumber } from '../../../store/slice/tagSlice';
 import Swal from 'sweetalert2';
+import { getAuthorizationHeader } from '../../../util/util';
 
 
 function Copyright(props: any) {
@@ -47,9 +48,12 @@ export default function TagPage() {
   }
 
   function handleDeleteTag(id: number) {
+    const authorizationHeader = getAuthorizationHeader();
+    
     setLoading(true);
     setTarget(id);
-    agent.Admin.deleteTag(id)
+
+    agent.Admin.deleteTag(id,authorizationHeader)
       .then(() => dispatch(removeTag(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));

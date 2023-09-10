@@ -37,3 +37,10 @@ export function getTimeAgo(date:any) {
       .toLowerCase();
   }
 
+export function getAuthorizationHeader(): string {
+  const userJSON = localStorage.getItem("user");
+  const userData = JSON.parse(userJSON!);
+  const usertToken = userData.token
+
+  return usertToken
+}

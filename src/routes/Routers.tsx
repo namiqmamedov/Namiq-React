@@ -8,6 +8,7 @@ import TagPage from '../admin/pages/Tag/Tag'
 import CommentPage from '../admin/pages/Comment/Comment'
 import Error from '../pages/Error'
 import RequireAuth from './RequireAuth'
+import About from '../pages/About'
 
 const Routers = () => {
 
@@ -15,7 +16,7 @@ const Routers = () => {
     <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/search' element={<Home />} />
-        <Route path='/about' element={<Home />} />
+        <Route path='/whoami' element={<About />} />
         <Route path='/blog/:name' element={<BlogDetail/>} />
 
         <Route path='*' element={<Navigate to = '/not-found' />}/>

@@ -16,6 +16,7 @@ import { Category } from '../../../models/category';
 import CategoryForm from '../../components/CategoryForm/CategoryForm';
 import { removeCategory, setPageNumber } from '../../../store/slice/categorySlice';
 import Swal from 'sweetalert2';
+import { getAuthorizationHeader } from '../../../util/util';
 
 
 function Copyright(props: any) {
@@ -47,9 +48,12 @@ export default function CategoryPage() {
   }
 
   function handleDeleteCategory(id: number) {
+    const authorizationHeader = getAuthorizationHeader();
+
     setLoading(true);
     setTarget(id);
-    agent.Admin.deleteCategory(id)
+
+    agent.Admin.deleteCategory(id,authorizationHeader)
       .then(() => dispatch(removeCategory(id)))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));

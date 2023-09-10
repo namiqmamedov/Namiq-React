@@ -12,6 +12,8 @@ import AppSelectList from "../AppSelectList/AppSelectList";
 import useBlogs from "../../../hooks/useBlogs";
 import AppEditor from "../AppEditor/AppEditor";
 import {TiMediaRecord} from 'react-icons/ti';
+import { getAuthorizationHeader } from "../../../util/util";
+import Prism from 'prismjs'
 
 interface Props {
     blog?: Blog;
@@ -106,11 +108,15 @@ export default function BlogForm({ blog, cancelEdit }: Props) {
     {
         try {
             let response: Blog;
+
+            const authorizationHeader = getAuthorizationHeader();
+            
             if(blog) {
-                response = await agent.Admin.updateBlog(data);   
+                response = await agent.Admin.updateBlog(data, authorizationHeader);   
             } else {
-                response = await agent.Admin.createBlog(data);
+                response = await agent.Admin.createBlog(data, authorizationHeader);
             }
+            Prism.highlightAll()
             dispatch(setBlog(response));
             cancelEdit();
         } catch (error:any) {
