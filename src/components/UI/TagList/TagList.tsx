@@ -65,7 +65,7 @@ const TagList = ({items,checked,onChange}: Props) => {
 
   return (
     <div className="tag__item flex flex-wrap gap-1">
-    {items.map((item:any) => (
+    {items?.map((item:any) => (
       <Link
         onClick={() => handleChecked(item.tagName) }
         key={item.tagID}

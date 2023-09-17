@@ -3,8 +3,6 @@ import { Blog, BlogParams } from "../../models/blog";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
 import { MetaData } from "../../models/pagination";
-import { getAuthorizationHeader } from "../../util/util";
-
 
 interface SearchResult {
     blogTags: null | any; 

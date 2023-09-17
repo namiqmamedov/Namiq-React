@@ -2,7 +2,7 @@
   margin: 0;
 }
 
-.nav-item .active,.link-active{
+.nav-item .active, .link-active {
   color: black !important;
 }
 
@@ -20,12 +20,20 @@
   display: none !important;
 }
 
-.navbar-nav{
-  flex-direction: unset !important;
-  gap: 1rem;
+@media screen and (max-width: 768px) {
+  .nav-sr {
+    display: flex !important;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .navbar-collapse {
+    display: none;
+  }
 }
-
-.nav-main form{
-  display: none !important;
-}
-/*# sourceMappingURL=header.css.map */
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .navbar-collapse .navbar-nav {
+    display: flex;
+    gap: 1rem;
+    flex-direction: unset;
+  }
+}/*# sourceMappingURL=header.css.map */

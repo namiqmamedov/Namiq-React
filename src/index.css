@@ -22,6 +22,12 @@ p {
   font-family: 'Neucha', sans-serif;
 }
 
+h1{
+  font-family: 'Neucha', sans-serif !important;
+  font-weight: bold !important;
+  font-size: 26px !important;
+}
+
 .text-ellipsis {
   display: -webkit-box;
   -webkit-line-clamp: 4;

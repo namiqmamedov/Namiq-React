@@ -1,4 +1,4 @@
-import { List, ListItem } from '@mui/material'
+import { Divider, List, ListItem } from '@mui/material'
 import { FaRegComment } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import CategoryList from '../CategoryList/CategoryList'
@@ -77,21 +77,24 @@ const BlogGrid = () => {
           <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
           <List>
           <ListItem disablePadding className="flex flex-wrap mb-5">
-            {blogsNoFilter.slice(-5).reverse().map((item, index) => (
-              <Link
-                key={index}
-                className="w-full hover-text"
-                onClick={() => generateNewURL(item)}
-                to={`/blog/${formatBlogName(item?.name)}`}
+            {blogsNoFilter?.slice(-5).reverse().map((item, index) => (
+                <Link
+                  key={index}
+                  className="w-full hover-text"
+                  onClick={() => generateNewURL(item)}
+                  to={`/blog/${formatBlogName(item?.name)}`}
                 >
                   {item.name}
+                  {index !== 4 && (
+                    <Divider sx={{ mt: '9px', mb: '-10px', opacity: '0.44' }} />
+                  )}
                 </Link>
             ))}
           </ListItem>
           
           <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
           <ListItem disablePadding className="flex flex-wrap mb-5">
-            {commentsNoFilter.filter(comment => comment.isAccepted).slice(-5).reverse().map((item,index) => {
+            {commentsNoFilter?.filter(comment => comment.isAccepted).slice(-5).reverse().map((item,index) => {
               const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
               const blogName = blog ? blog.name : 'Unknown Blog'; 
                   return (
@@ -105,7 +108,10 @@ const BlogGrid = () => {
                               <Fragment>
                                   <span className="text-gray-400"> on </span>
                                   <span className='hover-text'>{blogName}</span>
-                              </Fragment>
+                              </Fragment>    
+                              {index !== commentsNoFilter.length - 1 && (
+                                <Divider sx={{mt: '6px',mb: '-12px',opacity: '0.44'}}/>
+                              )}
                     </Link>
                   )
               })}

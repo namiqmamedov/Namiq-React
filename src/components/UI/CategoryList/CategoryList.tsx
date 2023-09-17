@@ -1,6 +1,8 @@
 import { Link } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import agent from '../../../api/agent';
+import { Blog } from '../../../models/blog';
 
 interface Props {
     items: string[];
@@ -12,8 +14,10 @@ const updateDocumentTitle = (newTitle:string) => {
   document.title = newTitle;
 };
 
+
 const CategoryList = ({items,checked,onChange}: Props) => {
-    const [checkedItems,setCheckedItems] = useState(checked || [])
+  const [checkedItems,setCheckedItems] = useState(checked || [])
+  const [blogsNoFilter, setBlogsNoFilter] = useState<Blog[]>([]); 
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -35,6 +39,21 @@ const CategoryList = ({items,checked,onChange}: Props) => {
       }
   }, [location,items]);
 
+  
+  useEffect(() => {
+    const fetchBlogsNoFilter = async () => {
+      try {
+        const response = await agent.Blog.listNoFilter();
+        setBlogsNoFilter(response);
+      } catch (error) {
+        console.error('Error fetching blogs without filters:', error);
+      }
+    };
+    
+    fetchBlogsNoFilter();
+  }, []);
+      
+
    function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
       const formattedValue = value.replace(/\s+/g, '-');
@@ -49,7 +68,9 @@ const CategoryList = ({items,checked,onChange}: Props) => {
           setCheckedItems([formattedValue]);
       }
 
-      const newURL = `/?${urlParams.toString()}`;
+      const categoryParam = urlParams.get('category') ? `category=${urlParams.get('category')}` : '';
+
+      const newURL = `/?${categoryParam}`;
   
       navigate(newURL);
       
@@ -61,20 +82,27 @@ const CategoryList = ({items,checked,onChange}: Props) => {
 
   const urlParams = new URLSearchParams(window.location.search);
 
+  const categoryBlogCounts = items?.map((item:any) => {
+    const blogCount = blogsNoFilter.filter((blog) => item.categoryID === blog.categoryID).length;
+    return { categoryName: item.categoryName, blogCount };
+  });
+
   return (
     <div className="category__item flex flex-column">
-    {items.map((item:any) => (
-      <Link
-        onClick={() => handleChecked(item.categoryName)}
-        key={item.categoryID}
+    {categoryBlogCounts?.map((item:any) => (
+      item.blogCount > 0 && (
+        <Link
+          onClick={() => handleChecked(item.categoryName)}
+          key={item.categoryName}
         >
-        <span 
-        className={`hover-text ${urlParams.has('category') && checkedItems.includes(item.categoryName) ? 'active' : ''}`}
-        >{item.categoryName }</span>
-        <span className='ml-2'>
-        ( {item.count} )
-        </span>
-      </Link>
+          <span 
+            className={`hover-text ${urlParams.has('category') && checkedItems.includes(item.categoryName) ? 'active' : ''}`}
+          >
+            {item.categoryName}
+          </span>
+          <span className='ml-2'>({item.blogCount})</span>
+        </Link>
+      )
     ))}
     </div>
   )

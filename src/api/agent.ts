@@ -5,7 +5,7 @@ import { PagenatedResponse } from "../models/pagination";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
-axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}/api/`;
+axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
 
 const responseBody = (response: AxiosResponse) => response.data;
 

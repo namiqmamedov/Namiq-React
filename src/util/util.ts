@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import sha256 from 'crypto-js/sha256';
 
 export function getTimeAgo(date:any) {
     const currentDate = new Date();
@@ -43,4 +44,8 @@ export function getAuthorizationHeader(): string {
   const usertToken = userData.token
 
   return usertToken
+}
+
+export function generateUniqueKey(email: string) {
+  return sha256(email).toString();
 }

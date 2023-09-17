@@ -35,6 +35,7 @@ const BlogList = ({blogs}: Props) => {
             <div className="card-image">
               <img
                 src={blog?.pictureUrl}
+                loading="lazy"
                 alt="Image"
                 className="w-full"
               />
@@ -43,7 +44,7 @@ const BlogList = ({blogs}: Props) => {
               <div className="mb-4">
                 <Link className="text-[24px] !p-0 text-black transition-colors duration-300 hover:!text-[#5f5858]"
                 to={`blog/${formatBlogName(blog?.name)}`}>
-                  {blog.name}
+                  <h1>{blog.name}</h1>
                 </Link>
               </div>
               <div className="post__content flex flex-wrap items-center gap-3">
@@ -77,7 +78,7 @@ const BlogList = ({blogs}: Props) => {
                 <Link
                   to={`blog/${formatBlogName(blog?.name)}`}
                   onClick={() => {
-                    fetch(`${import.meta.env.VITE_API_URL}/api/blog/${formatBlogName(blog?.name)}`)
+                    fetch(`${import.meta.env.VITE_BASE_API_URL}/blog/${formatBlogName(blog?.name)}`)
                   }}
                  className="view-btn w-full text-end mt-3 mb-4">
                   <button type="button" className="btn btn-primary hover-back">

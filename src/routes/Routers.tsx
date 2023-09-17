@@ -30,7 +30,7 @@ const Routers = () => {
           <Route path='/admin/category' element={<CategoryPage/>} />
           <Route path='/admin/tag' element={<TagPage/>} />
           <Route path='/admin/comment' element={<CommentPage/>} />
-      </Route>
+        </Route>
     </Routes>
   )
 }

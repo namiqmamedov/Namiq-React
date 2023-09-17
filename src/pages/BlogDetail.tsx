@@ -9,19 +9,14 @@ import {  fetchBlogAsync } from "../store/slice/blogSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom"
-import * as sha256 from 'crypto-js/sha256';
 import { format } from 'date-fns';
 import { Fragment, useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import PostComment from "../components/UI/PostComment/PostComment";
-import { formatBlogName, getTimeAgo } from "../util/util";
+import { formatBlogName, generateUniqueKey, getTimeAgo } from "../util/util";
 import useBlogs from "../hooks/useBlogs"
 import Prism from 'prismjs'
 
-
-function generateUniqueKey(email: string): string {
-  return sha256(email).toString();
-}
 
 const BlogDetail = () => {
   const dispatch = useAppDispatch(); 
@@ -44,7 +39,6 @@ const BlogDetail = () => {
     }
   }, [blog]);
 
-  
 
   const handleReplyClick = (commentId: any) => {
     setSelectedCommentId((prevCommentId) => {
@@ -83,7 +77,9 @@ const BlogDetail = () => {
             />
           </div>
           <div className="card-body">
-          <div className="text-[22px] mb-2">{blog?.name}</div>
+          <div className="text-[22px] mb-4">
+            <h1>{blog?.name}</h1>
+          </div>
             <div className="post__content flex flex-wrap items-center gap-3">
               <div className="date-wrapper flex items-center gap-1">
                 <BsCalendar2DateFill />
@@ -122,10 +118,10 @@ const BlogDetail = () => {
                             {blog?.comment?.filter(comment => comment.isAccepted).length} Comments
                         </div>
                     )}              
-                    {blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
+                    {blog && blog?.comment?.filter(comment => comment.isAccepted && !comment.parentCommentID).map((comment, index) => (
                         <div key={index} className="comment-item flex flex-col align-center mt-3">
                           <div className="comment-base flex">
-                            <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(comment.email)}.png`} />
+                           <img className="w-16 h-16 mr-3 rounded-full" style={{backgroundColor: '#f2f2f2'}} src={'https://robohash.org/' + generateUniqueKey(comment.email) + '.png'} />
                             <div className="comment-body">
                               <span className="comment-author name text-[16px]">
                                 {comment.name}
@@ -143,10 +139,10 @@ const BlogDetail = () => {
                             </div>
                           </div>
                           
-                          {blog?.comment?.filter((reply => reply.isAccepted && reply.parentCommentID === comment.id)).map((reply) => (
+                          {blog && blog?.comment?.filter((reply => reply.isAccepted && reply.parentCommentID === comment.id)).map((reply) => (
                             <Fragment>
                               <div key={reply.id} className="comment-item flex align-center ml-6 mt-3">
-                                <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(reply.email)}.png`} />
+                              <img className="w-16 h-16 mr-3 rounded-full" style={{backgroundColor: '#f2f2f2'}}  src={'https://robohash.org/' + generateUniqueKey(reply.email) + '.png'} />
                                 <div className="comment-body">
                                   <span className="comment-author name text-[16px]">
                                     {reply.name}
@@ -163,9 +159,9 @@ const BlogDetail = () => {
                                   )}                           
                                 </div>
                               </div>
-                              {blog?.comment?.filter((nestedReply => nestedReply.isAccepted && nestedReply.parentCommentID === reply.id)).map((nestedReply) => (
+                              {blog && blog?.comment?.filter((nestedReply => nestedReply.isAccepted && nestedReply.parentCommentID === reply.id)).map((nestedReply) => (
                                 <div key={nestedReply.id} className="comment-item flex align-center ml-6 mt-3">
-                                  <img className="w-16 h-16 mr-3" src={`https://robohash.org/${generateUniqueKey(nestedReply.email)}.png`} />
+                                 <img className="w-16 h-16 mr-3 rounded-full" style={{backgroundColor: '#f2f2f2'}}  src={'https://robohash.org/' + generateUniqueKey(nestedReply.email) + '.png'} />
                                   <div className="comment-body">
                                     <span className="comment-author name text-[16px]">
                                       {nestedReply.name}

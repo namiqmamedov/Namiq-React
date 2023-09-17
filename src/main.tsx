@@ -5,7 +5,6 @@ import "bootswatch/dist/sketchy/bootstrap.min.css";
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { store } from './store/configureStore.ts';
-// import '../public/themes/prism-xanokai.css'
 import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-csharp'

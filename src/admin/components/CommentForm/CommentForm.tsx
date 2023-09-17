@@ -1,6 +1,5 @@
 import { Box, Paper, Typography, Grid, Button, Container } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
 import agent from "../../../api/agent";
 import { useAppDispatch } from "../../../store/configureStore";
 import AppTextInput from "../AppTextInput/AppTextInput";
@@ -16,7 +15,7 @@ interface Props {
 }
 
 export default function TagForm({ comment, cancelEdit }: Props) {
-    const { control, reset, handleSubmit, formState: { isDirty, isSubmitting }} = useForm({
+    const { control, reset, handleSubmit, formState: { isDirty }} = useForm({
           resolver: yupResolver(validationSchema)
     });
 
