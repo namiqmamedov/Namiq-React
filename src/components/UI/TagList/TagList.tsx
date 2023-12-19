@@ -71,7 +71,7 @@ const TagList = ({items,checked,onChange}: Props) => {
         key={item.tagID}
       >
             <span className={`badge bg-dark ${
-              checkedItems.includes(item.tagName) ? 'active' : ''
+              checkedItems.includes(item.tagName.replace(/ /g, '-')) ? 'active' : ''
             }`}>
             {item.tagName }
             </span>

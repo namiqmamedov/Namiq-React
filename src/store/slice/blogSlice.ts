@@ -194,6 +194,14 @@ export const blogSlice = createSlice({
         removeBlog: (state,action) => {
             blogsAdapter.removeOne(state, action.payload);
             state.blogsLoaded = false;
+        },
+        resetCategories: (state) => {
+            state.category = [];
+            state.categoryID = null;
+        },
+        resetTags: (state) => {
+            state.tags = [];
+            state.tagID = null;
         }
     },
     extraReducers: (builder => {

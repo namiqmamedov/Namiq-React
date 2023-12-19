@@ -27,7 +27,17 @@
         width: 100%;
     }
 
-    .navbar-collapse{display: none;}
+    .navbar-nav{
+        display: flex !important;
+        flex-direction: unset !important;
+        gap: 1rem !important;
+    }
+
+    #form__wrapper{
+        display: none !important;
+    }
+
+    // .navbar-collapse{display: none;}
 }
 
 

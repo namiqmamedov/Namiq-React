@@ -57,7 +57,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
 
     async function handleSubmitData(data: FieldValues) {
         try {
-            const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/api/comment/csrf-token`);
+            const antiForgeryResponse = await axios.get(`http://localhost:5000/api/comment/csrf-token`);
 
                 const setCookieHeader = antiForgeryResponse.data['Set-Cookie'];
 
@@ -91,7 +91,7 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
             if(!comment) {
                 const commentWithBlogId = { ...data, blogID: Number(id),parentCommentID: Number(selectedCommentId)};
 
-                const response = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/api/comment`, commentWithBlogId, {
+                const response = await axios.post(`http://localhost:5000/api/comment`, commentWithBlogId, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-CSRF-TOKEN': tokenAny,

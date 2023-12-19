@@ -1,25 +1,30 @@
 import image01 from '../assets/images/about1.png'
 import image02 from '../assets/images/about2.png'
+import '../styles/about.css'
 
 const About = () => {
   return (
-    <div className='flex mt-12'>
-        <img width={'17%'} src={image01} alt="Image" />
+    <section className='about-main flex mt-12'>
+        <img src={image01} alt="Image" />
         <div className='about'>
-        Hello, I'm Namiq Mammadov, born in 2002, and I dive into the depths of the computer world as a passionate enthusiast of cybersecurity and software. With the advantage of my young age, I have a strong desire to continually develop myself and acquire new skills in these exciting fields.
-            <div>
-            <span>
-            Cybersecurity
-            </span>
-            For me, cybersecurity means safeguarding the security of our digital world and defending against cyber threats. I am interested in topics such as strong encryption, penetration testing, and security vulnerability analysis, and I keep up with the latest developments in the field of information security. My goal is to contribute to making the digital world safer and more resilient against vulnerabilities.
-            </div>
-            <div>
-            <span>Software Development</span>
-            Software development is another passionate area for me, allowing me to enhance my creative thinking and problem-solving skills. I work with languages like C#, Python and React, develop projects, and improve my coding skills every day. I am also interested in various software projects, including contributing to open-source initiatives and creating new applications.
-            </div>
+          <div>
+            Hello!
+          </div>
+          <br/>
+          <div>
+            If you're here, you'd no doubt want to know a little bit about who I am and what I do.
+          </div>
+          <br/>
+          <div>
+            When I was 15, I became interested in accessing databases through tools that automatically detect SQL injection (Havij, SQLI Dumper) and decided to follow this path.
+          </div>
+          <br/>
+          <div>
+            The purpose of this blog is primarily to serve as a space where I can upload CTF articles and introductions to anything I have encountered in my work that interests me in particular, and also to document my journey into the field of information security. I hope you find my post informative, if not entertaining!
+          </div>
         </div>
-        <img width={'17%'} src={image02} alt="Image" />
-    </div>
+        <img  src={image02} alt="Image" />
+    </section>
   )
 }
 

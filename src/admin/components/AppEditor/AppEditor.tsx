@@ -23,7 +23,7 @@ const AppEditor = (props: Props) => {
   return (
     <FormControl className='form-editor'>
     <Editor
-      apiKey={import.meta.env.VITE_REACT_APP_TINYCME_KEY}
+      apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
       onInit={(_evt, editor) => editorRef.current = editor}
       initialValue={field.value.text}
       onEditorChange={handleEditorChange}

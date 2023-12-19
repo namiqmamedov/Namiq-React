@@ -26,8 +26,13 @@
     justify-content: space-between;
     width: 100%;
   }
-  .navbar-collapse {
-    display: none;
+  .navbar-nav {
+    display: flex !important;
+    flex-direction: unset !important;
+    gap: 1rem !important;
+  }
+  #form__wrapper {
+    display: none !important;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {

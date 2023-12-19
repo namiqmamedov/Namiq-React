@@ -52,7 +52,7 @@ const CategoryList = ({items,checked,onChange}: Props) => {
     
     fetchBlogsNoFilter();
   }, []);
-      
+
 
    function handleChecked(value: string) {
       const urlParams = new URLSearchParams(location.search);
@@ -96,7 +96,9 @@ const CategoryList = ({items,checked,onChange}: Props) => {
           key={item.categoryName}
         >
           <span 
-            className={`hover-text ${urlParams.has('category') && checkedItems.includes(item.categoryName) ? 'active' : ''}`}
+              className={`hover-text ${
+                urlParams.has('category') && checkedItems.includes(item.categoryName.replace(/ /g, '-')) ? 'active' : ''
+              }`}
           >
             {item.categoryName}
           </span>

@@ -36,7 +36,7 @@ const BlogSearch = () => {
                 return;
             }
             
-            const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/blog/list?searchTerm=${encodeURIComponent(value)}`);
+            const response = await fetch(`http://localhost:5000/api/blog/list?searchTerm=${encodeURIComponent(value)}`);
             
             const data = await response.json();
             
@@ -76,7 +76,7 @@ const BlogSearch = () => {
 
     return (
         <Fragment>
-            <form className="d-flex form__search search-item" onSubmit={handleSubmit}>
+            <form id='form__wrapper' className="d-flex form__search search-item" onSubmit={handleSubmit}>
                 <input 
                     className="form-control me-sm-2"
                     type="search"

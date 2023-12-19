@@ -43,7 +43,7 @@ const BlogList = ({blogs}: Props) => {
             <div className="card-body">
               <div className="mb-4">
                 <Link className="text-[24px] !p-0 text-black transition-colors duration-300 hover:!text-[#5f5858]"
-                to={`blog/${formatBlogName(blog?.name)}`}>
+                to={`/blog/${formatBlogName(blog?.name)}`}>
                   <h1>{blog.name}</h1>
                 </Link>
               </div>
@@ -76,7 +76,7 @@ const BlogList = ({blogs}: Props) => {
               </p>
               {blog && (
                 <Link
-                  to={`blog/${formatBlogName(blog?.name)}`}
+                  to={`/blog/${formatBlogName(blog?.name)}`}
                   onClick={() => {
                     fetch(`${import.meta.env.VITE_BASE_API_URL}/blog/${formatBlogName(blog?.name)}`)
                   }}
