@@ -18,6 +18,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const { blogsLoaded } = useAppSelector(state => state.blog);
 
   const searchQuery = searchParams.get("q");
   const page = parseInt(searchParams.get('page') || '1', 10);
@@ -37,6 +38,7 @@ const Home = () => {
 
       dispatch(setBlogParams({ searchTerm: searchQuery, pageNumber: page}));
       dispatch(fetchBlogsAsync() as any);
+      
     }
   }, [searchQuery, page, dispatch]);
 
@@ -53,7 +55,7 @@ const Home = () => {
       dispatch(fetchBlogsAsync() as any);
     }
   }, [tag, dispatch]);
-  
+
   if(!filtersLoaded) return <Loading/>
 
   return (
@@ -70,10 +72,10 @@ const Home = () => {
                             <Fragment>
                               {blogs?.length > 0 &&
                                 <Fragment>
-                                  {searchQuery &&  (
-                                      <p className="text-[22px]">
-                                          <small>{totalResults} Results for </small> “{trimmedSearchQuery}”
-                                      </p>
+                                  {blogsLoaded && searchQuery && (
+                                    <p className="text-[22px]">
+                                      <small>{totalResults} Results for </small> “{trimmedSearchQuery}”
+                                    </p>
                                   )}
                                   {tag && (
                                       <p className="text-[28px]">

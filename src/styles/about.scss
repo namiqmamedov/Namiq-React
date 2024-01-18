@@ -10,7 +10,7 @@
     margin-bottom: -10px;
     font-size: 16px;
   }
-  
+
 
   @media screen and (max-width: 768px) {
     .about-main{
@@ -26,5 +26,20 @@
             margin-right: 40px;
             text-align: center;
         }
+
+        .social-links{
+          justify-content: center !important;
+        }
     }
+  }
+
+  .about-main{
+    .social-links{
+      a{
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        color: black !important;
+      }
+     }
   }

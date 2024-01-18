@@ -22,7 +22,6 @@ export default function TagForm({ tag, cancelEdit }: Props) {
 
     function handleApiErrors(errors: any) {
         console.log(errors);
-        debugger
          if (Array.isArray(errors)) {
             errors.forEach((error: string) => {
                 console.log(error);

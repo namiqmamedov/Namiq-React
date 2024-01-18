@@ -4,7 +4,6 @@ import { RootState } from "../configureStore";
 import agent from "../../api/agent";
 import { Comment, CommentParams } from "../../models/comment";
 
-
 interface CommentState {
     commentLoaded: boolean;
     hasSubmitted: boolean;

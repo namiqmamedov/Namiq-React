@@ -1,6 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-
 const RequireAuth = () => {
     const user = localStorage.getItem("user");
     const userData = JSON.parse(user!);

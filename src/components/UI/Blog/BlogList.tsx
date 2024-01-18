@@ -11,6 +11,7 @@ import { setPageNumber } from "../../../store/slice/blogSlice";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { formatBlogName } from "../../../util/util";
+import ReactHtmlParser from "react-html-parser";
 
 interface Props {
   blogs?: Blog[];
@@ -23,6 +24,7 @@ const BlogList = ({blogs}: Props) => {
 
    const formattedCreatedAt = (date: any) =>
    format(new Date(date), 'MMMM d, yyyy'); 
+
 
    return (
      <Fragment>
@@ -62,23 +64,18 @@ const BlogList = ({blogs}: Props) => {
                 </div>
               </div>
               <p className="card-text mt-4 text-ellipsis overflow-hidden">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content. Some quick example text to build on the
-                card title and make up the bulk of the card's content. Some quick
-                example text to build on the card title and make up the bulk of the
-                card's content. Some quick example text to build on the card title
-                and make up the bulk of the card's content. Some quick example text
-                to build on the card title and make up the bulk of the card's
-                content. Some quick example text to build on the card title and make
-                up the bulk of the card's content.
-
-                {blog?.description?.text}
+              {ReactHtmlParser(
+                  blog?.description.text.replace(
+                    /(<pre\b[^>]*>[\s\S]*?<\/pre>)/g,
+                    '<pre class="d-none">$1</pre>'
+                  )
+                )}
               </p>
               {blog && (
                 <Link
                   to={`/blog/${formatBlogName(blog?.name)}`}
                   onClick={() => {
-                    fetch(`${import.meta.env.VITE_BASE_API_URL}/blog/${formatBlogName(blog?.name)}`)
+                    fetch(`${import.meta.env.VITE_BASE_API_URL}api/blog/${formatBlogName(blog?.name)}`);
                   }}
                  className="view-btn w-full text-end mt-3 mb-4">
                   <button type="button" className="btn btn-primary hover-back">

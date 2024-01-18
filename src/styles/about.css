@@ -24,4 +24,13 @@
     margin-right: 40px;
     text-align: center;
   }
+  .about-main .social-links {
+    justify-content: center !important;
+  }
+}
+.about-main .social-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: black !important;
 }/*# sourceMappingURL=about.css.map */

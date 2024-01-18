@@ -87,6 +87,17 @@ export default function Dashboard() {
         />
     );
 }
+const user = localStorage.getItem('user');
+
+if (!user) {
+  // If user is not authenticated, you may want to show a login page or redirect
+  // You can replace this with the appropriate logic for your application
+  return (
+    <Container>
+      <Typography variant="h4">Please log in to view this page</Typography>
+    </Container>
+  );
+}
 
   return (
           <Container sx={{ mt: 4, mb: 4, maxWidth: '94% !important' }}>

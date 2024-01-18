@@ -11,7 +11,6 @@ import RequireAuth from './RequireAuth'
 import About from '../pages/About'
 
 const Routers = () => {
-
   return (
     <Routes>
         <Route path='/' element={<Home />} />

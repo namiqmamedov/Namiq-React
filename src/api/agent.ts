@@ -5,7 +5,7 @@ import { PagenatedResponse } from "../models/pagination";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
-axios.defaults.baseURL = 'http://localhost:5000/api/';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL + "api";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -170,8 +170,6 @@ const Admin = {
           Authorization: `Bearer ${token}`,
         };
 
-        debugger;
-      
         return axios.put(`comment/${commentId}/accept`, {}, { headers: headersWithToken })
         .then(responseBody);
     },
