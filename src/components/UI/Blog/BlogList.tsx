@@ -25,7 +25,6 @@ const BlogList = ({blogs}: Props) => {
    const formattedCreatedAt = (date: any) =>
    format(new Date(date), 'MMMM d, yyyy'); 
 
-
    return (
      <Fragment>
       {blogs?.map(blog => (
@@ -75,7 +74,7 @@ const BlogList = ({blogs}: Props) => {
                 <Link
                   to={`/blog/${formatBlogName(blog?.name)}`}
                   onClick={() => {
-                    fetch(`${import.meta.env.VITE_BASE_API_URL}api/blog/${formatBlogName(blog?.name)}`);
+                    fetch(`${import.meta.env.VITE_API_URL}api/blog/${formatBlogName(blog?.name)}`);
                   }}
                  className="view-btn w-full text-end mt-3 mb-4">
                   <button type="button" className="btn btn-primary hover-back">

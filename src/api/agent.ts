@@ -164,6 +164,16 @@ const Admin = {
         return axios.delete(`tag/${id}`, { headers: headersWithToken })
           .then(responseBody);
     },  
+    updateSetting: (tag: any, token: string) => {
+      const headersWithToken = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const formData = createFormData(tag);
+
+      return axios.putForm('setting', formData, { headers: headersWithToken })
+        .then(responseBody);
+    }, 
     createComment: (comment:any) => requests.postForm('comment', createFormData(comment)),
     acceptComment: (commentId: any, token: string) => {
         const headersWithToken = {
@@ -198,6 +208,10 @@ const Tag = {
     list: (params: URLSearchParams) => requests.get('tag/list', params),
 }
 
+const Setting = {
+    list: (params: URLSearchParams) => requests.get('setting/list', params)
+}
+
 const Comment = {
     list: (params: URLSearchParams) => requests.get('comment/list', params),
     listNoFilter: () => requests.get('comment/listNoFilter'),
@@ -214,6 +228,7 @@ const agent = {
     Admin,
     Category,
     Tag,
+    Setting,
     Comment
 }
 

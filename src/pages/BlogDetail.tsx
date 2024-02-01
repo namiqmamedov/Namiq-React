@@ -18,13 +18,15 @@ import useBlogs from "../hooks/useBlogs"
 import Prism from 'prismjs'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import useSettings from "../hooks/useSettings"
 
 const BlogDetail = () => {
   const dispatch = useAppDispatch(); 
   const navigate = useNavigate();
+  const {setting} = useSettings();
   const { name } = useParams<{ name: string }>();
   const { blogsLoaded } = useAppSelector(state => state.blog);
-  
+
   const {blogs} = useBlogs();
 
   const blog = blogs.find((blog: any) => {
@@ -110,15 +112,20 @@ const BlogDetail = () => {
               <FaFolderOpen />
               <span>{blog?.category?.name}</span> 
             </Link>
-            <div className="view-count flex gap-1 items-center">
-            <AiFillEye/> {blog?.viewCount}
-            </div>
+            {setting.map((item, index) => {
+                if (item.key === "Show blog views" && item.value === "true") {
+                  return (
+                    <div key={index} className="view-count flex gap-1 items-center">
+                      <AiFillEye /> {blog?.viewCount}
+                    </div>
+                  );
+                }
+            })}
           </div>
 
           <p className="card-text mt-4">
             {parsedDescription}
           </p>
-
 
           {blog?.comment?.length!! > 0 && (
             <div>

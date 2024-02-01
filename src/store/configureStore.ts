@@ -5,12 +5,14 @@ import { accountSlice } from './slice/accountSlice';
 import { categorySlice } from './slice/categorySlice';
 import { tagSlice } from './slice/tagSlice';
 import { commentSlice } from './slice/commentSlice';
+import { settingSlice } from './slice/settingSlice';
 
 export const store = configureStore({
     reducer: {
        blog: blogSlice.reducer,
        category: categorySlice.reducer,
        tag: tagSlice.reducer,
+       setting: settingSlice.reducer,
        comment: commentSlice.reducer,
        account: accountSlice.reducer
     }

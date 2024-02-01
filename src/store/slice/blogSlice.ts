@@ -82,7 +82,6 @@ function getAxiosParams(blogParams: BlogParams) {
     return params;
 }
 
-
 export const fetchBlogsAsync = createAsyncThunk<
   Blog[],
   void,

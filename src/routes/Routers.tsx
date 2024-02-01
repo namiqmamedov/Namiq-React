@@ -9,6 +9,7 @@ import CommentPage from '../admin/pages/Comment/Comment'
 import Error from '../pages/Error'
 import RequireAuth from './RequireAuth'
 import About from '../pages/About'
+import SettingPage from '../admin/pages/Setting/Setting'
 
 const Routers = () => {
   return (
@@ -29,6 +30,7 @@ const Routers = () => {
           <Route path='/admin/category' element={<CategoryPage/>} />
           <Route path='/admin/tag' element={<TagPage/>} />
           <Route path='/admin/comment' element={<CommentPage/>} />
+          <Route path='/admin/setting' element={<SettingPage/>} />
         </Route>
     </Routes>
   )

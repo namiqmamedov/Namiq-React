@@ -11,9 +11,11 @@ import 'prismjs/components/prism-csharp'
 import 'prismjs/components/prism-c'
 import 'prismjs/components/prism-cpp'
 import 'prismjs/components/prism-python'
+import "prismjs/plugins/toolbar/prism-toolbar.min.css";
+import "prismjs/plugins/toolbar/prism-toolbar.min";
+import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min";
 
 export const router = createBrowserRouter([
-  // match everything with "*"
   { path: "*", element: <App /> }
 ])
 

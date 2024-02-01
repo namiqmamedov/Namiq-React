@@ -160,6 +160,7 @@ if (!user) {
                       <Box display='flex' alignItems='center'>
                         <img width={'21%'} src={blog.pictureUrl} alt={blog.name} style={{ height: 50, marginRight: 20 }} />
                         <span>{blog.name}</span>
+                        <p style={{fontSize: "0"}}>{blog.viewCount}</p>
                       </Box>
                     </TableCell>
                     <TableCell align="center">

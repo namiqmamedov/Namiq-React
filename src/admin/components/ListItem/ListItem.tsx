@@ -6,6 +6,7 @@ import {BiLogoBlogger} from 'react-icons/bi'
 import {BiCategory} from 'react-icons/bi'
 import {AiFillTags} from 'react-icons/ai'
 import {TfiCommentsSmiley} from 'react-icons/tfi'
+import { CiSettings } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { Divider } from '@mui/material';
 
@@ -44,6 +45,15 @@ export const mainListItems = (
         <TfiCommentsSmiley />
       </ListItemIcon>
       <ListItemText primary="Comment" />
+    </ListItemButton>
+    </Link>
+    <Divider sx={{ my: 1 }} />
+    <Link to={'/admin/setting'}>
+    <ListItemButton>
+      <ListItemIcon>
+        <CiSettings />
+      </ListItemIcon>
+      <ListItemText primary="Setting" />
     </ListItemButton>
     </Link>
     <Divider sx={{ my: 1 }} />

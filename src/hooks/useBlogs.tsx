@@ -6,7 +6,6 @@ const useBlogs = () => {
     const blogs = useAppSelector(blogSelectors.selectAll);
     const {blogsLoaded,filtersLoaded,metaData,category,tags} = useAppSelector(state => state.blog)
     const dispatch = useAppDispatch();
-
   
     useEffect(() => {
       if(!blogsLoaded) dispatch(fetchBlogsAsync());

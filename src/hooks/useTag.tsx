@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/configureStore"
 import { fetchTagAsync, tagSelectors } from "../store/slice/tagSlice";
 
-const useCategory = () => {
+const useTag = () => {
     const tag = useAppSelector(tagSelectors.selectAll);
     const {tagLoaded,metaData} = useAppSelector(state => state.tag)
     const dispatch = useAppDispatch();
@@ -16,5 +16,5 @@ const useCategory = () => {
   )
 }
 
-export default useCategory
+export default useTag
 

@@ -20,10 +20,11 @@ const AppEditor = (props: Props) => {
       field.onChange(content);
   };
 
+
   return (
     <FormControl className='form-editor'>
     <Editor
-      apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+      apiKey={import.meta.env.VITE_REACT_APP_TINYCME_KEY}
       onInit={(_evt, editor) => editorRef.current = editor}
       initialValue={field.value.text}
       onEditorChange={handleEditorChange}
@@ -51,9 +52,11 @@ const AppEditor = (props: Props) => {
         @import url('https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css');`,
       font_size_formats:
         "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt",
-    
-      autosave_restore_when_empty: true,
-      spellchecker_active: true,
+        autosave_restore_when_empty: true,
+        spellchecker_active: true,
+        paste_data_images: true,
+        images_upload_url: import.meta.env.VITE_API_URL + "fileUpload",
+        automatic_uploads: true
       }} 
       />
   {fieldState.error && <FormHelperText sx={{color: '#d32f2f'}}>{fieldState.error.message}</FormHelperText>}

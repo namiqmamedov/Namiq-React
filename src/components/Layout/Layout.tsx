@@ -18,13 +18,13 @@ const Layout = () => {
 
   const isErrorPage = location.pathname === '/not-found';
 
-  if (window.location.pathname.startsWith('/admin')) {
-    if(!userData?.role?.includes("Admin"))
-    {
-      navigate('/login');
-      return null;
+    if (window.location.pathname.startsWith('/admin')) {
+      if(!userData?.email?.includes(import.meta.env.VITE_USER_EMAIL) && !userData?.user?.includes(import.meta.env.VITE_USER_NAME))
+      {
+        navigate('/not-found');
+        return null;
+      }
     }
-  }
 
   return (
     <Fragment>

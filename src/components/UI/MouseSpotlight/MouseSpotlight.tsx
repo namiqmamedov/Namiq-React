@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import '../../../styles/mousespotlight.css'
 import {useNavigate } from 'react-router-dom';
+import image from '../../../assets/images/error.png'
 
 const MouseSpotlight = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -18,7 +19,7 @@ const MouseSpotlight = () => {
 
   return (
     <div className="error-index w-full h-screen" onMouseMove={handleMouseMove}>
-      <div className="image">
+      <div style={{backgroundImage: `url(${image})`}} className="image">
         <div
           className="overlay"
           style={{

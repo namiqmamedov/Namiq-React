@@ -36,7 +36,7 @@ const BlogSearch = () => {
                 return;
             }
             
-            const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}api/blog/list?searchTerm=${encodeURIComponent(value)}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/blog/list?searchTerm=${encodeURIComponent(value)}`);
             
             const data = await response.json();
             
