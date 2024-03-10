@@ -19,6 +19,7 @@ import Prism from 'prismjs'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import useSettings from "../hooks/useSettings"
+import setMetaTags from "../components/UI/MetaTags/MetaTags"
 
 const BlogDetail = () => {
   const dispatch = useAppDispatch(); 
@@ -40,23 +41,35 @@ const BlogDetail = () => {
   const parsedDescription = ReactHtmlParser(blog?.description.text || '', {
     decodeEntities: true,
     transform: (node, index) => {
-      if (node.type === 'tag' && node.name === 'img') {
+      if (node.type === 'tag' && node.name === 'code') {
+        if (node.parent && node.parent.name === 'pre') {
+          const text = (node.children[0]?.data || '');
+          if (text.includes('root@kali#')) {
+            const modifiedText = text.replace(/\b(root@kali# )\b/g, '<span class="red">$1</span>');
+            return <>{ReactHtmlParser(modifiedText)}</>;
+          }
+          if (text.includes('*Evil-WinRM*')) {
+            const modifiedText = text.replace(/\*\b(Evil-WinRM)\b\*/g, '<span class="red">*$1*</span>');
+            return <>{ReactHtmlParser(modifiedText)}</>;
+          }
+        }
+      } else if (node.type === 'tag' && node.name === 'img') {
+        const width = node.attribs.width || "100%";
+        const style: React.CSSProperties = {};
+
+        if (width <= 650) {
+          style.margin = '0 auto';
+        }
+
         return (
           <Zoom key={index}>
-            <img src={node.attribs.src} alt={node.attribs.alt} />
+            <img src={node.attribs.src} alt={node.attribs.alt} style={style} />
           </Zoom>
         );
       }
       return undefined;
     },
   });
-
-  useEffect(() => {
-    if (blog) {
-      document.title = `${blog.name} | Namiq`;
-    }
-  }, [blog]);
-
 
   const handleReplyClick = (commentId: any) => {
     setSelectedCommentId((prevCommentId) => {
@@ -66,6 +79,7 @@ const BlogDetail = () => {
 
   useEffect(() => {
     if(!blog) dispatch(fetchBlogAsync((!blog && name!)))
+       setMetaTags(blog);
        Prism.highlightAll();
     }, [name,dispatch,blog]) 
   

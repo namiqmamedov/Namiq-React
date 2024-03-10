@@ -77,7 +77,7 @@ export default function TagPage() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4, maxWidth: '94% !important' }}>
             <Grid className='!flex-col' container spacing={3}>
             <Box display='flex' justifyContent='space-between'>
-                <Typography sx={{ p: 2 }} variant='h4'>Tag</Typography>
+                <Typography className='h4-base' sx={{ p: 2 }} variant='h4'>Tag</Typography>
                 <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
             </Box>
             <TableContainer component={Paper}>

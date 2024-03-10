@@ -59,8 +59,6 @@ const PostComment = ({ comment,selectedCommentId }: Props) => {
         try {
             const antiForgeryResponse = await axios.get(`${import.meta.env.VITE_API_URL}api/comment/csrf-token`);
 
-            debugger
-
                 const setCookieHeader = antiForgeryResponse.data['Set-Cookie'];
 
                 if (setCookieHeader) {

@@ -35,6 +35,7 @@ export function getTimeAgo(date:any) {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-+|-+$/g, '')
+      .replace(/hackthebox/gi, 'htb')
       .toLowerCase();
   }
 

@@ -89,7 +89,7 @@ export default function CommentPage() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4, maxWidth: '94% !important' }}>
             <Grid className='!flex-col' container spacing={3}>
             <Box display='flex' justifyContent='space-between'>
-                <Typography sx={{ p: 2 }} variant='h4'>Comment</Typography>
+                <Typography className='h4-base' sx={{ p: 2 }} variant='h4'>Comment</Typography>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

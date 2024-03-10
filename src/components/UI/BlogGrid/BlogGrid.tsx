@@ -76,7 +76,7 @@ const BlogGrid = () => {
          <BlogSearch />
           <h3 className="text-uppercase text-sm font-bold">Recent Posts</h3>
           <List>
-          <ListItem disablePadding className="flex flex-wrap mb-5">
+          <ListItem disablePadding className="flex flex-wrap">
             {blogsNoFilter?.slice(-5).reverse().map((item, index) => (
                 <Link
                   key={index}
@@ -92,8 +92,8 @@ const BlogGrid = () => {
             ))}
           </ListItem>
           
-          <h3 className="text-uppercase text-sm font-bold">Latest Comments</h3>
-          <ListItem disablePadding className="flex flex-wrap mb-5">
+          <h3 className="text-uppercase text-sm font-bold mt-5">Latest Comments</h3>
+          <ListItem disablePadding className="flex flex-wrap">
             {commentsNoFilter?.filter(comment => comment.isAccepted).slice(-5).reverse().map((item,index) => {
               const blog = blogsNoFilter.find((blog: Blog) => blog.id === item.blogID);
               const blogName = blog ? blog.name : 'Unknown Blog'; 
@@ -117,16 +117,16 @@ const BlogGrid = () => {
               })}
           </ListItem>
 
-          <h3 className="text-uppercase text-sm font-bold">Categories</h3>
-          <ListItem disablePadding className="flex flex-wrap mb-5 categories">
+          <h3 className="text-uppercase text-sm font-bold mt-5">Categories</h3>
+          <ListItem disablePadding className="flex flex-wrap categories">
               <CategoryList
                 items={category}
                 checked={blogParams.category}
                 onChange={(items: string[]) => dispatch(setBlogParams({category: items}))}
               />
           </ListItem>
-          <h3 className="text-uppercase text-sm font-bold">Tags</h3>
-          <ListItem disablePadding className="flex flex-wrap mb-5 tags gap-2">
+          <h3 className="text-uppercase text-sm font-bold mt-5">Tags</h3>
+          <ListItem disablePadding className="flex flex-wrap tags gap-2">
               <TagList
                   items={tags}
                   checked={blogParams.tags}
